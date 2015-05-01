@@ -80,7 +80,7 @@ export class UKCartogram {
             .scale(Math.min(scale, 6500))
             .translate([elDimensions.width / 2, elDimensions.height / 2])
             .center([0, 54.1])
-            .rotate([2,0])  
+            .rotate([2,0])
             .precision(10.0);
         if (!this.path) this.path = d3.geo.path();
         this.path.projection(this.projection)
@@ -94,14 +94,14 @@ export class UKCartogram {
             this.tooltip = this.el.querySelector('.cartogram__tooltip');
             this.tooltip.addEventListener('click', (evt) => this.opts.tooltipCallback(this.tooltipConstituency))
         }
-        
+
         if (!this.constituenciesById) return; // no data yet
 
         var c = this.constituenciesById[constituencyId];
 
         var msg;
         if (c['2015'].winningParty) {
-            var partyName = (party) => 
+            var partyName = (party) =>
                 `<span class="veri__blip veri__blip--${party.toLowerCase()}"></span>` +
                 `<strong>${party}</strong>`
 
@@ -116,7 +116,7 @@ export class UKCartogram {
             msg = '<p>Result pending</p>'
         }
 
-        this.tooltip.innerHTML = 
+        this.tooltip.innerHTML =
             '<span class="cartogram__tooltip__spout"></span>' +
             `<h4>${c.name}</h4>${msg}` +
             '<span class="cartogram__tooltip__tap2expand"></span>';
@@ -125,7 +125,7 @@ export class UKCartogram {
         var centroid = this.hexCentroids[constituencyId];
         var coords = this.mapCoordsToScreenCoords(centroid);
         this.tooltip.style.visibility = 'visible';
-        
+
         var elDimensions = this.elDimensions;
         var topSide = coords[1] > (elDimensions.height / 2);
         this.tooltip.style.top = (topSide ? coords[1]-rect.height : coords[1]) + 'px';
@@ -198,7 +198,7 @@ export class UKCartogram {
     coordsToClosestConstituency(coords) {
         var mapCoords = this.screenCoordsToMapCoords(coords);
         var sortedByDistance = Object.keys(this.hexCentroids)
-            .map( function(cId){ 
+            .map( function(cId){
                 var centroid = this.hexCentroids[cId];
                 return [cId, getDist(centroid[0],centroid[1],mapCoords[0],mapCoords[1])];
             }.bind(this))
@@ -260,7 +260,7 @@ export class UKCartogram {
     }
 
     get elDimensions() { return this.el.getBoundingClientRect() }
-    get elCenter() { 
+    get elCenter() {
         var rect = this.el.getBoundingClientRect();
         return [rect.width/2, rect.height/2];
     }
@@ -278,10 +278,10 @@ export class UKCartogram {
             // .classed('cartogram__hex--focus', false )
             .filter(d => d.properties.constituency === constituencyId)
             // .classed('cartogram__hex--focus', true)
-            .each(function() { 
+            .each(function() {
                 var clone = this.cloneNode();
                 clone.setAttribute('class', clone.getAttribute('class') + ' cartogram__hex--focus');
-                focusHexGroupEl.appendChild(clone); 
+                focusHexGroupEl.appendChild(clone);
             })
 
         this.renderTooltip(constituencyId);
