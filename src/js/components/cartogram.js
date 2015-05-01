@@ -106,8 +106,8 @@ export class UKCartogram {
 
             var e = c['2015']
             var how = '';
-            var verb = e.winningParty === e.sittingParty ? 'holds' : 'gains';
-            var fromParty = verb === 'gains' ? ` from ${partyName(e.sittingParty)}` : '';
+            var verb = e.winningParty === e.sittingParty ? 'hold' : 'gain';
+            var fromParty = verb === 'gain' ? ` from ${partyName(e.sittingParty)}` : '';
             if (e.swing > 30) {
                 how = `with a ${e.swing}% swing`
             } else if (e.percentageMajority < 3) {
