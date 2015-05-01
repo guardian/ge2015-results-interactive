@@ -128,7 +128,7 @@
 }
 .cartogram__city {
   fill: #333;
-  stroke: none;	
+  stroke: none;
 }
 
 .cartogram__hex--selected {
@@ -136,7 +136,7 @@
 	stroke-width: 2;
 	stroke-opacity: 1;
 }
-g
+
 .cartogram__controls {
 	position: absolute;
 	top: 10px;
@@ -196,7 +196,8 @@ g
 
 .cartogram__tooltip {
 	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-	width: 200px;
+	min-width: 140px;
+	max-width: 220px;
 	padding: 5px;
 	background: rgba(255,255,255,0.9);
 	border: 1px solid #ddd;
@@ -211,7 +212,8 @@ g
 
 .cartogram__tooltip h4 {
 	font-family: "Guardian Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-	font-size: 14px;
+	font-size: 12px;
+	line-height: 20px;
 	margin: 0;
 	padding: 0;
 }
@@ -237,6 +239,7 @@ g
 			content: 'Click for details';
 			color: #767676;
 			text-decoration: none;
+			margin-top: 4px;
 		}
 	}
 

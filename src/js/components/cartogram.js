@@ -102,14 +102,17 @@ export class UKCartogram {
         var msg;
         if (c['2015'].winningParty) {
             var partyName = (party) =>
-                `<span class="veri__blip veri__blip--${party.toLowerCase()}"></span>` +
                 `<strong>${party}</strong>`
 
             var e = c['2015']
-
+            var how = '';
             var verb = e.winningParty === e.sittingParty ? 'holds' : 'gains';
             var fromParty = verb === 'gains' ? ` from ${partyName(e.sittingParty)}` : '';
-            var how = e.percentageMajority ? `with a ${e.percentageMajority}% majority` : '';
+            if (e.swing > 30) {
+                how = `with a ${e.swing}% swing`
+            } else if (e.percentageMajority < 3) {
+                how = `with a ${e.percentageMajority}% majority`;
+            }
 
             msg = `<p>${partyName(e.winningParty)} ${verb}${fromParty} ${how}</p>`
         } else {
