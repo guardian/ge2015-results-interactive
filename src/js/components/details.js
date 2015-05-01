@@ -17,9 +17,9 @@ function data2context(data) {
 	partiesByName.Others = { seats: totalSeatsWon - selectedPartySeatCount }
 	partiesByName.Pending = { seats: 650 - totalSeatsWon }
 
-	return { 
-		seatstack: parties.map(function(name){ 
-			return {name: name, seats: partiesByName[name].seats }; 
+	return {
+		seatstack: parties.map(function(name){
+			return {name: name, seats: partiesByName[name].seats };
 		})
 	};
 }
@@ -51,7 +51,6 @@ export class Details {
 		var c = constituency;
         if (c['2015'].winningParty) {
             var partyName = (party) =>
-                `<span class="veri__blip veri__blip--${party.toLowerCase()}"></span>` +
                 `<strong>${party}</strong>`
 
             var e = c['2015']
