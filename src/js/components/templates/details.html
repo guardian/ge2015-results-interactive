@@ -35,7 +35,7 @@ Result pending
 					{% if cand.url %}</a>{% endif %}
 				</td>
 				<td class="veri__details-vote-count">{{ cand.votes | commas }}</td>
-				<td><span class="veri__details-vote-perc">{{cand.percentage.toFixed(1)}}%</span></td>
+				<td class="veri__details-vote-perc">{{cand.percentage.toFixed(1)}}%</td>
 				<td>
 					<div class="veri__details-bar-container" style="width: {{constituency['2015'].candidates[0].percentage}}px;">
 						<span class="veri__details-bar veri__party-bg" party="{{cand.party.toLowerCase()}}" style="width: {{cand.percentage}}px;"></span>
