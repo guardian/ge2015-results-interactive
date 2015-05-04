@@ -1,5 +1,21 @@
 import template from './templates/details.html!text'
 import swig from 'swig'
+import { relativeDates } from '../lib/relativedate'
+
+swig.setFilter('pad', function(input, amnt) {
+	var padding = amnt - input.toFixed(0).length;
+	return (padding > 0 ? (new Array(padding+1)).join('0') : '') + input;
+})
+
+swig.setFilter('commas', function(input) {
+	input = typeof input === 'string' ? input : input.toString();
+	var parts = [];
+	for (var i = input.length - 3; i >= 0; i-=3) parts.unshift(input.substr(i, 3));
+	var firstPos = input.length % 3;
+	if (firstPos) parts.unshift(input.substr(0, input.length % 3));
+	return parts.join(',');
+});
+
 const templateFn = swig.compile(template)
 
 function data2context(data) {
@@ -41,8 +57,9 @@ export class Details {
 			this.el.innerHTML = templateFn({
 				msgFn: this.generateResultHTML,
 				constituency: this.constituenciesById[constituencyId],
-				stats: this.generateStats(this.constituenciesById[constituencyId])
+				updated: this.constituenciesById[constituencyId]['2015'].updated
 			});
+			relativeDates(this.el);
 		}
 		this.el.className = 'veri__details' + (constituencyId ? ' veri__details--show' : '');
 	}
@@ -57,20 +74,13 @@ export class Details {
 
             var verb = e.winningParty === e.sittingParty ? 'holds' : 'gains';
             var fromParty = verb === 'gains' ? ` from ${partyName(e.sittingParty)}` : '';
-            var how = e.percentageMajority ? `with a ${e.percentageMajority}% majority` : '';
+            var how = e.percentageMajority ? `with a ${e.percentageMajority.toFixed(1)}% majority` : '';
+            var turnout = e.percentageTurnout ? `, ${e.percentageTurnout.toFixed(0)}% turnout` : '';
 
-            return `<p>${partyName(e.winningParty)} ${verb}${fromParty} ${how}</p>`
+            return `${partyName(e.winningParty)} ${verb}${fromParty} ${how}${turnout}`
         } else {
-            return '<p>Result pending</p>'
+            return 'Result pending'
         }
-	}
-
-	generateStats(constituency) {
-		return {
-			Electorate: constituency['2015'].electorate,
-			"Turnout (%)": constituency['2015'].percentageTurnout.toFixed(1) + "%",
-			"Announced": constituency['2015'].updated
-		}
 	}
 
 	hide() {
