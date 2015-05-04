@@ -23,6 +23,8 @@
     h2 {
         font-family: "Guardian Text Egyptian Web",Georgia,serif;
         font-size: 16px;
+        line-height: 20px;
+        margin: 12px 0;
         font-weight: bold;
     }
     h3 {
@@ -139,11 +141,42 @@
     position: absolute;
 }
 
-.veri__details-updated {
-    display: inline-block;
+.veri__details-footer {
+    margin: 12px 0;
+    position: relative;
     width: 100%;
-    text-align: right;
-    padding-bottom: 12px;
+    overflow: hidden;
+}
+
+.veri_share-btns {
+    float: left;
+    button {
+        color: #fff;
+        width: 32px;
+        height: 32px;
+        border: none;
+        border-radius: 9000px;
+        display: inline-block;
+        vertical-align: top;
+        cursor: pointer;
+        outline: none;
+        transition: background-color 100ms;
+        &:hover { transition: none; }
+        &[data-source='twitter'] {
+            background: #bdbdbd url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iLTIgLTIgMzIgMzIiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0yMS4zIDEwLjV2LjVjMCA0LjctMy41IDEwLjEtOS45IDEwLjEtMiAwLTMuOC0uNi01LjMtMS42LjMgMCAuNi4xLjguMSAxLjYgMCAzLjEtLjYgNC4zLTEuNS0xLjUgMC0yLjgtMS0zLjMtMi40LjIgMCAuNC4xLjcuMWwuOS0uMWMtMS42LS4zLTIuOC0xLjgtMi44LTMuNS41LjMgMSAuNCAxLjYuNC0uOS0uNi0xLjYtMS43LTEuNi0yLjkgMC0uNi4yLTEuMy41LTEuOCAxLjcgMi4xIDQuMyAzLjYgNy4yIDMuNy0uMS0uMy0uMS0uNS0uMS0uOCAwLTIgMS42LTMuNSAzLjUtMy41IDEgMCAxLjkuNCAyLjUgMS4xLjgtLjEgMS41LS40IDIuMi0uOC0uMy44LS44IDEuNS0xLjUgMS45LjctLjEgMS40LS4zIDItLjUtLjQuNC0xIDEtMS43IDEuNXoiLz48L3N2Zz4') no-repeat center center;
+            &:hover { background-color: #3067a3; }
+        }
+        &[data-source='facebook'] {
+            background: #bdbdbd url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iLTIgLTIgMzIgMzIiPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xNy45IDE0aC0zdjhIMTJ2LThoLTJ2LTIuOWgyVjguN0MxMiA2LjggMTMuMSA1IDE2IDVjMS4yIDAgMiAuMSAyIC4xdjNoLTEuOGMtMSAwLTEuMi41LTEuMiAxLjN2MS44aDNsLS4xIDIuOHoiLz48L3N2Zz4=') no-repeat center center;
+            &:hover { background-color: #03b3ee; }
+        }
+    }
+}
+
+.veri__details-updated {
+    position: absolute;
+    right: 0;
+    bottom: 0;
     font-size: 12px;
     color: #767676;
     &:before {
