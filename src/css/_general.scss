@@ -74,8 +74,13 @@
     vertical-align: middle;
 }
 
+.veri__party-bg { // default color
+    background-color: #B3B3B4;
+}
+
 @each $party, $color in $partyColors {
     .veri__party-bg--#{$party},
+    .veri__party-bg[party='#{$party}'],
     .veri__blip--#{$party} {
         background-color: $color;
     }

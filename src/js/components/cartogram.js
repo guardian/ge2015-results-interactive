@@ -4,6 +4,7 @@ import topojson from 'mbostock/topojson'
 import d3 from 'd3'
 import textures from 'riccardoscalco/textures'
 import dropdownHTML from './templates/cartogramDropdown.html!text'
+import bonzo from 'ded/bonzo'
 
 d3.selection.prototype.moveToFront = function() {
     return this.each(function(){
@@ -155,6 +156,7 @@ export class UKCartogram {
         this.hexPaths
             .enter().append("path")
             .attr("d", this.path)
+            .classed('cartogram__hex', true)
         if (this.lastRenderedData) this.render(this.lastRenderedData);
     }
 
@@ -382,63 +384,70 @@ export class UKCartogram {
             this.svg.call(this.texture2);
         }
     }
-    renderChoropleth(idToValMap, colorRange, defaultFill='#999') {
+
+    renderChoropleth(idToValMap, colorRange, defaultFill=null) {
         var values = Array.from(idToValMap.values()).filter(k => k !== undefined)
         var color = d3.scale.linear()
             .domain([Math.min.apply(null, values), Math.max.apply(null, values)])
             .range(colorRange);
 
         this.hexPaths
-            .attr('fill', function(d) {
+            .each(function(d) {
                 var value = idToValMap.get(d.properties.constituency);
-                return value !== undefined ? color(value) : defaultFill;
+                d3.select(this)
+                    .attr('fill', value ? color(value) : '')
+                    .classed('cartogram__hex--empty', !value);
+                // else d3.select(this).classed('cartogram__hex--')
+                // return value !== undefined ?  : defaultFill;
             });
+    }
+
+    highlightParty(party) {
+        if (party) this.el.setAttribute('party-highlight', party.toLowerCase());
+        else this.el.removeAttribute('party-highlight');
     }
 
     render(data) {
         var self = this;
         this.initTextures();
+
+        // DATA
         this.lastRenderedData = data;
         var constituenciesById = this.constituenciesById = {};
         data.constituencies.forEach(c => constituenciesById[c.ons_id] = c)
 
-
+        // shared rendering
         var alternate = 0;
         this.hexPaths
+            .attr('party', function(d) {
+                var constituency = constituenciesById[d.properties.constituency];
+                return (constituency['2015'].winningParty || 'pending').toLowerCase();
+            })
             .each(function(d) {
                 var hasResult = constituenciesById[d.properties.constituency]['2015'].winningParty;
                 if (hasResult) d3.select(this).style('fill', '');
                 else d3.select(this).style('fill', () => (alternate++ % 2) ? self.texture.url() : self.texture2.url());
-            });
+            })
+            .classed('cartogram__hex--empty', false);
 
         var choro = ['Turnout %', 'Majority %']
         var isChoro = (metric) => metric.startsWith('voteshare') || choro.indexOf(metric) !== -1
 
         if (this.metric === 'Winning Party') {
-            this.hexPaths
-                .attr('class', function(d) {
-                    var constituency = constituenciesById[d.properties.constituency];
-                    return 'cartogram__hex cartogram__hex--' + (constituency['2015'].winningParty || 'pending').toLowerCase();
-                });
+            this.el.setAttribute('map-mode', 'party');
+
         } else if (isChoro(this.metric)) {
 
-            this.hexPaths.attr('class', function(d) {
-                var constituency = constituenciesById[d.properties.constituency];
-                return 'cartogram__hex' + (!constituency['2015'].winningParty ? ' cartogram__hex--pending' : '');
-            });
+            this.el.setAttribute('map-mode', 'choropleth');
 
             if(this.metric === 'Turnout %') {
                 var pairs = data.constituencies.map(c => [c.ons_id, c['2015'].percentageTurnout])
                 this.renderChoropleth(new Map(pairs), ["white", "black"]);
+
             } else if(this.metric === 'Majority %') {
                 var pairs = data.constituencies.map(c => [c.ons_id, c['2015'].percentageMajority])
                 this.renderChoropleth(new Map(pairs), ["white", "black"]);
-            } else if(this.metric === 'Labour %') {
-                var pairs = data.constituencies
-                    .map(c => [c.ons_id, c['2015'].candidates.find(cand => cand.party === 'Lab')] )
-                    .filter(v => v[1] !== undefined)
-                    .map(v => [v[0], v[1].percentage])
-                this.renderChoropleth(new Map(pairs), ["white", "#004974"]);
+
             } else if (this.metric.startsWith('voteshare')) {
                 var partyName = this.metric.slice(10);
                 var pairs = data.constituencies
@@ -446,6 +455,7 @@ export class UKCartogram {
                     .filter(v => v[1] !== undefined)
                     .map(v => [v[0], v[1].percentage])
                 this.renderChoropleth(new Map(pairs), ["white", this.opts.partyColors[partyName]]);
+
             }
         } else if (isArrow(this.metric)) {
 

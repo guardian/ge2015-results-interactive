@@ -17,6 +17,14 @@
 
 .cartogram__hex {
 	transition: all 50ms ease-out;
+	// fill: #ccc;
+	// stroke: #aaa;
+}
+
+.cartogram__hex--empty {
+	fill: #ccc;
+	stroke: #aaa;
+	fill-opacity: 0.3;
 }
 
 .cartogram__hexgroup {
@@ -33,22 +41,22 @@
 	transition: all 50ms ease-out;
 }
 
+.cartogram[map-mode='party'] .cartogram__hex {
+	stroke: #fff;
+}
 
-.cartogram[party-highlight] {
-	.cartogram__hex {
-    	fill-opacity: 0.3;
-    	fill: #ccc;
-		stroke: #aaa;
-		stroke-opacity: 0.2;
-
-    }
+.cartogram[party-highlight] .cartogram__hex {
+	fill-opacity: 0.3;
+	fill: #ccc;
+	stroke: #aaa;
+	stroke-opacity: 0.2;
 }
 
 @each $party, $color in $partyColors {
-    .cartogram__hex--#{$party} {
+    .cartogram[map-mode='party']:not([party-highlight]) .cartogram__hex[party='#{$party}'] {
         fill:$color;
     }
-    .cartogram[party-highlight='#{$party}'] .cartogram__hex--#{$party} {
+    .cartogram[party-highlight='#{$party}'] .cartogram__hex[party='#{$party}'] {
         fill-opacity: 0.9;
         stroke-opacity: 0.8;
         stroke: #555;
@@ -79,6 +87,7 @@
 
 .cartogram[latest-results],
 .cartogram[focus-constituency],
+.cartogram[map-mode='choropleth'],
 .cartogram[party-highlight] {
 	.cartogram__regiongroup {
 		// stroke-opacity: 0.3;
@@ -108,12 +117,12 @@
 
 
 .cartogram__label {
-  text-anchor: middle;
-  stroke-width: 0.2;
-  font-family: "Guardian Text Sans Web","Agate Sans",sans-serif;
-  fill: #FFF;
-  font-size: 16px;
-  opacity: 1;
+	text-anchor: middle;
+	stroke-width: 0.2;
+	font-family: "Guardian Text Sans Web","Agate Sans",sans-serif;
+	fill: #FFF;
+	font-size: 16px;
+	opacity: 1;
 }
 
 .cartogram__label--city {

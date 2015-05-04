@@ -26,11 +26,11 @@ function isBigSwingWin(c) {
 function isImportantConstituency(c) {
 	return isBigSwingWin(c) || isMarginalConstituency(c);
 }
-	
+
 function isMobile() {
 	return bowser.mobile;
 }
-      
+
 function removeClass(el, className) {
 	if (el.classList) el.classList.remove(className);
 	else el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
@@ -62,8 +62,8 @@ class ElectionResults {
 		}
 
 		var cartogramOpts = {
-			selectCallback: this.selectConstituency.bind(this), 
-			tooltipCallback: this.cartogramTooltipClick.bind(this), 
+			selectCallback: this.selectConstituency.bind(this),
+			tooltipCallback: this.cartogramTooltipClick.bind(this),
 			mouseBindings: !isMobile()
 		}
 
@@ -72,7 +72,7 @@ class ElectionResults {
 			cartogram: new UKCartogram(this.cartogramEl, cartogramOpts),
 			dropdown1: new Dropdown(el.querySelector('#dropdown1'), dropdownOpts),
 			dropdown2: new Dropdown(el.querySelector('#dropdown2'), dropdownOpts),
-			seatstack: new Seatstack(el.querySelector('#seatstack'), this.hoverConstituency.bind(this)),
+			seatstack: new Seatstack(el.querySelector('#seatstack'), this.hoverParty.bind(this)),
 			ticker: new Ticker(el.querySelector('#ticker'), this.selectConstituency.bind(this), this.focusEvent.bind(this))
 		};
 
@@ -132,7 +132,7 @@ class ElectionResults {
 			var elementId = 'latest-filter--' + val;
 			var li = document.createElement('li');
 			var checked = val === 'important' ? 'checked' : '';
-			li.innerHTML = `<input id="${elementId}" type="radio" ${checked} name="latest-filter" value="${val}">` + 
+			li.innerHTML = `<input id="${elementId}" type="radio" ${checked} name="latest-filter" value="${val}">` +
 					 `<label for="${elementId}">${val}</label>`;
 			listEl.appendChild(li);
 
@@ -155,7 +155,7 @@ class ElectionResults {
 		this.components.details.hide();
 	}
 
-	selectConstituency(constituencyId) {		
+	selectConstituency(constituencyId) {
 		if (!isMobile()) {
 			this.components.cartogram.zoomToConstituency(constituencyId);
 			this.components.details.selectConstituency(constituencyId);
@@ -178,9 +178,9 @@ class ElectionResults {
 		this.freezeScrolling();
 	}
 
-	hoverConstituency(constituencyId) {		
-		if (!isMobile() && constituencyId) this.cartogramEl.setAttribute('party-highlight', constituencyId);
-		else this.cartogramEl.removeAttribute('party-highlight')
+	hoverParty(party) {
+		if (!isMobile() && party) this.components.cartogram.highlightParty(party);
+		else this.components.cartogram.highlightParty();
 	}
 
 	scrollAndFocus(constituencyId) {
@@ -242,7 +242,7 @@ class ElectionResults {
 	}
 }
 
-function init(el, context, config, mediator) {		
+function init(el, context, config, mediator) {
 
 	var dataUrl = 'mega.json';
 	// var dataUrl = 'http://s3.amazonaws.com/gdn-cdn/2015/05/election/datatest/liveresults.json';
