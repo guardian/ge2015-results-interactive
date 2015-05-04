@@ -69,11 +69,9 @@
         stroke: #bdbdbd;
     }
     .cartogram__hex--has-arrow {
-        fill: #ddd;
+        fill: #efefef;
     }
-
 }
-
 
 @each $party, $color in $partyColors {
     .cartogram[map-mode='party']:not([party-highlight]) .cartogram__hex[party='#{$party}'] {
@@ -190,6 +188,8 @@
 
 .cartogram__dropdown {
     position: absolute;
+    font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    font-size: 12px;
     right: 100px;
     top: 0;
     background: #fff;
