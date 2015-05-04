@@ -25,8 +25,8 @@ module.exports = function(grunt) {
             }
         },
 
-        clean: { 
-            build: ['build'] 
+        clean: {
+            build: ['build']
         },
 
         sass: {
@@ -64,12 +64,13 @@ module.exports = function(grunt) {
             'harness': {
                 'options': {
                     'data': {
-                        'assetPath': '',
+                        'assetPath': 'http://localhost:8000',
                     }
                 },
                 'files': {
                     'build/boot.js': ['harness/boot.js.tpl'],
-                    'build/interactive.html': ['harness/interactive.html.tpl']
+                    'build/interactive.html': ['harness/interactive.html.tpl'],
+                    'build/lite.html': ['harness/lite.html.tpl']
                 }
             },
             'snap': {
@@ -108,7 +109,16 @@ module.exports = function(grunt) {
                 options: {
                     hostname: '0.0.0.0',
                     port: 8000,
-                    base: 'build'
+                    base: 'build',
+                    middleware: function (connect, options, middlewares) {
+                        // inject a custom middleware http://stackoverflow.com/a/24508523
+                        middlewares.unshift(function (req, res, next) {
+                            res.setHeader('Access-Control-Allow-Origin', '*');
+                            res.setHeader('Access-Control-Allow-Methods', '*');
+                            return next();
+                        });
+                        return middlewares;
+                    }
                 }
             }
       }
