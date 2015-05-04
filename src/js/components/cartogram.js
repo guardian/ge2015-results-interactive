@@ -30,10 +30,12 @@ export class UKCartogram {
         this.resetZoom();
         this.renderHex();
         this.renderRegions();
-        this.focusHexGroup = this.map.append('g')
+        this.focusHexGroup = this.map.append('g');
+        this.arrowGroup = this.map.append('g').attr('class', 'cartogram__arrowgroup');
         this.project();
         this.initButtons();
         this.initEventHandling();
+        this.initDefs();
 
         var self = this;
         window.foo = (t,s) => self.setTransform(t,s)
@@ -58,6 +60,22 @@ export class UKCartogram {
 
         this.opts = {}
         Object.keys(defaultOpts).forEach(k => this.opts[k] = opts[k] !== undefined ? opts[k] : defaultOpts[k])
+    }
+
+    initDefs() {
+        this.defs = this.svg.append("defs");
+
+        var marker = this.defs.append("marker")
+          .attr("class","marker")
+          .attr("id", "arrowhead")
+          .attr("refY", 3)
+          .attr("markerWidth", 6)
+          .attr("markerHeight", 6)
+          .attr("orient", "auto")
+          // .attr("fill","#a60000")
+          .attr("stroke","none")
+          .append("path")
+          .attr("d", "M 0,0 V 6 L6,3 Z");
     }
 
     project() { // do projections separately so we can rerender
@@ -407,6 +425,35 @@ export class UKCartogram {
         else this.el.removeAttribute('party-highlight');
     }
 
+    renderArrows(data) {
+        var values = data.map(d => d[1])
+        var idToValMap = new Map(data);
+        var maxArrowSize = 100;
+        var minArrowSize = 5;
+        var arrowSizeRange = maxArrowSize - minArrowSize;
+
+        function generatePath(val, center) {
+            var negative = val < 0;
+            var arrowMag = minArrowSize + (Math.abs(val / 100) * arrowSizeRange);
+            var arrowLength = arrowMag * (negative ? -1 : 1);
+            var y = parseInt(center[1]) + 0.5;
+            var startx = center[0] - (arrowLength/2);
+            var endx = center[0] + (arrowLength/2);
+            return `M${startx},${y}L${endx},${y}`;
+        }
+
+        this.hexPaths
+            .classed('cartogram__hex--has-arrow', d => idToValMap.get(d.properties.constituency) !== undefined)
+
+        this.arrowGroup
+            .selectAll('path')
+            .data(data).enter()
+            .append('path')
+            .classed('cartogram__arrow', true)
+            .attr('d', d => generatePath(d[1], this.hexCentroids[d[0]]))
+            .attr('marker-end', 'url(#arrowhead)')
+    }
+
     render(data) {
         var self = this;
         this.initTextures();
@@ -425,13 +472,16 @@ export class UKCartogram {
             })
             .each(function(d) {
                 var hasResult = constituenciesById[d.properties.constituency]['2015'].winningParty;
-                if (hasResult) d3.select(this).style('fill', '');
-                else d3.select(this).style('fill', () => (alternate++ % 2) ? self.texture.url() : self.texture2.url());
+                if (hasResult) d3.select(this).attr('fill', '');
+                else d3.select(this).attr('fill', () => (alternate++ % 2) ? self.texture.url() : self.texture2.url());
             })
             .classed('cartogram__hex--empty', false);
 
+        this.arrowGroup.html('');
+
         var choro = ['Turnout %', 'Majority %']
-        var isChoro = (metric) => metric.startsWith('voteshare') || choro.indexOf(metric) !== -1
+        var isChoro = (metric) => metric.startsWith('voteshare ') || choro.indexOf(metric) !== -1
+        var isArrow = (metric) => metric.startsWith('arrow-');
 
         if (this.metric === 'Winning Party') {
             this.el.setAttribute('map-mode', 'party');
@@ -458,7 +508,16 @@ export class UKCartogram {
 
             }
         } else if (isArrow(this.metric)) {
-
+            var type = this.metric.substr('arrow-'.length, 4)
+            var partyName = this.metric.substr('arrow-gain '.length);
+            this.el.setAttribute('map-mode', 'arrow');
+            this.el.setAttribute('arrow-party', partyName.toLowerCase())
+            var pairs = data.constituencies
+                .map(c => [c.ons_id, c['2015'].candidates.find(cand => cand.party === partyName)])
+                .filter(v => v[1] && v[1].percentageShareChange !== undefined)
+                .filter(v => type === 'loss' ? v[1].percentageShareChange < 0 : v[1].percentageShareChange > 0)
+                .map(v => [v[0], v[1].percentageShareChange])
+            this.renderArrows(pairs);
         }
 
         if (this.selectedLatestIds) this.setLatest(this.selectedLatestIds);
