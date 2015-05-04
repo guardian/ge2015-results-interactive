@@ -16,7 +16,7 @@
     </ul>
 
     {% for list in [partyListLeft, partyListRight] %}
-    <ul class="seatstack-list">
+    <ul class="seatstack-list seatstack-list--{{loop.index}}">
         {% for party in list %}
         <li class="seatstack-list__item">
             <span class="seatstack-list__partybox" data-partyname="{{party.name}}"></span>

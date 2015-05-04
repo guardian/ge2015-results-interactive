@@ -47,7 +47,7 @@
     margin: 0;
     list-style-type: none;
     height: 50px;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 
     li {
         float: left;
@@ -114,7 +114,7 @@ $seatstack-list-lineheight: 24px;
         display: inline-block;
     }
 
-    & + & {
+    &.seatstack-list--2 {
         float: right;
     }
     @include mq(tablet) {
@@ -124,12 +124,14 @@ $seatstack-list-lineheight: 24px;
         width: calc(50% - 20px);
     }
 }
+
 .seatstack-list__item {
     vertical-align: middle;
     height: 36px;
     overflow: hidden;
-    & + & {
-        border-top: 1px solid #f1f1f1;
+    border-top: 1px solid #f1f1f1;
+    &:first-child {
+        border-top: 0;
     }
 }
 
