@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 module.exports = function(grunt) {
 
     require('jit-grunt')(grunt);
@@ -7,11 +9,11 @@ module.exports = function(grunt) {
         watch: {
             js: {
                 files: ['src/js/**/*'],
-                tasks: ['shell'],
+                tasks: ['shell', 'template:snap'],
             },
             css: {
                 files: ['src/css/**/*'],
-                tasks: ['sass'],
+                tasks: ['sass', 'template:snap'],
             },
             harness: {
                 files: ['harness/**/*'],
@@ -19,7 +21,7 @@ module.exports = function(grunt) {
             },
             html: {
                 files: ['src/html/**/*'],
-                tasks: ['copy:snap']
+                tasks: ['template:snap']
             }
         },
 
@@ -69,6 +71,18 @@ module.exports = function(grunt) {
                     'build/boot.js': ['harness/boot.js.tpl'],
                     'build/interactive.html': ['harness/interactive.html.tpl']
                 }
+            },
+            'snap': {
+                'options': {
+                    'data': function () {
+                        var css = fs.readFileSync('build/snap.css');
+                        var html = fs.readFileSync('src/html/snap.html');
+                        return {'html': JSON.stringify('<div id="election-snap"><style>' + css + '</style>' + html + '</div>') }
+                    }
+                },
+                'files': {
+                    'build/snap.json': ['harness/snap.json.tpl']
+                }
             }
         },
 
@@ -76,11 +90,6 @@ module.exports = function(grunt) {
             main: {
                 files: [
                     {expand: true, cwd: 'harness/', src: ['curl.js', 'index.html', 'mega.json', 'front.html'], dest: 'build'},
-                ]
-            },
-            snap: {
-                files: [
-                    {expand: true, cwd: 'src/html/', src: ['snap.html'], dest: 'build'},
                 ]
             }
         },

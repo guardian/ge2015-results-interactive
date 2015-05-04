@@ -1,25 +1,45 @@
 @import 'vars';
 @import 'mq';
-@import 'parties';
-@import 'seatstack';
 
-body {
-    margin: 0;
-    padding: 0;
+#election-snap {
+    width: 100%;
+    border-top: 1px solid #333;
+    padding-top: 12px;
     background-color: #dcdcdc;
-}
 
-.snap {
-    overflow: hidden;
-    -webkit-font-smoothing: antialiased;
-}
+    @import 'seatstack';
+    @import 'parties';
 
-.snap__left-pane {
-    float: left;
-    width: 50%;
-}
+    .snap {
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+        height: 220px;
+    }
 
-.snap__right-pane {
-    float: right;
-    width: 50%;
+    .snap__left-pane {
+        float: left;
+        width: 60%;
+    }
+
+    .snap__right-pane {
+        float: right;
+        width: 40%;
+    }
+
+    .seatstack__bar li:hover {
+        -webkit-filter: none;
+        filter: none;
+    }
+
+    .nightahead {
+        list-style: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nightahead__item {
+        float: left;
+        width: 25%;
+        height: 100px;
+    }
 }
