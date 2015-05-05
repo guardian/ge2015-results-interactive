@@ -23,7 +23,7 @@
 }
 
 .cartogram__hex {
-    transition: all 50ms ease-out;
+    // transition: all 50ms ease-out;
 }
 
 .cartogram__hex--empty {
@@ -43,7 +43,7 @@
     // stroke: #666;
     stroke: #fff;
     // stroke-opacity: 0.9;
-    transition: all 50ms ease-out;
+    // transition: all 50ms ease-out;
 }
 
 .cartogram[map-mode='party'] .cartogram__hex {
@@ -130,7 +130,7 @@
 .cartogram[party-highlight] {
     .cartogram__regiongroup {
         // stroke-opacity: 0.3;
-        stroke: #767676;
+        stroke: #999;
     }
 }
 
@@ -193,12 +193,15 @@
     width: 100%;
 }
 
-.cartogram__dropdown {
+.cartogram__dropdown-container {
     position: absolute;
-    font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-    font-size: 12px;
     right: 100px;
     top: 0;
+}
+
+.cartogram__dropdown {
+    font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    font-size: 12px;
     background: #fff;
     border: 0;
     height: 30px;
@@ -207,6 +210,25 @@
     padding-left: 10px;
     border: 1px solid #f1f1f1;
 }
+
+@-moz-document url-prefix() {
+    .cartogram__dropdown {
+        -moz-appearance: none;
+        text-indent: 0.01px;
+        text-overflow: '';
+        padding-right: 20px;
+    }
+    .cartogram__dropdown-container:after {
+        content: '';
+        border: 4px solid transparent;
+        border-top-color: #333;
+        position: absolute;
+        right: 10px;
+        top: 13px;
+        pointer-events: none;
+    }
+}
+
 .cartogram__reset-zoom {
     position: absolute;
     right: 0;
