@@ -11,8 +11,10 @@ figure.element-interactive {
     -webkit-font-smoothing: antialiased;
     position: relative;
     max-width: 1300px;
+    box-sizing: border-box;
     margin: auto;
     padding: 50px 10px;
+    padding-top: 12px;
 
     @include mq(tablet) {
         padding-left: 20px;
@@ -48,25 +50,6 @@ figure.element-interactive {
     font-family: "Guardian Egyptian Web",Georgia,serif;
     font-size: 24px;
 }
-
-// .veri--map {
-//     .veri__latest-results {
-//         display: none;
-//     }
-//     #ticker {
-//         display: none;
-//     }
-// }
-
-// .veri--ticker {
-//     #dropdown {
-//         display: none;
-//     }
-//     #ukcartogram-container {
-//         display: none;
-//     }
-
-// }
 
 [data-partyname='Lab'] { background-color: #E31F26; color: #E31F26; }
 [data-partyname='SNP'] { background-color: #FCDD03; color: #FCDD03; }
