@@ -63,6 +63,7 @@
 
 .cartogram__arrowgroup {
     stroke: #333;
+    stroke-width: 1.25px;
 }
 
 .cartogram[map-mode='arrow'] {
@@ -85,14 +86,10 @@
         fill:$color;
     }
     .cartogram[arrow-party='#{$party}'] #arrowhead {
-        fill: $color;
+        fill: arrowColor($party);
     }
     .cartogram[arrow-party='#{$party}'] .cartogram__arrow {
-        @if ($party == snp) {
-            stroke: darken($color, 5);
-        } @else {
-            stroke: $color;
-        }
+        stroke: arrowColor($party);
     }
     .cartogram[party-highlight='#{$party}'] .cartogram__hex[party='#{$party}'] {
         fill-opacity: 0.9;
@@ -125,7 +122,6 @@
 }
 
 .cartogram[latest-results],
-.cartogram[focus-constituency],
 .cartogram[map-mode='choropleth'],
 .cartogram[party-highlight] {
     .cartogram__regiongroup {
