@@ -54,7 +54,6 @@
 		function onInputKeyUp(event) {
 			var newVal = event.target.value;
 			if (lastVal !== newVal && event.keyCode !== 13) {
-				console.log('onchange');
 				renderDropdown([]);
 				opts.onChange(event.target.value, renderDropdown)
 				lastVal = newVal;
