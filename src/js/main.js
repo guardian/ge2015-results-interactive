@@ -107,7 +107,7 @@ class ElectionResults {
         var data = data || this.lastFetchedData;
         var filter = filter || this.getLatestFilterValue();
         var filterFn = this.tickerFilters[filter];
-        return filterFn ? filterFn(data) : data.overview.latestInteresting.slice(0,20);
+        return filterFn(data);
     }
 
     createLatestFilter() {
