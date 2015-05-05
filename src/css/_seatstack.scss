@@ -126,6 +126,14 @@ $seatstack-list-lineheight: 24px;
     &:first-child {
         border-top: 0;
     }
+
+    transition: background-color 50ms;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #f7f7f7;
+        transition: none;
+    }
 }
 
 .seatstack-list__partybox {

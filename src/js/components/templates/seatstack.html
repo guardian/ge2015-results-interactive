@@ -8,7 +8,7 @@
     <ul class="seatstack__bar">
         {% for party in partyData %}
         {% if party.seats > 0 %}
-        <li data-partyname="{{party.name}}" style="width: {{(party.seats/650)*100}}%">
+        <li data-partyhover="{{party.name}}" data-partyname="{{party.name}}" style="width: {{(party.seats/650)*100}}%">
             <span>{{party.seats}}</span>
         </li>
         {% endif %}
@@ -18,7 +18,7 @@
     {% for list in [partyListLeft, partyListRight] %}
     <ul class="seatstack-list seatstack-list--{{loop.index}}">
         {% for party in list %}
-        <li class="seatstack-list__item">
+        <li class="seatstack-list__item" data-partyhover="{{party.name}}">
             <span class="seatstack-list__partybox" data-partyname="{{party.name}}"></span>
             <span class="seatstack-list__party-name">{{party.name}}</span>
             <span class="seatstack-list__net">{% if party.net > 0 %}+{%endif%}{{party.net}}</span>

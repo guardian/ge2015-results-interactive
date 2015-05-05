@@ -45,12 +45,13 @@ export class Seatstack {
 		this.el = el;
 
 		this.el.addEventListener('mouseover', function(evt) {
-			var partyName = evt.target.getAttribute('data-partyname')
+			var partyName = evt.target.getAttribute('data-partyhover') || evt.target.parentElement.getAttribute('data-partyhover')
 			if (partyName) hoverFn(partyName.toLowerCase());
 		});
 
 		this.el.addEventListener('mouseout', function(evt) {
-			hoverFn(null);
+			var partyName = evt.target.getAttribute('data-partyhover') || evt.target.parentElement.getAttribute('data-partyhover')
+			if (partyName) hoverFn(null);
 		});
 
 	}
