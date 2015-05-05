@@ -69,8 +69,8 @@ export class Details {
 
             var e = c['2015']
 
-            var verb = e.winningParty === e.sittingParty ? 'holds' : 'gains';
-            var fromParty = verb === 'gains' ? ` from ${partyName(e.sittingParty)}` : '';
+            var verb = e.winningParty === e.sittingParty ? 'hold' : 'gain';
+            var fromParty = verb === 'gain' ? ` from ${partyName(e.sittingParty)}` : '';
             var how = e.percentageMajority ? `with a ${e.percentageMajority.toFixed(1)}% majority` : '';
             var turnout = e.percentageTurnout ? `, ${e.percentageTurnout.toFixed(0)}% turnout` : '';
 
@@ -84,8 +84,8 @@ export class Details {
         var c = this.constituenciesById[this.selectedConstituency];
         var e = c['2015']
 
-        var verb = e.winningParty === e.sittingParty ? 'holds' : 'gains';
-        var fromParty = verb === 'gains' ? ` from ${e.sittingParty}` : '';
+        var verb = e.winningParty === e.sittingParty ? 'hold' : 'gain';
+        var fromParty = verb === 'gain' ? ` from ${e.sittingParty}` : '';
         var how = e.percentageMajority ? `with a ${e.percentageMajority.toFixed(1)}% majority` : '';
 
         return `${c.name} - ${e.winningParty} ${verb}${fromParty} ${how} - ${this.options.share_url}#c=${this.selectedConstituency}`;
