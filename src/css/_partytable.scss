@@ -1,12 +1,20 @@
-.veri__party-table {
+.veri-party-table {
 	clear: both;
 	font-size: 15px;
-	max-width: 600px;
+	width: 60%;
+	float: right;
+
 	td,th {
 		text-align: right; // all right aligned except for party name field
+		line-height: 24px;
+	}
+	th {
+		font-weight: normal;
+		color: #767676;
+		text-transform: lowercase;
 	}
 	td {
-		border-top: 1px solid #dedede;
+		border-top: 1px dotted #dfdfdf;
 	}
 
 	tbody {
@@ -14,8 +22,15 @@
 	}
 	td:nth-child(1),
 	th:nth-child(1) {
-		font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
 		text-align: left;
 	}
+	td:nth-child(1),
+	th {
+		font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+		font-size: 14px;
+	}
+}
 
+.veri-party-table__seat-party td:first-child {
+	font-weight: bold;
 }
