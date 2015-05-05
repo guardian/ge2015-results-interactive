@@ -12,6 +12,7 @@ import { Dropdown } from './components/dropdown'
 import { Details } from './components/details'
 import { Legend } from './components/legend'
 import { PartyTable } from './components/partyTable'
+import hotseats from './data/hotseats.json!json'
 
 function isResult(c) { return c['2015'].status === 'result'; }
 function isMarginalConstituency(c) {
@@ -29,6 +30,10 @@ function isImportantConstituency(c) {
 
 function isMobile() {
     return bowser.mobile;
+}
+
+function isCelebritySeat(c) {
+    return hotseats.find(s => s.id === c.ons_id);
 }
 
 function removeClass(el, className) {
@@ -111,11 +116,7 @@ class ElectionResults {
         var numberOfResults = isMobile() ? 10 : 5;
 
         this.tickerFilters = {
-            important: data => data.constituencies
-                                .filter(isResult)
-                                .filter(isImportantConstituency)
-                                .sort(sortConstituency).slice(0,numberOfResults),
-            all: data => data.constituencies
+            latest: data => data.constituencies
                                 .filter(isResult)
                                 .sort(sortConstituency).slice(0,numberOfResults),
             marginals: data => data.constituencies
@@ -127,6 +128,11 @@ class ElectionResults {
                                 .filter(isResult)
                                 .filter(isBigSwingWin)
                                 .sort(sortConstituency)
+                                .slice(0, numberOfResults),
+            'hot seats': data => data.constituencies
+                                .filter(isResult)
+                                .filter(isCelebritySeat)
+                                .sort(sortConstituency)
                                 .slice(0, numberOfResults)
         }
 
@@ -134,7 +140,7 @@ class ElectionResults {
         Object.keys(this.tickerFilters).forEach(function(val) {
             var elementId = 'latest-filter--' + val;
             var li = document.createElement('li');
-            var checked = val === 'important' ? 'checked' : '';
+            var checked = val === 'latest' ? 'checked' : '';
             li.innerHTML = `<input id="${elementId}" type="radio" ${checked} name="latest-filter" value="${val}">` +
                      `<label for="${elementId}">${val}</label>`;
             listEl.appendChild(li);

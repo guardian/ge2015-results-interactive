@@ -1,0 +1,132 @@
+[
+	{
+	  "id": "E14000540",
+	  "candidate": "Margaret Hodge",
+	  "party": "Lab"
+	},
+	{
+	  "id": "E14000589",
+	  "candidate": "George Galloway",
+	  "party": "Respect"
+	},
+	{
+	  "id": "E14000598",
+	  "candidate": "Caroline Lucas",
+	  "party": "Green"
+	},
+	{
+	  "id": "E14000608",
+	  "candidate": "John Bercow",
+	  "party": "Speaker"
+	},
+	{
+	  "id": "E14000615",
+	  "candidate": "Harriet Harman",
+	  "party": "Lab"
+	},
+	{
+	  "id": "E14000669",
+	  "candidate": "Ed Miliband",
+	  "party": "Lab"
+	},
+	{
+	  "id": "S14000039",
+	  "candidate": "Danny Alexander",
+	  "party": "LD"
+	},
+	{
+	  "id": "S14000041",
+	  "candidate": "Kenny Selbie",
+	  "party": "Lab"
+	},
+	{
+	  "id": "E14000803",
+	  "candidate": "Theresa May",
+	  "party": "Con"
+	},
+	{
+	  "id": "E14000826",
+	  "candidate": "Ed Balls",
+	  "party": "Lab"
+	},
+	{
+	  "id": "S14000053",
+	  "candidate": "Douglas Alexander",
+	  "party": "Lab"
+	},
+	{
+	  "id": "S14000021",
+	  "candidate": "Jim Murphy",
+	  "party": "Lab"
+	},
+	{
+	  "id": "E14000898",
+	  "candidate": "Mark Reckless",
+	  "party": "UKIP"
+	},
+	{
+	  "id": "S14000055",
+	  "candidate": "Charles Kennedy",
+	  "party": "LD"
+	},
+	{
+	  "id": "E14000907",
+	  "candidate": "Philip Hammond",
+	  "party": "Con"
+	},
+	{
+	  "id": "E14000908",
+	  "candidate": "Kenneth Clarke",
+	  "party": "Con"
+	},
+	{
+	  "id": "E14000911",
+	  "candidate": "Bez Berry",
+	  "party": "Reality"
+	},
+	{
+	  "id": "E14000922",
+	  "candidate": "Nick Clegg",
+	  "party": "LD"
+	},
+	{
+	  "id": "E14000972",
+	  "candidate": "Tristram Hunt",
+	  "party": "Lab"
+	},
+	{
+	  "id": "E14000983",
+	  "candidate": "Michael Gove",
+	  "party": "Con"
+	},
+	{
+	  "id": "E14000987",
+	  "candidate": "George Osborne",
+	  "party": "Con"
+	},
+	{
+	  "id": "E14000948",
+	  "candidate": "Nigel Farage",
+	  "party": "UKIP"
+	},
+	{
+	  "id": "E14001005",
+	  "candidate": "Vince Cable",
+	  "party": "LD"
+	},
+	{
+	  "id": "E14001007",
+	  "candidate": "Boris Johnson",
+	  "party": "Con"
+	},
+	{
+	  "id": "E14001046",
+	  "candidate": "David Cameron",
+	  "party": "Con"
+	},
+	{
+	  "id": "E14000642",
+	  "candidate": "Douglas Carswell",
+	  "party": "UKIP"
+	}
+]
