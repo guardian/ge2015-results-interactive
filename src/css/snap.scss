@@ -10,6 +10,7 @@
 
     @import 'parties';
     @import 'seatstack';
+    @import 'hourbyhour';
 
     .snap {
         overflow: hidden;
@@ -18,18 +19,20 @@
 
     .snap__left-pane {
         float: left;
-        width: 55%;
+        width: 50%;
+        padding-right: 20px;
+        border-right: 1px solid #eaeaea;
+        box-sizing: border-box;
     }
 
     .snap__right-pane {
         float: right;
-        width: 45%;
+        width: 50%;
         height: 100%;
-    }
+        padding-left: 20px;
+        box-sizing: border-box;
 
-    .seatstack {
-        padding-right: 20px;
-        border-right: 1px solid #eaeaea;
+        @include fs-textSans(1);
     }
 
     .seatstack__bar li:hover {
@@ -53,5 +56,7 @@
     h2 {
         @include f-header;
         font-size: 14px;
+        line-height: 1.25;
+        padding-bottom: 6px;
     }
 }
