@@ -41,8 +41,10 @@ function data2context(data) {
 }
 
 export class Details {
-    constructor(el) {
+    constructor(el, options) {
         this.el = el;
+        this.options = options;
+        this.initEventHandlers();
     }
     render(data) {
         var constituenciesById = this.constituenciesById = {};
@@ -83,14 +85,44 @@ export class Details {
         }
     }
 
+    get twitterShareText() {
+        var c = this.constituenciesById[this.selectedConstituency];
+        var e = c['2015']
+
+        var verb = e.winningParty === e.sittingParty ? 'holds' : 'gains';
+        var fromParty = verb === 'gains' ? ` from ${e.sittingParty}` : '';
+        var how = e.percentageMajority ? `with a ${e.percentageMajority.toFixed(1)}% majority` : '';
+
+        return `${c.name} - ${e.winningParty} ${verb}${fromParty} ${how} - ${this.options.share_url}#c=${this.selectedConstituency}`;
+    }
+
+    get twitterShareUrl() {
+        var c = this.constituenciesById[this.selectedConstituency];
+        return `https://twitter.com/intent/tweet?text=${encodeURIComponent(this.twitterShareText)}`;
+    }
+
+    get facebookShareUrl() {
+        var facebookParams = [
+            ['display', 'popup'],
+            ['app_id', '741666719251986'],
+            ['link', encodeURIComponent(this.options.share_url)],
+            ['redirect_uri', 'http://www.facebook.com']
+        ];
+        var queryString = facebookParams.map(pair => pair.join('=')).join('&');
+        return 'https://www.facebook.com/dialog/feed?' + queryString;
+    }
+
     initEventHandlers() {
-        // 741666719251986
-        // 'https://www.facebook.com/dialog/feed?display=popup&app_id=741666719251986&link=http%3A%2F%2Fgu.com%2Fp%2F464t6&picture=&redirect_uri=http://www.theguardian.com'
-        // 'https://twitter.com/intent/tweet?text=The%20Guardian%20poll%20projection%20http%3A%2F%2Fgu.com%2Fp%2F464t6%0ACON%20274%20seats%20%7C%20LAB%20270%20%7C%20SNP%2054%20%7C%20LD%2027%20%7C%20Ukip%203%20%7C%20Green%201%0A3%20days%20to%20%23GE2015%20&source=webclient'
-        // var params = {
-        //     display: 'popup',
-        //     app_id: '741666719251986',
-        // }
+        // share buttons
+        this.el.addEventListener('click', function(evt) {
+            if (/button/i.test(evt.target.nodeName)) {
+                if (evt.target.getAttribute('data-source') === 'facebook') {
+                    window.open(this.facebookShareUrl, 'share', 'width=600,height=200');
+                } else if (evt.target.getAttribute('data-source') === 'twitter') {
+                    window.open(this.twitterShareUrl, 'share', 'width=600,height=200');
+                }
+            }
+        }.bind(this))
     }
 
     hide() {

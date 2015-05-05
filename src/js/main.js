@@ -39,9 +39,11 @@ function removeClass(el, className) {
 function freezeScroll(e) { e.preventDefault(); }
 
 class ElectionResults {
-    constructor(el, dataUrl) {
+    constructor(el, opts) {
         this.el = el;
-        this.dataUrl = dataUrl;
+        this.dataUrl = opts.dataUrl;
+        this.guardianConfig = opts.guardianConfig;
+        this.opts = opts;
         this.createComponents();
         this.createLatestFilter();
         this.initEventHandlers();
@@ -68,7 +70,7 @@ class ElectionResults {
         }
 
         this.components = {
-            details: new Details(el.querySelector('#constituency-details')),
+            details: new Details(el.querySelector('#constituency-details'), {share_url: this.guardianConfig.page.shortUrl }),
             cartogram: new UKCartogram(this.cartogramEl, cartogramOpts),
             dropdown1: new Dropdown(el.querySelector('#dropdown1'), dropdownOpts),
             dropdown2: new Dropdown(el.querySelector('#dropdown2'), dropdownOpts),
@@ -232,15 +234,19 @@ class ElectionResults {
             success: function(resp) {
                 this.lastFetchedData = resp;
                 this.renderDataComponents(resp);
-                var match = /^#c=(.*)$/.exec(window.location.hash);
-                var cid = match.length === 2 && match[1];
-                console.log(cid);
-                if (cid) {
-                    this.selectConstituency(cid)
-                    window.location.hash = '';
-                }
+                this.handleHashLink();
             }.bind(this)
         });
+    }
+
+    handleHashLink() {
+        if (window.location.hash) {
+            var match = /^#c=(.*)$/.exec(window.location.hash);
+            var cid = match.length === 2 && match[1];
+            if (cid) {
+                this.selectConstituency(cid)
+            }
+        }
     }
 
     renderDataComponents(data) {
@@ -259,7 +265,7 @@ function init(el, context, config, mediator) {
     var standfirst = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vestibulum ante suscipit finibus volutpat. Vivamus magna odio, aliquet mollis posuere in, eleifend eu felis. Curabitur pellentesque lacus sit amet lorem gravida, id aliquet lorem ultricies. Aliquam rhoncus vestibulum sapien in iaculis."
     el.querySelector('#content-meta').innerHTML = `<h1>Live election results</h1><p>${standfirst}</p>`
 
-    window.setTimeout(() => new ElectionResults(el, dataUrl), 1);
+    window.setTimeout(() => new ElectionResults(el, { guardianConfig: config, dataUrl: dataUrl}), 1);
 }
 
 define(function() { return {init: init}; });
