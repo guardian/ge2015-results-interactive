@@ -25,8 +25,6 @@ export class UKCartogram {
         this.selectConstituencyCallback = this.opts.selectCallback;
         this.metric = 'Winning Party';
 
-        this.el.style.height = parseInt(window.innerHeight * 0.9, 10) + 'px';
-
         this.resetZoom();
         this.renderHex();
         this.renderRegions();
@@ -94,7 +92,7 @@ export class UKCartogram {
 
     initProjection() {
         var elDimensions = this.elDimensions;
-        var scale = 2000 * (elDimensions.width / 180)
+        var scale = 2000 * (elDimensions.width / 200)
         this.projection = d3.geo.transverseMercator()
             .scale(Math.min(scale, 6500))
             .translate([elDimensions.width / 2, elDimensions.height / 2])
