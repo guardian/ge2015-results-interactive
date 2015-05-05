@@ -4,6 +4,7 @@ import swig from 'swig'
 import qwery from 'qwery'
 import bean from 'fat/bean'
 import bowser from 'ded/bowser'
+import { removeClass, throttle } from './lib/util'
 import { Seatstack } from './components/seatstack'
 import { Ticker } from './components/ticker'
 import { UKCartogram } from './components/cartogram'
@@ -36,11 +37,6 @@ function isCelebritySeat(c) {
     return hotseats.find(s => s.id === c.ons_id);
 }
 
-function removeClass(el, className) {
-    if (el.classList) el.classList.remove(className);
-    else el.className = el.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
-}
-
 function freezeScroll(e) { e.preventDefault(); }
 
 class ElectionResults {
@@ -55,7 +51,8 @@ class ElectionResults {
         // window.setInterval(this.fetchDataAndRender.bind(this), 5000);
         this.fetchDataAndRender();
 
-        removeClass(this.el.querySelector('.veri'), 'veri--loading')
+        this.mainEl = this.el.querySelector('.veri')
+        removeClass(this.mainEl, 'veri--loading')
     }
 
     createComponents() {
@@ -229,6 +226,14 @@ class ElectionResults {
             }
         }.bind(this));
 
+        bean.on(window, 'scroll', throttle(this.updateLegendVisibility.bind(this), 100));
+    }
+
+    updateLegendVisibility() {
+        var shouldBeVisible = window.pageYOffset > 250;
+        if (shouldBeVisible && !this.isVisible) this.mainEl.className += ' veri--show-overlay';
+        else if (!shouldBeVisible && this.isVisible) removeClass(this.mainEl, 'veri--show-overlay');
+        this.isVisible = shouldBeVisible;
     }
 
     fetchDataAndRender() {
