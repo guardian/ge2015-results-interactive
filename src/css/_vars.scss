@@ -15,3 +15,20 @@ $partyColors: (
 	ind:    #B3B3B4, //guessed
 	// pending:    #dfdfdf
 );
+
+$arrowColorOverrides: (
+	ld:  #ff920d,
+	snp: #e6bd03,
+);
+
+@function partyColor($party) {
+	@return map-get($partyColors, $party);
+}
+
+@function arrowColor($party) {
+    @if map-has-key($arrowColorOverrides, $party) {
+        @return map-get($arrowColorOverrides, $party);
+    } @else {
+        @return partyColor($party);
+    }
+}
