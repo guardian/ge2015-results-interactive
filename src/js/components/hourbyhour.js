@@ -4,7 +4,7 @@ const templateFn = swig.compile(template);
 
 export class HourByHour {
     constructor(el) {
-        el.innerHTML = templateFn(data);
+        el.innerHTML = templateFn();
     }
 
     render(data) {}
