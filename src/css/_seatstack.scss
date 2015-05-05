@@ -1,4 +1,5 @@
 $seatstack-height: 50px;
+$seatstack-height-small: 30px;
 $padding-top: 30px;
 
 .seatstack {
@@ -17,9 +18,10 @@ $padding-top: 30px;
     text-align: center;
     width: 100%;
     position: absolute;
-    top: $seatstack-height + $padding-top;
     height: 24px;
     line-height: 24px;
+    top: $seatstack-height-small + $padding-top;
+    display: none;
     &:after {
         content: '';
         border-left: 1px solid rgba(51,51,51,0.8);
@@ -27,28 +29,47 @@ $padding-top: 30px;
         height: 55px;
         left: 50%;
         bottom: 0;
-        top: -$seatstack-height;
+        top: -$seatstack-height-small;
         z-index: 1;
+
+        @include mq(tablet) {
+            top: -$seatstack-height;
+        }
     }
     .seatstack--finished & span {
         display: none;
+    }
+
+    @include mq(tablet) {
+        display: block;
+        top: $seatstack-height + $padding-top;
     }
 
 }
 
 .seatstack__totals {
     position: absolute;
-    top: $seatstack-height + $padding-top;
+    top: $seatstack-height-small + $padding-top;
     font-size: 12px;
     line-height: 24px;
+    display: none;
+    @include mq(tablet) {
+        display: block;
+        top: $seatstack-height + $padding-top;
+    }
 }
 
 .seatstack__bar {
     padding: 0;
     margin: 0;
     list-style-type: none;
-    height: $seatstack-height;
-    margin-bottom: 24px;
+    height: $seatstack-height-small;
+    margin-bottom: 12px;
+
+    @include mq(tablet) {
+        margin-bottom: 24px;
+        height: $seatstack-height;
+    }
 
     li {
         float: left;
@@ -65,14 +86,17 @@ $padding-top: 30px;
             bottom: 100%;
             left: -50px;
             right: -50px;
+            @include mq($until: mobileLandscape) {
+                display: none;
+            }
         }
-
 
         &[data-partyname='Lab'],
         &[data-partyname='Con'] {
             font-size: 18px;
             span {
                 width: auto;
+                display: block;
             }
         }
         &[data-partyname='Lab'] span {
@@ -101,7 +125,6 @@ $seatstack-list-lineheight: 24px;
     margin: 0;
     padding: 0;
     font-size: 14px;
-    line-height: 36px;
     float: left;
     span {
         display: inline-block;
@@ -120,19 +143,26 @@ $seatstack-list-lineheight: 24px;
 
 .seatstack-list__item {
     vertical-align: middle;
-    height: 36px;
+    height: 24px;
+    line-height: 24px;
     overflow: hidden;
     border-top: 1px solid #f1f1f1;
+    transition: background-color 50ms;
+
+    @include mq(tablet) {
+        height: 36px;
+        line-height: 36px;
+    }
     &:first-child {
         border-top: 0;
     }
 
-    transition: background-color 50ms;
-    cursor: pointer;
-
-    &:hover {
-        background-color: #f7f7f7;
-        transition: none;
+    @include mq(tablet) {
+        cursor: pointer;
+        &:hover {
+            background-color: #f7f7f7;
+            transition: none;
+        }
     }
 }
 
