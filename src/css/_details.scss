@@ -74,6 +74,8 @@
     thead th {
         font-weight: normal;
         color: #767676;
+        font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+        font-size: 14px;
         &:nth-child(2) { // candidates
             text-align: left;
         }
@@ -111,6 +113,8 @@
 
 .veri__details-candidate {
     padding-right: 20px;
+    font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    font-size: 14px;
 }
 
 .veri__details-vote-count {
