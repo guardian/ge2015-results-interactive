@@ -2,6 +2,7 @@ import reqwest from 'reqwest'
 import { Seatstack } from './components/seatstack'
 import { HourByHour } from './components/hourbyhour'
 import { CartogramLite } from './components/cartogram-lite'
+import { Coalitions } from './components/coalitions'
 
 class ElectionSnap {
     constructor(el, dataUrl) {
@@ -9,7 +10,8 @@ class ElectionSnap {
         this.dataUrl = dataUrl;
 
         this.seatstack = new Seatstack(el.querySelector('#seatstack'), () => null);
-        this.analysis = new HourByHour(el.querySelector('#analysis'));
+        this.analysis = new Coalitions(el.querySelector('#analysis'));
+        //this.analysis = new HourByHour(el.querySelector('#analysis'));
         //this.analysis = new CartogramLite(el.querySelector('#analysis'));
 
         window.setInterval(this.fetchDataAndRender.bind(this), 5000);
