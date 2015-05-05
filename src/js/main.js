@@ -148,11 +148,14 @@ class ElectionResults {
             li.querySelector('[name="latest-filter"]').addEventListener('change', function(val) {
                 self.renderComponent('ticker', self.lastFetchedData);
             })
-            li.querySelector('label').addEventListener('mouseover', function(evt) {
+            var labelEl = li.querySelector('label')
+            labelEl.addEventListener('mouseover', function(evt) {
                 var filter = evt.target.textContent;
                 var latestIds = self.getFilteredTickerData(self.lastFetchedData, filter).map(e => e.ons_id)
                 self.components.cartogram.setLatest(latestIds);
+                self.cartogramEl.setAttribute('latest-results', '');
             })
+            labelEl.addEventListener('mouseout', () => self.cartogramEl.removeAttribute('latest-results'));
         });
     }
 
@@ -217,11 +220,6 @@ class ElectionResults {
     }
 
     initEventHandlers() {
-
-        var latestResults = this.el.querySelector('.veri__latest-results')
-        if (!isMobile()) latestResults.addEventListener('mouseover', () => this.cartogramEl.setAttribute('latest-results', '') )
-        latestResults.addEventListener('mouseout', () => this.cartogramEl.removeAttribute('latest-results') )
-
         bean.on(this.components.details.el, 'click', '.veri__close-details', function() {
             this.resumeScrolling();
             this.components.details.hide();
