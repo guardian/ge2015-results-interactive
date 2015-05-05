@@ -1,0 +1,31 @@
+.coalitions {
+    float: right;
+    width: 60%;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.coalitions__party {
+    float: left;
+    border-radius: 100px;
+    margin: 0 6px 6px 0;
+
+    color: inherit;
+    text-align: center;
+
+    @mixin party-size($name, $size) {
+        &.coalitions__party--#{$name} {
+            width: $size;
+            height: $size;
+            line-height: $size;
+        }
+    }
+
+    @include party-size(large, 130px);
+    @include party-size(medium, 90px);
+    @include party-size(small, 40px);
+
+    &.coalitions__party--large {
+        margin-bottom: 100px;
+    }
+}

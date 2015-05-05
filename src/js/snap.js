@@ -10,9 +10,9 @@ class ElectionSnap {
         this.dataUrl = dataUrl;
 
         this.seatstack = new Seatstack(el.querySelector('#seatstack'), () => null);
-        this.analysis = new Coalitions(el.querySelector('#analysis'));
         //this.analysis = new HourByHour(el.querySelector('#analysis'));
         //this.analysis = new CartogramLite(el.querySelector('#analysis'));
+        this.analysis = new Coalitions(el.querySelector('#analysis'));
 
         window.setInterval(this.fetchDataAndRender.bind(this), 5000);
         this.fetchDataAndRender();
