@@ -2,11 +2,6 @@ import template from './templates/details.html!text'
 import swig from 'swig'
 import { relativeDates } from '../lib/relativedate'
 
-swig.setFilter('pad', function(input, amnt) {
-    var padding = amnt - input.toFixed(0).length;
-    return (padding > 0 ? (new Array(padding+1)).join('0') : '') + input;
-})
-
 swig.setFilter('commas', function(input) {
     input = typeof input === 'string' ? input : input.toString();
     var parts = [];
