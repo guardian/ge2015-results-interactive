@@ -1,10 +1,9 @@
-import topojson from 'mbostock/topojson'
 import hexagonsTopo from '../data/hexagons-topo.json!json'
+import topojson from 'mbostock/topojson'
 
 const svgns = "http://www.w3.org/2000/svg";
 
 // http://en.wikipedia.org/wiki/Universal_Transverse_Mercator_coordinate_system
-var rad = (d) => d * Math.PI / 180;
 const a = 6378.137, f = 1/298.257223563;
 const N0 = 0, E0 = 500, k0 = 0.9996;
 const n = f / (2 - f);
@@ -15,6 +14,7 @@ const zone = 30;
 const λ0 = rad(zone * 6 - 183);
 const k0A = k0 * A;
 
+function rad(d) { return d * Math.PI / 180; }
 function utm(lat, lon) {
     var φ = rad(lat);
     var λ = rad(lon) - λ0;
@@ -27,39 +27,103 @@ function utm(lat, lon) {
     return [E, -N];
 }
 
-// TODO: remove this
-Array.prototype.flatMap = function (fn) {
-    return Array.prototype.concat.apply([], this.map(fn));
-};
+function centroid(points) {
+    return points.reduce((a, b) => [a[0] + b[0], a[1] + b[1]]).map((c) => c / points.length);
+}
+
+var focusPoint = (function () {
+    const maxT = 500;
+    var lastX, lastY;
+
+    return function (point, cb) {
+        var x = point[0], y = point[1];
+
+        if (lastX && window.requestAnimationFrame) {
+            var start = 0;
+            var deltaX = x - lastX, deltaY = y - lastY;
+
+            window.requestAnimationFrame(function step(t) {
+                if (!start) start = t;
+
+                var deltaT = Math.min(1, (t - start) / maxT);
+                deltaT *= (2 - deltaT); // ease-out
+
+                var x = lastX + deltaX * deltaT;
+                var y = lastY + deltaY * deltaT;
+                cb(x, y);
+
+                if (deltaT < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    lastX = x;
+                    lastY = y;
+                }
+            });
+        } else {
+            cb(x, y);
+            lastX = x;
+            lastY = y;
+        }
+    };
+})();
 
 export class CartogramLite {
     constructor(el) {
-        this.el = el;
-        var hexFeatures = topojson.feature(hexagonsTopo, hexagonsTopo.objects.hexagons).features;
+        var svg = document.createElementNS(svgns, 'svg');
+        svg.setAttribute('viewBox', '-100 -200 200 400');
+        svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
 
-        this.svg = document.createElementNS(svgns, 'svg');
-        this.g = document.createElementNS(svgns, 'g');
-        this.g.setAttributeNS(null, 'transform', 'scale(0.6) translate(0, 6500)');
+        var scaleG = document.createElementNS(svgns, 'g'),
+            constituencyGroup = document.createElementNS(svgns, 'g');
 
-        hexFeatures.flatMap(function (feature) {
+        scaleG.setAttributeNS(null, 'transform', 'scale(0.5)');
+
+        var constituencies = {};
+        var features = topojson.feature(hexagonsTopo, hexagonsTopo.objects.hexagons).features;
+        features.forEach(function (feature) {
             var coordinates = feature.geometry.coordinates;
-            // When there are multiple paths to a constituency the coordinates have another
-            // dimension of unit length arrays, no time to work out why!
+            // When there are multiple polygons for a constituency the coordinates have
+            // another dimension of unit length arrays, no time to work out why!
             if (coordinates.length > 1) {
-                coordinates = coordinates.flatMap((s) => s);
+                coordinates = Array.prototype.concat.apply([], coordinates.map((s) => s));
             }
 
-            return coordinates.map(function (cs) {
-                return 'M' + cs.map((c) => utm(c[1], c[0]).join(',')).join('L') + 'Z';
-            }).map(function (path) {
+            var shapes = coordinates.map(function (cs) {
+                var points = cs.map((c) => utm(c[1], c[0]));
+
+                var path = 'M' + points.map((p) => p.join(',')).join('L') + 'Z';
                 var el = document.createElementNS(svgns, 'path');
                 el.setAttributeNS(null, 'd', path);
-                return el;
-            });
-        }).forEach((el) => this.g.appendChild(el));
+                constituencyGroup.appendChild(el);
 
-        this.svg.appendChild(this.g);
-        this.el.appendChild(this.svg);
+                return {
+                    'path': el,
+                    'centroid': centroid(points)
+                };
+            });
+
+            constituencies[feature.properties.constituency] = {
+                'paths': shapes.map((p) => p.path),
+                'centroid': centroid(shapes.map((p) => p.centroid))
+            };
+        });
+
+        scaleG.appendChild(constituencyGroup);
+        svg.appendChild(scaleG);
+        el.appendChild(svg);
+
+        this.constituencies = constituencies;
+        this.constituencyGroup = constituencyGroup;
+
+        // testing
+        var ons_ids = ['S14000027', 'N06000003', 'E14000576', 'W07000064'];
+        var i = 0;
+        setInterval(() => this.focusConstituency(ons_ids[i++ % 4]), 3000);
+    }
+
+    focusConstituency(ons_id) {
+        var centroid = this.constituencies[ons_id].centroid;
+        focusPoint(centroid, (x, y) => this.constituencyGroup.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`));
     }
 
     render(data) {
