@@ -42,6 +42,10 @@
 
     .seatstack-list__item {
         border-top-color: #bdbdbd;
+        cursor: auto;
+        &:hover {
+            background-color: transparent;
+        }
     }
 
     .seatstack-list__net {
