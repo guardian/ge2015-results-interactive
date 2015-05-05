@@ -14,7 +14,7 @@
 	<tbody>
 		{% for party in parties %}
 		<tr {% if party.seats > 0 %}class="veri-party-table__seat-party"{%endif%}>
-			<td><span class="veri__blip veri__blip--{{party.name.toLowerCase()}}"></span>{{party.name}}</td>
+			<td><span class="veri__blip veri__blip--{{party.name.toLowerCase()}}"></span>{{ party.fullName || party.name }}</td>
 			<td>{{party.seats}}</td>
 			<td>{{party.gains}}</td>
 			<td>{{party.losses}}</td>
