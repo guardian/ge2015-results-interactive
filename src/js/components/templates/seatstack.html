@@ -1,4 +1,4 @@
-<div class="seatstack">
+<div class="seatstack {% if resultCount === 650 %}seatstack--finished{% endif %}">
     <div class="seatstack__majority"><strong>326 seats</strong><span> for a majority</span></div>
     {% if resultCount < 650 %}
     <div class="seatstack__totals">
@@ -27,5 +27,4 @@
         {% endfor %}
     </ul>
     {% endfor %}
-
 </div>

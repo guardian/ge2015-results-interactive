@@ -56,9 +56,5 @@ export class Seatstack {
 	}
 	render(data) {
 		this.el.innerHTML = templateFn(data2context(data));
-
-		if (data.overview.results > 500) {
-			this.el.querySelector('.seatstack').className = 'seatstack seatstack--majority-below';
-		}
 	}
 }

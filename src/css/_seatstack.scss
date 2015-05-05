@@ -1,3 +1,6 @@
+$seatstack-height: 50px;
+$padding-top: 30px;
+
 .seatstack {
     position: relative;
 
@@ -7,47 +10,45 @@
     border-bottom: 1px solid #DCDCDC;
     padding-bottom: 20px;
     overflow: hidden;
+    padding-top: $padding-top;
 }
 
 .seatstack__majority {
-    height: 50px;
     text-align: center;
     width: 100%;
-    position: relative;
+    position: absolute;
+    top: $seatstack-height + $padding-top;
+    height: 24px;
+    line-height: 24px;
     &:after {
         content: '';
         border-left: 1px solid rgba(51,51,51,0.8);
         position: absolute;
+        height: 55px;
         left: 50%;
-        height: 20px;
         bottom: 0;
+        top: -$seatstack-height;
+        z-index: 1;
     }
+    .seatstack--finished & span {
+        display: none;
+    }
+
 }
 
-.seatstack--majority-below {
-    padding-top: 20px;
-    .seatstack__majority {
-        position: absolute;
-        top: 70px;
-        height: 24px;
-        line-height: 24px;
-        span {
-            display: none;
-        }
-        &:after {
-            height: 55px;
-            z-index: 1;
-            top: -50px;
-        }
-    }
+.seatstack__totals {
+    position: absolute;
+    top: $seatstack-height + $padding-top;
+    font-size: 12px;
+    line-height: 24px;
 }
 
 .seatstack__bar {
     padding: 0;
     margin: 0;
     list-style-type: none;
-    height: 50px;
-    margin-bottom: 12px;
+    height: $seatstack-height;
+    margin-bottom: 24px;
 
     li {
         float: left;
@@ -91,14 +92,6 @@
         }
     }
 }
-
-.seatstack__totals {
-    position: absolute;
-    top: 70px;
-    font-size: 12px;
-    line-height: 24px;
-}
-
 
 $seatstack-list-lineheight: 24px;
 
