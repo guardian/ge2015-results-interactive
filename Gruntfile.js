@@ -64,7 +64,7 @@ module.exports = function(grunt) {
             'harness': {
                 'options': {
                     'data': {
-                        'assetPath': 'http://localhost:8000',
+                        'assetPath': '',
                     }
                 },
                 'files': {
