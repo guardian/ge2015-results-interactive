@@ -31,7 +31,7 @@ function centroid(points) {
     return points.reduce((a, b) => [a[0] + b[0], a[1] + b[1]]).map((c) => c / points.length);
 }
 
-var focusPoint = (function () {
+var focusPoint = function () {
     const maxT = 500;
     var lastX, lastY;
 
@@ -65,18 +65,18 @@ var focusPoint = (function () {
             lastY = y;
         }
     };
-})();
+};
 
 export class CartogramLite {
     constructor(el) {
         var svg = document.createElementNS(svgns, 'svg');
-        svg.setAttribute('viewBox', '-100 -200 200 400');
+        svg.setAttribute('viewBox', '-100 -100 200 200');
         svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
 
         var scaleG = document.createElementNS(svgns, 'g'),
             constituencyGroup = document.createElementNS(svgns, 'g');
 
-        scaleG.setAttributeNS(null, 'transform', 'scale(0.5)');
+        scaleG.setAttributeNS(null, 'transform', 'scale(1)');
 
         var constituencies = {};
         var features = topojson.feature(hexagonsTopo, hexagonsTopo.objects.hexagons).features;
@@ -115,15 +115,12 @@ export class CartogramLite {
         this.constituencies = constituencies;
         this.constituencyGroup = constituencyGroup;
 
-        // testing
-        var ons_ids = ['S14000027', 'N06000003', 'E14000576', 'W07000064'];
-        var i = 0;
-        setInterval(() => this.focusConstituency(ons_ids[i++ % 4]), 3000);
+        this.focusPoint = focusPoint();
     }
 
     focusConstituency(ons_id) {
         var centroid = this.constituencies[ons_id].centroid;
-        focusPoint(centroid, (x, y) => this.constituencyGroup.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`));
+        this.focusPoint(centroid, (x, y) => this.constituencyGroup.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`));
     }
 
     render(data) {

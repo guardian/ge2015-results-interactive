@@ -1,0 +1,11 @@
+.by-constituency__map {
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 168px;
+    box-sizing: border-box;
+    padding: 0 0 0 10px;
+    &:first-child {
+        padding: 0 10px 0 0;
+    }
+}
