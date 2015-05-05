@@ -1,0 +1,28 @@
+<table class="veri__party-table">
+	<thead>
+		<tr>
+			<th>Party</th>
+			<th>Seats</th>
+			<th>Gain</th>
+			<th>Loss</th>
+			<th>Net</th>
+			<th>Votes</th>
+			<th>%</th>
+			<th>+/-%</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for party in parties %}
+		<tr>
+			<td><span class="veri__blip veri__blip--{{party.name.toLowerCase()}}"></span>{{party.name}}</td>
+			<td>{{party.seats}}</td>
+			<td>{{party.gains}}</td>
+			<td>{{party.losses}}</td>
+			<td>{{party.gains - party.losses}}</td>
+			<td>{{party.votes | commas}}</td>
+			<td>{{party.votePercentage}}</td>
+			<td>{{party.votePercentageChange}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>

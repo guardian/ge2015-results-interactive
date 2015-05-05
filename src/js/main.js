@@ -11,7 +11,7 @@ import { renderCartogram } from './components/cartogram'
 import { Dropdown } from './components/dropdown'
 import { Details } from './components/details'
 import { Legend } from './components/legend'
-
+import { PartyTable } from './components/partyTable'
 
 function isResult(c) { return c['2015'].status === 'result'; }
 function isMarginalConstituency(c) {
@@ -75,7 +75,8 @@ class ElectionResults {
             dropdown1: new Dropdown(el.querySelector('#dropdown1'), dropdownOpts),
             dropdown2: new Dropdown(el.querySelector('#dropdown2'), dropdownOpts),
             seatstack: new Seatstack(el.querySelector('#seatstack'), this.hoverParty.bind(this)),
-            ticker: new Ticker(el.querySelector('#ticker'), this.selectConstituency.bind(this), this.focusEvent.bind(this))
+            ticker: new Ticker(el.querySelector('#ticker'), this.selectConstituency.bind(this), this.focusEvent.bind(this)),
+            partyTable: new PartyTable(el.querySelector('#partytable'))
         };
 
         this.dataPreprocessing = {
