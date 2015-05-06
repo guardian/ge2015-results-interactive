@@ -14,6 +14,20 @@ swig.setFilter('commas', function(input) {
 
 const templateFn = swig.compile(template)
 
+var twitterPartyNames = {
+    Lab: '#Labour',
+    Con: '#Conservative',
+    SNP: '#SNP',
+    Green: '#Greens',
+    UKIP: '#UKIP',
+    LD: '#LibDems',
+    DUP: '#DUP',
+    SF: '#SinnFein',
+    SDLP: '#SDLP',
+    PC: '#PlaidCymru'
+};
+var getTwitterPartyName = (p) => twitterPartyNames[p] || p;
+
 function data2context(data) {
 
     var partiesByName = {};
@@ -86,10 +100,12 @@ export class Details {
         var e = c['2015']
 
         var verb = e.winningParty === e.sittingParty ? 'hold' : 'gain';
-        var fromParty = verb === 'gain' ? ` from ${e.sittingParty}` : '';
+        var fromParty = verb === 'gain' ? ` from ${getTwitterPartyName(e.sittingParty)}` : '';
         var how = e.percentageMajority ? `with a ${e.percentageMajority.toFixed(1)}% majority` : '';
 
-        return `${c.name} - ${e.winningParty} ${verb}${fromParty} ${how} - ${this.options.share_url}#c=${this.selectedConstituency}`;
+        var constituencyName = c.name.split(' ').length === 1 ? '#' + c.name : c.name;
+
+        return `In ${constituencyName} - ${getTwitterPartyName(e.winningParty)} ${verb}${fromParty} ${how} - ${this.options.share_url}#c=${this.selectedConstituency}`;
     }
 
     get twitterShareUrl() {
