@@ -1,8 +1,11 @@
 #ukcartogram-container {
     height: 0;
-    padding-bottom: 145%;
     width: 100%;
     position: relative;
+    padding-bottom: 145%;
+    @include mq(tablet, $until: desktop) {
+        padding-bottom: 200%;
+    }
 }
 
 #ukcartogram {
@@ -153,12 +156,8 @@
 }
 
 .cartogram[focus-constituency] {
-    .cartogram__hex {
-        fill-opacity: 0.3;
-    }
-    .cartogram__hex--focus {
-        fill-opacity: 0.9;
-    }
+    .cartogram__hex { fill-opacity: 0.3; }
+    .cartogram__hex--focus { fill-opacity: 0.9; }
 }
 
 .cartogram__hex--focus {

@@ -42,10 +42,11 @@ function processEvent(constituency) {
 }
 
 export class Ticker {
-	constructor(el, onClick, onHover) {
+	constructor(el, opts) {
 		this.el = el;
-		this.onHover = onHover;
-		this.onClick = onClick;
+		this.opts = opts;
+		this.onHover = opts.onHover;
+		this.onClick = opts.onClick;
 	}
 
 	render(data) {
@@ -63,8 +64,10 @@ export class Ticker {
 		tmp.body.innerHTML = templateFn({entry: entry});
 		var el = tmp.body.children[0]
 		var link = el.querySelector('.veri__ticker-msg')
-		el.addEventListener('mouseenter', () => this.onHover(entry))
-		el.addEventListener('mouseleave', () => this.onHover(null))
+		if (this.onHover) {
+			el.addEventListener('mouseenter', () => this.onHover(entry))
+			el.addEventListener('mouseleave', () => this.onHover(null))
+		}
 		link.addEventListener('click', function(e) {
 			e.preventDefault();
 			this.onClick(entry.id)

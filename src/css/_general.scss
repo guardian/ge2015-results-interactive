@@ -22,7 +22,7 @@ figure.element-interactive {
     }
 
     h1 {
-        font-family: "Guardian Egyptian Web",Georgia,serif;
+        font-family: $egyptian;
         font-size: 32px;
         font-weight: normal;
         color: black;
@@ -31,7 +31,7 @@ figure.element-interactive {
 
     h2 {
         line-height: 1.2;
-        font-family: "Guardian Egyptian Web",Georgia,serif;
+        font-family: $egyptian;
         font-size: 22px;
         font-weight: normal;
         color: #333;
@@ -47,7 +47,7 @@ figure.element-interactive {
     text-align: center;
     line-height: 300px;
     font-family: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
-    font-family: "Guardian Egyptian Web",Georgia,serif;
+    font-family: $egyptian;
     font-size: 24px;
 }
 

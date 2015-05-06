@@ -73,13 +73,18 @@ class ElectionResults {
             mouseBindings: !(isMobile() || isTablet())
         }
 
+        var tickerOpts = {
+            onClick: this.selectConstituency.bind(this),
+            onHover: (!isMobile() && !isTablet()) && this.focusEvent.bind(this),
+        }
+
         this.components = {
             details: new Details(el.querySelector('#constituency-details'), {share_url: 'http://gu.com/p/464t6' }),
             cartogram: new UKCartogram(this.cartogramEl, cartogramOpts),
             dropdown1: new Dropdown(el.querySelector('#dropdown1'), dropdownOpts),
             dropdown2: new Dropdown(el.querySelector('#dropdown2'), dropdownOpts),
             seatstack: new Seatstack(el.querySelector('#seatstack'), this.hoverParty.bind(this)),
-            ticker: new Ticker(el.querySelector('#ticker'), this.selectConstituency.bind(this), this.focusEvent.bind(this)),
+            ticker: new Ticker(el.querySelector('#ticker'), tickerOpts),
             partyTable: new PartyTable(el.querySelector('#partytable'))
         };
 
@@ -224,7 +229,7 @@ class ElectionResults {
 
     focusConstituency(constituencyId) {
         if (!constituencyId) return this.blurConstituency();
-        this.cartogramEl.setAttribute('focus-constituency', '')
+        if (!isTablet()) this.cartogramEl.setAttribute('focus-constituency', '');
         this.components.cartogram.focusConstituency(constituencyId);
     }
 

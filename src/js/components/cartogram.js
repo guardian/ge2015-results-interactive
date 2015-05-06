@@ -317,9 +317,8 @@ export class UKCartogram {
     }
 
     blurConstituency() {
-        var focusHexGroupEl = this.focusHexGroup[0][0];
+        this.focusHexGroup.selectAll('*').remove();
         this.focusedConstituency = null;
-        focusHexGroupEl.innerHTML = '';
         this.hideTooltip();
     }
 
@@ -538,7 +537,7 @@ export class UKCartogram {
             })
             .classed('cartogram__hex--empty', false);
 
-        this.arrowGroup.html('');
+        this.arrowGroup.selectAll('*').remove();
 
         var choro = ['Turnout %', 'Majority %']
         var isChoro = (metric) => metric.startsWith('voteshare ') || choro.indexOf(metric) !== -1
