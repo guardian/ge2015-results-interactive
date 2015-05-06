@@ -73,7 +73,7 @@ class ElectionResults {
         }
 
         this.components = {
-            details: new Details(el.querySelector('#constituency-details'), {share_url: this.guardianConfig.page.shortUrl }),
+            details: new Details(el.querySelector('#constituency-details'), {share_url: 'http://gu.com/p/464t6' }),
             cartogram: new UKCartogram(this.cartogramEl, cartogramOpts),
             dropdown1: new Dropdown(el.querySelector('#dropdown1'), dropdownOpts),
             dropdown2: new Dropdown(el.querySelector('#dropdown2'), dropdownOpts),
@@ -163,13 +163,15 @@ class ElectionResults {
                 self.renderComponent('ticker', self.lastFetchedData);
             })
             var labelEl = li.querySelector('label')
-            labelEl.addEventListener('mouseover', function(evt) {
-                var filter = evt.target.textContent;
-                var latestIds = self.getFilteredTickerData(self.lastFetchedData, filter).map(e => e.ons_id)
-                self.components.cartogram.setLatest(latestIds);
-                self.cartogramEl.setAttribute('latest-results', '');
-            })
-            labelEl.addEventListener('mouseout', () => self.cartogramEl.removeAttribute('latest-results'));
+            if (!isMobile()) {
+                labelEl.addEventListener('mouseover', function(evt) {
+                    var filter = evt.target.textContent;
+                    var latestIds = self.getFilteredTickerData(self.lastFetchedData, filter).map(e => e.ons_id)
+                    self.components.cartogram.setLatest(latestIds);
+                    self.cartogramEl.setAttribute('latest-results', '');
+                })
+                labelEl.addEventListener('mouseout', () => self.cartogramEl.removeAttribute('latest-results'));
+            }
         });
     }
 
@@ -210,10 +212,9 @@ class ElectionResults {
     }
 
     scrollAndFocus(constituencyId) {
-        var cartEl = this.components.cartogram.el;
-        var mapCenter = cartEl.offsetTop + (cartEl.offsetHeight / 2);
+        var offset = this.components.cartogram.getConstituencyOffset(constituencyId);
         var windowCenter = window.innerHeight / 2;
-        window.scrollTo(null, mapCenter - windowCenter - 50);
+        window.scrollTo(null, (window.pageYOffset + offset) - windowCenter);
         this.focusConstituency(constituencyId);
     }
 
