@@ -30,6 +30,24 @@
 	outline: none;
 	line-height: 35px;
 }
+@include mq($until: tablet) {
+	.edd__input {
+		&::-webkit-input-placeholder { /* WebKit browsers */
+		    color: #333;
+		}
+		&:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+		   color:    #333;
+		   opacity:  1;
+		}
+		&::-moz-placeholder { /* Mozilla Firefox 19+ */
+		   color:    #333;
+		   opacity:  1;
+		}
+		&:-ms-input-placeholder { /* Internet Explorer 10+ */
+		   color:    #333;
+		}
+	}
+}
 
 .edd__entry--focus {
 	background-color: #ddd;
