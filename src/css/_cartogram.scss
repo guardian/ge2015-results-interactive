@@ -20,6 +20,11 @@
     * {
         cursor: pointer;
     }
+    box-sizing: border-box;
+    border-left: 1px solid transparent;
+    &[zoomed] {
+        border-left-color: #eee;
+    }
 }
 
 .cartogram__hex {
@@ -185,13 +190,20 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 100%;
+    overflow: hidden;
+    background: #fff;
+    // border-bottom-left-radius: 10px;
+    border-radius: 10px;
+    padding: 12px 10px;
+    border: 1px solid transparent;
+    box-sizing: border-box;
+    .cartogram[zoomed] & {
+        border-color: #f1f1f1;
+    }
 }
 
 .cartogram__dropdown-container {
-    position: absolute;
-    right: 100px;
-    top: 0;
+    float: right;
 }
 
 .cartogram__dropdown {
@@ -201,9 +213,11 @@
     border: 0;
     height: 30px;
     outline: none;
-    border-radius: 20px;
+    border-radius: 6px;
     padding-left: 10px;
     border: 1px solid #f1f1f1;
+    margin-right: 20px;
+    width: 150px;
 }
 
 @-moz-document url-prefix() {
@@ -225,9 +239,7 @@
 }
 
 .cartogram__reset-zoom {
-    position: absolute;
-    right: 0;
-    top: 0;
+    float: right;
     font-size: 12px;
     font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
     background-color: #f1f1f1;
@@ -256,10 +268,6 @@
             content: 'Reset zoom';
         }
     }
-}
-
-.cartogram[zoomed] {
-    border-left: 1px solid #eee;
 }
 
 .cartogram__tooltip {

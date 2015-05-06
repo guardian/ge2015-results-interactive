@@ -240,7 +240,7 @@ export class UKCartogram {
         var controls = document.createElement('div');
         controls.className = 'cartogram__controls';
         var resetButton = '<div class="cartogram__reset-zoom"></div>';
-        controls.innerHTML = dropdownHTML + resetButton;
+        controls.innerHTML = resetButton + dropdownHTML;
         this.el.appendChild(controls)
 
         controls.querySelector('.cartogram__reset-zoom')
