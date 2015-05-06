@@ -63,6 +63,8 @@ function createRegions() {
 
     var features = topojson.feature(regionsTopo, regionsTopo.objects.regions).features;
     var citiesFeatures = features.filter(d => d.geometry.type === 'Point' && d.properties.abbr);
+    //var regionsFeatures = features.filter(d => d.geometry.type !== 'Point');
+    //regionsFeatures.forEach(feature => createPolygons(feature, 'map-region', group));
     citiesFeatures.forEach(feature => createText(feature, 'map-city map-city--below', group));
     citiesFeatures.forEach(feature => createText(feature, 'map-city', group));
 

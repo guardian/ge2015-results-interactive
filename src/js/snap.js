@@ -14,7 +14,7 @@ class ElectionSnap {
         this.analysis = new ByConstituency(el.querySelector('#analysis'));
         //this.analysis = new Coalitions(el.querySelector('#analysis'));
 
-        window.setInterval(() => this.fetchDataAndRender(), 5000);
+        //window.setInterval(() => this.fetchDataAndRender(), 5000);
         this.fetchDataAndRender();
 
         window.setInterval(() => this.analysis.tick(), 4000);

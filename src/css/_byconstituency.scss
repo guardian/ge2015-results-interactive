@@ -3,17 +3,11 @@
     overflow: hidden;
 }
 
-.by-constituency__updating {
-    display: inline-block;
-    color: #767676;
+.by-constituency__results {
     @include f-textSans;
     font-size: 12px;
     font-weight: normal;
-    margin-left: 5px;
-
-    &::before {
-        content: "Updating in ";
-    }
+    float: right;
 }
 
 .by-constituency__time {
@@ -34,6 +28,13 @@
         &[data-party='#{$party}']::before {
             background-color: $color;
         }
+    }
+}
+
+.by-constituency__how {
+    display: none;
+    @include mq(desktop) {
+        display: inline;
     }
 }
 
@@ -126,4 +127,10 @@
         stroke-width: 4px;
         stroke-linejoin: round;
     }
+}
+
+.map-region {
+    stroke: white;
+    stroke-width: 2;
+    fill: none;
 }

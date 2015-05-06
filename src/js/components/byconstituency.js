@@ -26,8 +26,8 @@ export class ByConstituency {
 
         this.before = new CartogramLite(el.querySelector('#by-constituency__before'));
         this.after = new CartogramLite(el.querySelector('#by-constituency__after'));
-        this.time = el.querySelector('#by-constituency__time');
-        this.text = el.querySelector('#by-constituency__text');
+        this.time = el.querySelector('.by-constituency__time');
+        this.text = el.querySelector('.by-constituency__text');
 
         this.interesting = [];
         this.firstUpdate = true;
@@ -40,7 +40,7 @@ export class ByConstituency {
 
     tick() {
         if (this.interesting.length === 0) {
-            this.interesting = this.lastInteresting;
+            this.interesting = this.lastInteresting.slice();
         }
 
         var cons = this.interesting.shift();

@@ -9,6 +9,8 @@
     background-color: #dcdcdc;
 
     @import 'parties'; // TODO: remove when seatstack is fixed
+    $seatstack-height: 37px;
+    //$seatstack-bp: desktop;
     @import 'seatstack';
     @import 'hourbyhour';
     @import 'byconstituency';
@@ -21,10 +23,14 @@
 
     .snap__left-pane {
         float: left;
-        width: 50%;
-        padding-right: 20px;
-        border-right: 1px solid #bdbdbd;
+        width: 100%;
         box-sizing: border-box;
+
+        @include mq(tablet) {
+            width: 50%;
+            padding-right: 20px;
+            border-right: 1px solid #bdbdbd;
+        }
     }
 
     .snap__right-pane {
@@ -35,26 +41,57 @@
         box-sizing: border-box;
 
         @include fs-textSans(1);
+
+        display: none;
+        @include mq(tablet) {
+            display: block;
+        }
     }
 
     #analysis {
         visibility: none;
     }
 
-    .seatstack__bar li:hover {
-        -webkit-filter: none;
-        filter: none;
+    .seatstack {
+        padding-top: 24px;
+    }
+
+    .seatstack__results {
+        display: block;
+    }
+
+    .seatstack__totals {
+        display: none;
+        @include mq(desktop) {
+            display: block;
+        }
+    }
+
+    .seatstack__bar {
+        margin-bottom: 30px; // force even on mobile
+        & li:hover {
+            -webkit-filter: none;
+            filter: none;
+        }
     }
 
     .seatstack-list__item {
-        border-top-color: #bdbdbd;
+        border-bottom-color: #bdbdbd;
         cursor: auto;
+        height: auto;
+        line-height: 24px;
+        font-size: 12px;
         &:hover {
             background-color: transparent;
         }
     }
 
-    .seatstack-list__net {
+    .seatstack-list__party-name {
+        margin-left: 3px;
+    }
+
+    .seatstack-list__losses,
+    .seatstack-list__gains {
         border-left-color: #bdbdbd;
     }
 

@@ -1,5 +1,6 @@
-$seatstack-height: 50px;
-$seatstack-height-small: 30px;
+$seatstack-bp: tablet !default;
+$seatstack-height: 50px !default;
+$seatstack-height-small: 37px;
 $padding-top: 30px;
 
 .seatstack {
@@ -22,27 +23,20 @@ $padding-top: 30px;
     line-height: 24px;
     top: $seatstack-height-small + $padding-top;
     font-size: 11px;
-    display: none;
     &:after {
         content: '';
         border-left: 1px solid rgba(51,51,51,0.8);
         position: absolute;
-        height: 55px;
+        height: 6px;
         left: 50%;
-        bottom: 0;
-        top: -$seatstack-height-small;
+        bottom: 100%;
         z-index: 1;
-
-        @include mq(tablet) {
-            top: -$seatstack-height;
-        }
     }
     .seatstack--finished & span {
         display: none;
     }
 
-    @include mq(tablet) {
-        display: block;
+    @include mq($seatstack-bp) {
         top: $seatstack-height + $padding-top;
     }
 
@@ -54,10 +48,22 @@ $padding-top: 30px;
     font-size: 11px;
     line-height: 24px;
     display: none;
-    @include mq(tablet) {
+    @include mq($seatstack-bp) {
         display: block;
         top: $seatstack-height + $padding-top;
     }
+}
+
+.seatstack__results {
+    display: none;
+    position: absolute;
+    top: $seatstack-height-small + $padding-top;
+    line-height: 24px;
+    font-size: 12px;
+    @include mq($seatstack-bp) {
+        top: $seatstack-height + $padding-top;
+    }
+    right: 0;
 }
 
 .seatstack__bar {
@@ -65,11 +71,11 @@ $padding-top: 30px;
     margin: 0;
     list-style-type: none;
     height: $seatstack-height-small;
-    margin-bottom: 12px;
+    margin-bottom: 24px;
 
-    @include mq(tablet) {
-        margin-bottom: 24px;
+    @include mq($seatstack-bp) {
         height: $seatstack-height;
+        margin-bottom: 12px;
     }
 
     li {
@@ -87,9 +93,6 @@ $padding-top: 30px;
             bottom: 100%;
             left: -50px;
             right: -50px;
-            @include mq($until: mobileLandscape) {
-                display: none;
-            }
         }
 
         &[data-partyname='Lab'],
@@ -110,7 +113,7 @@ $padding-top: 30px;
         }
     }
 
-    @include mq(tablet) {
+    @include mq($seatstack-bp) {
         li:hover {
             -webkit-filter: brightness(90%);
             filter: brightness(0.9);
@@ -134,7 +137,7 @@ $seatstack-list-lineheight: 24px;
     &.seatstack-list--2 {
         float: right;
     }
-    @include mq(tablet) {
+    @include mq($seatstack-bp) {
         width: calc(50% - 10px);
     }
     @include mq(desktop) {
@@ -147,18 +150,19 @@ $seatstack-list-lineheight: 24px;
     height: 24px;
     line-height: 24px;
     overflow: hidden;
-    border-top: 1px solid #f1f1f1;
+    border-bottom: 1px solid #f1f1f1;
     transition: background-color 50ms;
 
-    @include mq(tablet) {
+    @include mq($seatstack-bp) {
         height: 36px;
         line-height: 36px;
     }
-    &:first-child {
-        border-top: 0;
+    &.is-header,
+    &:last-child {
+        border-bottom: 0;
     }
 
-    @include mq(tablet) {
+    @include mq($seatstack-bp) {
         cursor: pointer;
         &:hover {
             background-color: #f7f7f7;
@@ -168,30 +172,47 @@ $seatstack-list-lineheight: 24px;
 }
 
 .seatstack-list__partybox {
-  width: 10px;
-  height: 18px;
+  width: 8px;
+  height: 16px;
   display: inline-block;
   vertical-align: middle;
+  border-radius: 2px;
 }
 
 .seatstack-list__party-name {
     margin-left: 12px;
 }
 
-.seatstack-list__net,
+.seatstack-list__gains,
+.seatstack-list__losses,
 .seatstack-list__seats {
     float: right;
+
+    &.is-header {
+        font-size: 11px;
+        border-left: 0;
+    }
 }
 
-.seatstack-list__net {
+.seatstack-list__gains,
+.seatstack-list__losses {
     color: #aaa;
-    width: 25px;
+    width: 35px;
     border-left: 1px dotted #f1f1f1;
     text-align: right;
+
+    display: none !important;
+    @media (min-width: 370px) {
+        display: inline-block !important;
+    }
+}
+
+.seatstack-list__gains {
+    padding-right: 6px;
 }
 
 .seatstack-list__seats {
     color: #333;
     font-weight: bold;
-    padding-right: 10px;
+    padding-right: 6px;
 }

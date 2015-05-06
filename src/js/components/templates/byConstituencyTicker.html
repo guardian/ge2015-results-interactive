@@ -1,0 +1,9 @@
+<span class="by-constituency__party" data-party="{{party.toLowerCase()}}">{{winner}}</span>
+{{verb}}
+<strong>{{name}}</strong>
+<span class="by-constituency__how">
+    {% if to %}
+    to <span class="by-constituency__party" data-party="{{to.toLowerCase()}}">{{to}}</span>
+    {% endif %}
+    {{how}}
+</span>

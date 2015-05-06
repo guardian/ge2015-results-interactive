@@ -4,12 +4,13 @@
     <div class="seatstack__totals">
         <strong>{{650 - resultCount}} seats left</strong>, of 650
     </div>
+    <a class="seatstack__results" href="#">Full results &raquo;</a>
     {% endif %}
     <ul class="seatstack__bar">
         {% for party in partyData %}
         {% if party.seats > 0 %}
         <li data-partyhover="{{party.name}}" data-partyname="{{party.name}}" style="width: {{(party.seats/650)*100}}%">
-            <span>{{party.seats}}</span>
+            <span>{% if party.seats >= 10 && party.name != 'Pending' %}{{party.seats}}{% endif %}</span>
         </li>
         {% endif %}
         {% endfor %}
@@ -17,11 +18,17 @@
 
     {% for list in [partyListLeft, partyListRight] %}
     <ul class="seatstack-list seatstack-list--{{loop.index}}">
+        <li class="seatstack-list__item is-header">
+            <span class="seatstack-list__losses is-header">losses</span>
+            <span class="seatstack-list__gains is-header">gains</span>
+            <span class="seatstack-list__seats is-header">seats</span>
+        </li>
         {% for party in list %}
         <li class="seatstack-list__item" data-partyhover="{{party.name}}">
             <span class="seatstack-list__partybox" data-partyname="{{party.name}}"></span>
             <span class="seatstack-list__party-name">{{party.name}}</span>
-            <span class="seatstack-list__net">{% if party.net > 0 %}+{%endif%}{{party.net}}</span>
+            <span class="seatstack-list__losses">{% if party.losses > 0 %}-{%endif%}{{party.losses}}</span>
+            <span class="seatstack-list__gains">{% if party.gains > 0 %}+{%endif%}{{party.gains}}</span>
             <span class="seatstack-list__seats">{{party.seats}}</span>
         </li>
         {% endfor %}
