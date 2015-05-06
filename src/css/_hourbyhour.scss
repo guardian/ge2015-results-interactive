@@ -1,20 +1,28 @@
 .hour-by-hour {
     list-style: none;
-    margin: 6px -10px 0;
+    margin: 6px -5px 0;
     padding: 0;
     height: 100%;
+
+    @include mq(desktop) {
+        margin: 6px -10px 0;
+    }
 }
 
 .hour-by-hour__item {
     float: left;
     width: 25%;
     height: 100%;
-    padding: 0 10px;
+    padding: 0 5px;
     box-sizing: border-box;
 
     border-left: 1px dotted #bdbdbd;
     &:first-child {
         border-left: 0;
+    }
+
+    @include mq(desktop) {
+        padding: 0 10px;
     }
 }
 
@@ -25,6 +33,10 @@
     font-weight: bold;
     padding: 3px 0;
     margin: -3px 0 6px;
+
+    &.is-three {
+        width: 33%;
+    }
 
     @each $party, $color in $partyColors {
         &[data-party='#{$party}'] {
