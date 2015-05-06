@@ -10,8 +10,13 @@
     border-radius: 100px;
     margin: 0 6px 6px 0;
 
-    color: inherit;
     text-align: center;
+
+    @each $party, $color in $partyColors {
+        &[data-party='#{$party}'] {
+            background-color: $color;
+        }
+    }
 
     @mixin party-size($name, $size) {
         &.coalitions__party--#{$name} {

@@ -22,13 +22,18 @@
     float: left;
     width: 50%;
     text-align: center;
-    color: inherit;
     font-weight: bold;
     padding: 3px 0;
     margin: -3px 0 6px;
 
-    &[data-partyname='Lab'],
-    &[data-partyname='Con'] {
+    @each $party, $color in $partyColors {
+        &[data-party='#{$party}'] {
+            background-color: $color;
+        }
+    }
+
+    &[data-party='lab'],
+    &[data-party='con'] {
         color: white;
     }
 }

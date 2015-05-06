@@ -8,7 +8,7 @@
     padding-top: 6px;
     background-color: #dcdcdc;
 
-    @import 'parties';
+    @import 'parties'; // TODO: remove when seatstack is fixed
     @import 'seatstack';
     @import 'hourbyhour';
     @import 'byconstituency';
