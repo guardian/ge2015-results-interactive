@@ -1,3 +1,8 @@
+.by-constituency {
+    position: relative;
+    overflow: hidden;
+}
+
 .by-constituency__map {
     float: left;
     width: 50%;
@@ -10,8 +15,44 @@
 
 }
 
+.by-constituency__arrow {
+    position: absolute;
+    top: 50%;
+    left: 29%;
+    right: 29%;
+    background-color: #333;
+    height: 2px;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: -4px;
+        right: -2px;
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-left: 10px solid #333;
+        border-bottom: 5px solid transparent;
+    }
+}
+
+.map-constituency {
+    stroke: #fff;
+    stroke-width: 1;
+    stroke-opacity: 0.3;
+    fill: #B3B3B4;
+    fill-opacity: 0.6;
+}
+
 @each $party, $color in $partyColors {
-    .party-fill[data-party='#{$party}'] {
+    .map-constituency[data-party='#{$party}'] {
         fill: $color;
     }
+}
+
+.map-constituency[data-selected] {
+    stroke: #333;
+    stroke-width: 2;
+    stroke-opacity: 1;
+    fill-opacity: 1;
 }

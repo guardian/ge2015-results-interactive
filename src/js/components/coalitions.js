@@ -4,10 +4,12 @@ const templateFn = swig.compile(template);
 
 export class Coalitions {
     constructor(el) {
-        this.el = el;
+        this.el.innerHTML = templateFn();
     }
 
-    render(data) {
-        this.el.innerHTML = templateFn(data);
+    tick() {
+        // TODO: scroll coalitions
     }
+
+    update(data) {}
 }

@@ -7,5 +7,6 @@ export class HourByHour {
         el.innerHTML = templateFn();
     }
 
-    render(data) {}
+    tick() {}
+    update(data) {}
 }

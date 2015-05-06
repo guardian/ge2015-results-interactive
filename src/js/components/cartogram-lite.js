@@ -32,7 +32,7 @@ function centroid(points) {
 }
 
 var focusPoint = function () {
-    const maxT = 500;
+    const maxT = 1000;
     var lastX, lastY;
 
     return function (point, cb) {
@@ -46,7 +46,8 @@ var focusPoint = function () {
                 if (!start) start = t;
 
                 var deltaT = Math.min(1, (t - start) / maxT);
-                deltaT *= (2 - deltaT); // ease-out
+                deltaT = 1-(--deltaT)*deltaT*deltaT*deltaT
+                //deltaT *= (2 - deltaT); // ease-out
 
                 var x = lastX + deltaX * deltaT;
                 var y = lastY + deltaY * deltaT;
@@ -94,7 +95,7 @@ export class CartogramLite {
                 var path = 'M' + points.map((p) => p.join(',')).join('L') + 'Z';
                 var el = document.createElementNS(svgns, 'path');
                 el.setAttributeNS(null, 'd', path);
-                el.setAttribute('class', 'party-fill');
+                el.setAttribute('class', 'map-constituency');
                 constituencyGroup.appendChild(el);
 
                 return {
@@ -120,13 +121,32 @@ export class CartogramLite {
     }
 
     focusConstituency(ons_id) {
-        this.focusPoint(
-            this.constituencies[ons_id].centroid,
-            (x, y) => this.constituencyGroup.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`)
-        );
+        var constituency = this.constituencies[ons_id];
+
+        if (constituency != this.lastFocusedConstituency) {
+            if (this.lastFocusedConstituency) {
+                this.lastFocusedConstituency.paths.forEach((p) => p.removeAttribute('data-selected'));
+            }
+
+            constituency.paths.forEach(function (path) {
+                path.remove();
+                path.setAttribute('data-selected', 'true');
+                this.constituencyGroup.appendChild(path);
+            }.bind(this));
+
+            this.focusPoint(
+                constituency.centroid,
+                (x, y) => this.constituencyGroup.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`)
+            );
+            this.lastFocusedConstituency = constituency;
+        }
     }
 
     setConstituencyParty(ons_id, party) {
-        this.constituencies[ons_id].polygons.forEach((p) => p.setAttribute('data-party', party.toLowerCase()));
+        var constituency = this.constituencies[ons_id];
+        if (party != constituency.party) {
+            constituency.paths.forEach((p) => p.setAttribute('data-party', party.toLowerCase()));
+            constituency.party = party;
+        }
     }
 }

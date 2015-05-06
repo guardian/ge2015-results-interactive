@@ -37,6 +37,10 @@
         @include fs-textSans(1);
     }
 
+    #analysis {
+        visibility: none;
+    }
+
     .seatstack__bar li:hover {
         -webkit-filter: none;
         filter: none;
