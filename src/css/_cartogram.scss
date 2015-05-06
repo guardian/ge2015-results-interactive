@@ -12,6 +12,7 @@
 }
 
 .cartogram {
+    font-family: $text-sans;
     svg {
         width: 100%;
         height: 100%;
@@ -90,11 +91,22 @@
     .cartogram[map-mode='party']:not([party-highlight]) .cartogram__hex[party='#{$party}'] {
         fill:$color;
     }
-    .cartogram[arrow-party='#{$party}'] #arrowhead {
-        fill: arrowColor($party);
-    }
-    .cartogram[arrow-party='#{$party}'] .cartogram__arrow {
-        stroke: arrowColor($party);
+    .cartogram[arrow-party='#{$party}'] {
+        #arrowhead {
+            fill: arrowColor($party);
+        }
+        .cartogram__arrow {
+            stroke: arrowColor($party);
+        }
+        .cartogram__legend-arrow {
+            border-color: arrowColor($party);
+        }
+        .cartogram__legend-arrow--gain:after {
+            border-left-color: arrowColor($party);
+        }
+        .cartogram__legend-arrow--loss:after {
+            border-right-color: arrowColor($party);
+        }
     }
     .cartogram[party-highlight='#{$party}'] .cartogram__hex[party='#{$party}'] {
         fill-opacity: 0.9;
@@ -188,34 +200,95 @@
 
 .cartogram__controls {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 0;
+    right: 0;
     overflow: hidden;
-    background: #fff;
-    // border-bottom-left-radius: 10px;
-    border-radius: 10px;
+    cursor: default;
+    background: rgba(255,255,255,0.9);
+    width: 280px;
     padding: 12px 10px;
-    border: 1px solid transparent;
     box-sizing: border-box;
-    .cartogram[zoomed] & {
-        border-color: #f1f1f1;
+}
+
+.cartogram__legend {
+    clear: both;
+    padding-top: 12px;
+    padding-left: 10px;
+    cursor: default;
+    h4 {
+        font-size: 14px;
+        font-weight: bold;
+    }
+    p {
+        font-size: 13px;
+        color: #767676;
+        margin-bottom: 0;
+    }
+    .veri__legend {
+        margin-top: 6px;
+        li {
+            width: 50%;
+            display: inline-block;
+        }
     }
 }
 
+.cartogram__legend-arrow {
+  margin-top: 12px;
+  margin-bottom: 12px;
+  width: 80px;
+  border-top: 2px solid red;
+  position: relative;
+}
+
+.cartogram__legend-arrow:after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    border: 5px solid transparent;
+    border-left-width: 8px;
+    border-right-width: 8px;
+    top: -6px;
+    width: 0;
+}
+
+.cartogram__legend-arrow--loss:after {
+    left: -10px;
+}
+
+.cartogram__gradient-key {
+    background-size: cover;
+    width: 120px;
+    position: relative;
+    margin-top: 24px;
+    margin-bottom: 12px;
+    span {
+        position: absolute;
+        bottom: 100%;
+        font-size: 12px;
+        line-height: 14px;
+        &:first-child {
+            left: 0;
+        }
+        &:nth-child(2) {
+            right: 0;
+        }
+    }
+}
 .cartogram__dropdown-container {
-    float: right;
+    float: left;
 }
 
 .cartogram__dropdown {
     font-family: $text-sans;
     font-size: 12px;
-    background: #fff;
+    background: #f7f7f7;
     border: 0;
     height: 30px;
     outline: none;
     border-radius: 6px;
     padding-left: 10px;
-    border: 1px solid #f1f1f1;
+    border: 1px solid #bdbdbd;
     margin-right: 20px;
     width: 150px;
 }
@@ -243,6 +316,7 @@
     font-size: 12px;
     font-family: $text-sans;
     background-color: #f1f1f1;
+    border: 1px solid #dfdfdf;
     color: #333;
     height: 30px;
     line-height: 30px;
@@ -371,4 +445,9 @@
         &:before { border-bottom-color: #ddd; margin-top: -10px; }
         &:after { border-bottom-color: rgba(255,255,255,0.9); }
     }
+}
+
+.cartogram__gradient-key {
+    width: 100px;
+    height: 10px;
 }

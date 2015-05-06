@@ -5,6 +5,11 @@ import d3 from 'd3'
 import textures from 'riccardoscalco/textures'
 import dropdownHTML from './templates/cartogramDropdown.html!text'
 import bonzo from 'ded/bonzo'
+import gradientSvgTemplate from './templates/gradient.svg!text'
+import swig from 'swig'
+import { Legend } from './legend'
+
+const gradientTemplateFn = swig.compile(gradientSvgTemplate)
 
 d3.selection.prototype.moveToFront = function() {
     return this.each(function(){
@@ -31,7 +36,7 @@ export class UKCartogram {
         this.focusHexGroup = this.map.append('g');
         this.arrowGroup = this.map.append('g').attr('class', 'cartogram__arrowgroup');
         this.project();
-        this.initButtons();
+        this.initOverlay();
         this.initEventHandling();
         this.initDefs();
 
@@ -236,11 +241,12 @@ export class UKCartogram {
         return [0,1].map(i => (coords[i] * this.scale[i]) + this.translate[i]);
     }
 
-    initButtons() {
+    initOverlay() {
         var controls = document.createElement('div');
         controls.className = 'cartogram__controls';
         var resetButton = '<div class="cartogram__reset-zoom"></div>';
-        controls.innerHTML = resetButton + dropdownHTML;
+        var legendContainer = '<div class="cartogram__legend"></div>';
+        controls.innerHTML = resetButton + dropdownHTML  + legendContainer;
         this.el.appendChild(controls)
 
         controls.querySelector('.cartogram__reset-zoom')
@@ -248,6 +254,8 @@ export class UKCartogram {
 
         controls.querySelector('.cartogram__dropdown')
             .addEventListener('change', function(evt) { this.setMetric(evt.target.value); }.bind(this));
+
+        this.legendEl = controls.querySelector('.cartogram__legend');
     }
 
     initEventHandling() {
@@ -401,10 +409,47 @@ export class UKCartogram {
         }
     }
 
+    highlightParty(party) {
+        if (party) this.el.setAttribute('party-highlight', party.toLowerCase());
+        else this.el.removeAttribute('party-highlight');
+    }
+
+    get metricMeta() {
+        var meta = {headline: '', description: ''};
+        var wasis = this.lastRenderedData.PASOP.numberOfResults === 650 ? 'was' : 'is';
+        if (this.metric.startsWith('voteshare')) {
+            var partyName = this.metric.substr('voteshare '.length);
+            var party = this.lastRenderedData.PASOP.parties.find(p => p.abbreviation === partyName);
+            var perc = party.percentageShare;
+            var percChange = party.percentageChange;
+            var increasedecrease = percChange < 0 ? 'decrease' : 'increase';
+            meta.header = `${party.name} vote share`;
+            meta.description = `National vote share ${wasis} ${perc.toFixed(0)}%, a ${Math.abs(percChange.toFixed(1))} percentage point ${increasedecrease}`
+        } else if (this.metric === 'Turnout %') {
+            var turnout = this.lastRenderedData.overview.turnoutPerc;
+            meta.header = "Turnout";
+            meta.description = `National turnout ${wasis} ${turnout.toFixed(0)}%`;
+        } else if (this.metric.startsWith('arrow-gain')) {
+            var partyName = this.metric.substr('arrow-gain '.length);
+            meta.header = `Where ${partyName} has gained support`;
+            meta.description = 'Length of the arrow indicates the percentage point change from 2010';
+        } else if (this.metric.startsWith('arrow-loss')) {
+            var partyName = this.metric.substr('arrow-loss '.length);
+            meta.header = `Where ${partyName} has lost support`;
+            meta.description = 'Length of the arrow indicates the percentage point change from 2010';
+        }
+        return `<h4>${meta.header}</h4><p>${meta.description}</p>`;
+    }
+
     renderChoropleth(idToValMap, colorRange, defaultFill=null) {
+        var roundTo = 5;
         var values = Array.from(idToValMap.values()).filter(k => k !== undefined)
+        var minVal = Math.round(Math.min.apply(null, values));
+        var maxVal = Math.round(Math.max.apply(null, values));
+        var minValRounded = minVal - (minVal % roundTo);
+        var maxValRounded = maxVal + 5 - (maxVal % roundTo);
         var color = d3.scale.linear()
-            .domain([Math.min.apply(null, values), Math.max.apply(null, values)])
+            .domain([minValRounded, maxValRounded])
             .range(colorRange);
 
         this.hexPaths
@@ -416,11 +461,13 @@ export class UKCartogram {
                 // else d3.select(this).classed('cartogram__hex--')
                 // return value !== undefined ?  : defaultFill;
             });
-    }
-
-    highlightParty(party) {
-        if (party) this.el.setAttribute('party-highlight', party.toLowerCase());
-        else this.el.removeAttribute('party-highlight');
+        var gradientSvg = gradientTemplateFn({startColor: colorRange[0], endColor: colorRange[colorRange.length-1]});
+        var b64gradient = btoa(gradientSvg);
+        var keyHTML =
+            `<div class="cartogram__gradient-key" style="background: url(data:image/svg+xml;base64,${b64gradient})">
+                <span>${minValRounded}%</span><span>${maxValRounded}%</span>
+            </div>`;
+        this.renderLegend(keyHTML);
     }
 
     renderArrows(data) {
@@ -450,6 +497,17 @@ export class UKCartogram {
             .classed('cartogram__arrow', true)
             .attr('d', d => generatePath(d[1], this.hexCentroids[d[0]]))
             .attr('marker-end', 'url(#arrowhead)')
+
+        var gainloss = this.metric.startsWith('arrow-loss') ? 'loss' : 'gain';
+        this.renderLegend(`<div class="cartogram__legend-arrow cartogram__legend-arrow--${gainloss}"></div>`);
+    }
+
+    gradientSvg(colorFrom, colorTo) {
+        return btoa();
+    }
+
+    renderLegend(keyHTML) {
+        this.legendEl.innerHTML = keyHTML + this.metricMeta;
     }
 
     render(data) {
@@ -483,6 +541,11 @@ export class UKCartogram {
 
         if (this.metric === 'Winning Party') {
             this.el.setAttribute('map-mode', 'party');
+            var parties = ['Lab', 'Con', 'LD', 'SNP', 'Green', 'Ukip', 'DUP', 'SF', 'SDLP', 'Others'];
+            this.legendEl.innerHTML = "<h4>Winning party</h4>"
+            var legendContainer = document.createElement('div');
+            new Legend(legendContainer, parties);
+            this.legendEl.appendChild(legendContainer);
 
         } else if (isChoro(this.metric)) {
 

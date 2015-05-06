@@ -6,5 +6,5 @@ export class Legend {
 	constructor(el, parties) {
 		this.el = el;
 		this.el.innerHTML = templateFn({ parties: parties})
-	}	
+	}
 }

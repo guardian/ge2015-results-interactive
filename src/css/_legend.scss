@@ -38,7 +38,7 @@
 
 .veri__legend {
 	list-style-type: none;
-	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+	font-family: $text-sans;
 	font-size: 12px;
 	margin: 0;
 	padding: 0;
@@ -61,7 +61,7 @@
 }
 
 .veri__legend:before {
-	font-family: 'Guardian Egyptian Web','Egyptian Display', Georgia,serif;
+	font-family: $egyptian;
 	display: inline-block;
 	padding-right: 20px;
 	margin-right: 20px;
