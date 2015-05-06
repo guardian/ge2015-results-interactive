@@ -50,5 +50,6 @@
 
 		<time class="veri__relative-date veri__details-updated" datetime="{{updated}}" title="{{updated}}"></time>
 	</div>
-
+{% elseif constituency['2015'].status === 'rush'  %}
+	<p class="veri__details-msg--pending">more details to follow</p>
 {% endif %}
