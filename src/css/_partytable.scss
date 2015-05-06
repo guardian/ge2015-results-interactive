@@ -1,12 +1,18 @@
 .veri-party-table {
     border-top: 1px solid #f1f1f1;
     clear: both;
-    padding-top: 24px;
+    padding-top: 5px;
 
+    h2 {
+        clear: both;
+        font-weight: bold;
+        margin-bottom: 24px;
+    }
     table {
         clear: both;
         font-size: 15px;
         width: 100%;
+        border-collapse: collapse;
 
         tbody tr:hover {
             background-color: #f7f7f7;
@@ -39,6 +45,27 @@
         }
     }
     .veri__blip {
+        display: none;
+    }
+    @include mq($until: mobileLandscape) {
+        td,th {
+            &:nth-child(3),&:nth-child(4),&:nth-child(5),&:nth-child(8) {
+                display: none;
+            }
+        }
+    }
+}
+
+.veri__party-table-fullname {
+    display: none;
+    @include mq(tablet) {
+        display: inline;
+    }
+}
+
+.veri__party-table-abbrv {
+    display: inline;
+    @include mq(tablet) {
         display: none;
     }
 }

@@ -1,4 +1,5 @@
 <div class="veri-party-table">
+	<h2>National results</h2>
 	<table>
 		<thead>
 			<tr>
@@ -15,7 +16,8 @@
 		<tbody>
 			{% for party in parties %}
 			<tr {% if party.seats > 0 %}class="veri-party-table__seat-party"{%endif%}>
-				<td><span class="veri__blip veri__blip--{{ party.abbreviation | cssify }}"></span>{{ party.name }}</td>
+				<td>
+					<span class="veri__blip veri__blip--{{ party.abbreviation | cssify }}"></span><span class="veri__party-table-fullname">{{ party.name }}</span><span class="veri__party-table-abbrv">{{ party.abbreviation }}</span></td>
 				{% if party.seats === 0 && party.gains === 0 && party.losses === 0 %}
 					<td>-</td><td>-</td><td>-</td><td>-</td>
 				{% else %}
