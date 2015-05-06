@@ -542,7 +542,7 @@ export class UKCartogram {
         if (this.metric === 'Winning Party') {
             this.el.setAttribute('map-mode', 'party');
             var parties = ['Lab', 'Con', 'LD', 'SNP', 'Green', 'Ukip', 'DUP', 'SF', 'SDLP', 'Others'];
-            this.legendEl.innerHTML = "<h4>Winning party</h4>"
+            this.legendEl.innerHTML = '';
             var legendContainer = document.createElement('div');
             new Legend(legendContainer, parties);
             this.legendEl.appendChild(legendContainer);
