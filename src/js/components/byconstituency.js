@@ -7,10 +7,11 @@ const templateFn = swig.compile(template);
 const tickerTemplateFn = swig.compile('{{party}} {{verb}} <strong>{{name}}</strong> {{how}}');
 const tickerHotTemplateFn = swig.compile('{{candidate}} {{verb}} <strong>{{name}}</strong> {{how}}');
 
-const hotseatsById = new Map(hotseats.map(s => [s.id, s]))
+const hotseatsById = {};
+hotseats.forEach(s => hotseatsById[s.id] = s)
 
 function getHotseatVerb(cons) {
-    var hotseat = hotseatsById.get(cons.ons_id);
+    var hotseat = hotseatsById[cons.ons_id];
     if (hotseat.party === cons.sitting) { // incumbent
         return hotseat.party === cons.winning ? 'holds' : 'loses';
     } else { // challenger
@@ -50,7 +51,7 @@ export class ByConstituency {
             if (verb === 'loses') how = `to ${cons.winning} ${how}`;
 
             this.text.innerHTML = tickerHotTemplateFn({
-                'candidate': hotseatsById.get(cons.ons_id).candidate,
+                'candidate': hotseatsById[cons.ons_id].candidate,
                 'verb': verb,
                 'name': cons.name,
                 'how': how

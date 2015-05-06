@@ -4,7 +4,7 @@ const templateFn = swig.compile(template);
 
 export class Coalitions {
     constructor(el) {
-        this.el.innerHTML = templateFn();
+        el.innerHTML = templateFn();
     }
 
     tick() {

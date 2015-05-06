@@ -60,15 +60,17 @@
 }
 
 .map-constituency {
-    stroke: #fff;
+    stroke: #767676;
     stroke-width: 1;
     stroke-opacity: 0.3;
+    fill: url(#hhogl);
     fill-opacity: 0.6;
     transition: all 0.2s ease-in;
 }
 
 .map-constituency[data-party] {
     fill: #B3B3B4;
+    stroke: #fff;
 }
 
 @each $party, $color in $partyColors {
@@ -82,4 +84,16 @@
     stroke-width: 2;
     stroke-opacity: 1;
     fill-opacity: 1;
+}
+
+.map-city {
+    text-anchor: middle;
+    fill: white;
+    stroke-width: 0.2;
+    &.map-city--below {
+        stroke: #333;
+        opacity: 0.25;
+        stroke-width: 4px;
+        stroke-linejoin: round;
+    }
 }
