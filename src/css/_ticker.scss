@@ -4,8 +4,8 @@
     margin: 0;
     margin-bottom: 12px;
 
-    font-family: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
-    font-size: 14px;
+    font-family: $text-sans;
+    font-size: 13px;
     line-height: 22px;
     color: #333;
 
@@ -16,7 +16,7 @@
     }
 
     @include mq($until: tablet) {
-        font-size: 13px;
+        // font-size: 12px;
         .veri__relative-date {
             display: none;
         }
@@ -41,7 +41,7 @@
     overflow: hidden;
     margin: 12px 0;
     font-size: 12px;
-    font-family: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
+    font-family: $text-sans;
     font-weight: bold;
 
     ul {
@@ -67,8 +67,8 @@
         @include button();
 
         @include button-height(20px);
+        font-size: 12px;
 
-        font-family: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
         text-transform: capitalize;
         color: #767676;
         padding: 0 4px;

@@ -5,7 +5,7 @@ $padding-top: 30px;
 .seatstack {
     position: relative;
 
-    font-family: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
+    font-family: $text-sans;
     font-size: 12px;
 
     border-bottom: 1px solid #DCDCDC;
@@ -21,6 +21,7 @@ $padding-top: 30px;
     height: 24px;
     line-height: 24px;
     top: $seatstack-height-small + $padding-top;
+    font-size: 11px;
     display: none;
     &:after {
         content: '';
@@ -50,7 +51,7 @@ $padding-top: 30px;
 .seatstack__totals {
     position: absolute;
     top: $seatstack-height-small + $padding-top;
-    font-size: 12px;
+    font-size: 11px;
     line-height: 24px;
     display: none;
     @include mq(tablet) {
@@ -76,7 +77,7 @@ $padding-top: 30px;
         height: 100%;
         text-align: center;
         position: relative;
-        font-family: "Guardian Egyptian Web",Georgia,serif;
+        font-family: $egyptian;
         font-weight: bold;
         font-weight: 600;
         font-size: 14px;

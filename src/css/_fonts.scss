@@ -8,3 +8,7 @@ $guss-webfonts-version: '0.1.0';
 @import '../../bower_components/guss-typography/_typography.scss';
 @include guss-webfonts();
 // @include guss-typography-defaults;
+
+$text-sans: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+$agate: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
+$egyptian: "Guardian Egyptian Web",Georgia,serif;
