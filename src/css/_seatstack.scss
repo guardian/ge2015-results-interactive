@@ -141,7 +141,6 @@ $seatstack-list-lineheight: 24px;
         width: calc(50% - 20px);
     }
 }
-
 .seatstack-list__item {
     vertical-align: middle;
     height: 24px;
@@ -201,6 +200,13 @@ $seatstack-list-lineheight: 24px;
     display: none !important;
     @media (min-width: 370px) {
         display: inline-block !important;
+    }
+}
+
+
+@media (max-width: 370px) {
+    .seatstack-list__item.is-header {
+        display: none;
     }
 }
 
