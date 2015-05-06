@@ -50,6 +50,7 @@ class ElectionResults {
         this.initEventHandlers();
         // window.setInterval(this.fetchDataAndRender.bind(this), 5000);
         this.fetchDataAndRender();
+        this.fetchAndRenderContentMeta();
 
         this.mainEl = this.el.querySelector('.veri')
         removeClass(this.mainEl, 'veri--loading')
@@ -88,7 +89,23 @@ class ElectionResults {
 
         var parties = ['Lab', 'SNP', 'Green', 'Others', 'Ukip', 'LD', 'Con', 'DUP', 'SF', 'SDLP'];
         var legend = new Legend(this.el.querySelector('#legend1'), parties);
+    }
 
+    fetchAndRenderContentMeta() {
+        reqwest({
+            url: 'http://visuals.guim.co.uk/spreadsheetdata/1XzJvaVsh8ofUm89cVIYc5G5pyuARIVdg71ISP9L2ma4.json',
+            type: 'json',
+            crossOrigin: true,
+            success: function(resp) {
+                try {
+                    var headline = resp.sheets.Sheet1[0].headline;
+                    var standfirst = resp.sheets.Sheet1[0].standfirst;
+                    this.el.querySelector('#content-meta').innerHTML = `<h1>${headline}</h1><p>${standfirst}</p>`
+                } catch (err) {
+                    console.error(err);
+                }
+            }.bind(this)
+        });
     }
 
     renderComponent(componentName, data) {
@@ -271,9 +288,6 @@ function init(el, context, config, mediator) {
     // var dataUrl = 'http://s3.amazonaws.com/gdn-cdn/2015/05/election/datatest/liveresults.json';
 
     el.innerHTML = swig.render(tmplMain);
-
-    var standfirst = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vestibulum ante suscipit finibus volutpat. Vivamus magna odio, aliquet mollis posuere in, eleifend eu felis. Curabitur pellentesque lacus sit amet lorem gravida, id aliquet lorem ultricies. Aliquam rhoncus vestibulum sapien in iaculis."
-    el.querySelector('#content-meta').innerHTML = `<h1>Live election results</h1><p>${standfirst}</p>`
 
     window.setTimeout(() => new ElectionResults(el, { guardianConfig: config, dataUrl: dataUrl}), 1);
 }
