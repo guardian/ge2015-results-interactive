@@ -63,9 +63,12 @@
     stroke: #fff;
     stroke-width: 1;
     stroke-opacity: 0.3;
-    fill: #B3B3B4;
     fill-opacity: 0.6;
     transition: all 0.2s ease-in;
+}
+
+.map-constituency[data-party] {
+    fill: #B3B3B4;
 }
 
 @each $party, $color in $partyColors {

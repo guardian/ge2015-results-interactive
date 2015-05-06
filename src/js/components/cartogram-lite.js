@@ -74,6 +74,14 @@ export class CartogramLite {
         svg.setAttribute('viewBox', '-100 -100 200 200');
         svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
 
+        var defs = document.createElementNS(svgns, 'defs');
+        defs.innerHTML = [
+            '<pattern id="hhogl" patternUnits="userSpaceOnUse" width="4" height="4">',
+                '<rect width="4" height="4" fill="#e1e1e1"></rect>',
+                '<path d="M 0,4 l 4,-4 M -1,1 l 2,-2 M 3,5 l 2,-2" stroke-width="1" shape-rendering="auto" stroke="#aaa" stroke-linecap="square"></path>',
+            '</pattern>'].join('');
+        svg.appendChild(defs);
+
         var scaleG = document.createElementNS(svgns, 'g'),
             constituencyGroup = document.createElementNS(svgns, 'g');
 
@@ -95,6 +103,7 @@ export class CartogramLite {
                 var path = 'M' + points.map((p) => p.join(',')).join('L') + 'Z';
                 var el = document.createElementNS(svgns, 'path');
                 el.setAttributeNS(null, 'd', path);
+                el.setAttributeNS(null, 'fill', 'url(#hhogl)');
                 el.setAttribute('class', 'map-constituency');
                 constituencyGroup.appendChild(el);
 
