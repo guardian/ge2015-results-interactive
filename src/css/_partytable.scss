@@ -1,46 +1,64 @@
 .veri-party-table {
-	border-top: 1px solid #f1f1f1;
-	clear: both;
-	padding-top: 24px;
+    border-top: 1px solid #f1f1f1;
+    clear: both;
+    padding-top: 24px;
 
-	table {
-		clear: both;
-		font-size: 15px;
-		width: 100%;
+    table {
+        clear: both;
+        font-size: 15px;
+        width: 100%;
 
-		td,th {
-			text-align: right; // all right aligned except for party name field
-			line-height: 32px;
-		}
-		th {
-			font-weight: normal;
-			color: #767676;
-			text-transform: lowercase;
-		}
-		td {
-			border-top: 1px dotted #dfdfdf;
-		}
+        tbody tr:hover {
+            background-color: #f7f7f7;
+        }
 
-		tbody {
-			font-family: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
-		}
-		td:nth-child(1),
-		th:nth-child(1) {
-			text-align: left;
-		}
-		td:nth-child(1),
-		th {
-			font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-			font-size: 14px;
-		}
-	}
+        td,th {
+            text-align: right; // all right aligned except for party name field
+            line-height: 32px;
+        }
+        th {
+            font-weight: normal;
+            color: #767676;
+            text-transform: lowercase;
+        }
+        td {
+            border-top: 1px dotted #dfdfdf;
+        }
+
+        tbody {
+            font-family: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
+        }
+        td:nth-child(1),
+        th:nth-child(1) {
+            text-align: left;
+        }
+        td:nth-child(1),
+        th {
+            font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+            font-size: 14px;
+        }
+    }
+    .veri__blip {
+        display: none;
+    }
 }
 
-.veri-party-table__seat-party td:first-child {
-	font-weight: bold;
+.veri-party-table__seat-party {
+    .veri__blip {
+        display: inline-block;
+    }
+    td:first-child {
+        font-weight: bold;
+    }
 }
 
 .veri-party-table__na {
-	font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
-	color: #bdbdbd;
+    font-family: "Guardian Text Sans Web","Helvetica Neue",Helvetica,Arial,"Lucida Grande",sans-serif;
+    color: #bdbdbd;
+}
+
+@each $party, $color in $partyColors { // always show major parties
+    .veri-party-table .veri__blip--#{$party} {
+        display: inline-block !important;
+    }
 }

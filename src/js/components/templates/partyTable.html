@@ -15,11 +15,15 @@
 		<tbody>
 			{% for party in parties %}
 			<tr {% if party.seats > 0 %}class="veri-party-table__seat-party"{%endif%}>
-				<td><span class="veri__blip veri__blip--{{party.abbreviation.toLowerCase()}}"></span>{{ party.name }}</td>
-				<td>{{party.seats}}</td>
-				<td>{{party.gains}}</td>
-				<td>{{party.losses}}</td>
-				<td>{{party.gains - party.losses}}</td>
+				<td><span class="veri__blip veri__blip--{{ party.abbreviation | cssify }}"></span>{{ party.name }}</td>
+				{% if party.seats === 0 && party.gains === 0 && party.losses === 0 %}
+					<td>-</td><td>-</td><td>-</td><td>-</td>
+				{% else %}
+					<td>{{party.seats}}</td>
+					<td>{{party.gains}}</td>
+					<td>{{party.losses}}</td>
+					<td>{{party.gains - party.losses}}</td>
+				{% endif %}
 				<td>{{party.votes | commas}}</td>
 				<td>{{party.percentageShare.toFixed(2)}}%</td>
 				{% if party.percentageChange === null %}<td class="veri-party-table__na">N/A</td>

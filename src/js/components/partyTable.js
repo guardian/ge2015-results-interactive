@@ -1,6 +1,8 @@
 import template from './templates/partyTable.html!text'
 import swig from 'swig'
 
+swig.setFilter('cssify', (input) => input.replace(' ', '').toLowerCase());
+
 swig.setFilter('commas', function(input) {
     input = typeof input === 'string' ? input : input.toString();
     var parts = [];
