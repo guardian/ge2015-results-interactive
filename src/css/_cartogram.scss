@@ -208,6 +208,9 @@
     width: 280px;
     padding: 12px 10px;
     box-sizing: border-box;
+    @include mq($until: tablet) {
+        display: none;
+    }
 }
 
 .cartogram__legend {
