@@ -32,9 +32,6 @@ $padding-top: 30px;
         bottom: 100%;
         z-index: 1;
     }
-    .seatstack--finished & span {
-        display: none;
-    }
 
     @include mq($seatstack-bp) {
         top: $seatstack-height + $padding-top;
