@@ -9,11 +9,7 @@
 	</svg>
 </div>
 
-{% if constituency['2015'].winningParty %}
-	<p>{{ msgFn(constituency) }}</p>
-{% else %}
-Result pending
-{% endif %}
+<p class="veri__details-msg {%if !constituency['2015'].winningParty %}veri__details-msg--pending{% endif %}">{{ msgFn(constituency) }}</p>
 
 {% if constituency['2015'].status === 'result' %}
 	<table class="veri__details-table veri__details-table--{{constituency['2015'].status}}">
@@ -45,13 +41,14 @@ Result pending
 			{% endfor %}
 		</tbody>
 	</table>
-{% endif %}
 
-<div class="veri__details-footer">
-	<div class="veri_share-btns">
-		<button data-source="twitter"></button>
-		<button data-source="facebook"> </button>
+	<div class="veri__details-footer">
+		<div class="veri_share-btns">
+			<button data-source="twitter"></button>
+			<button data-source="facebook"> </button>
+		</div>
+
+		<time class="veri__relative-date veri__details-updated" datetime="{{updated}}" title="{{updated}}"></time>
 	</div>
 
-	<time class="veri__relative-date veri__details-updated" datetime="{{updated}}" title="{{updated}}"></time>
-</div>
+{% endif %}

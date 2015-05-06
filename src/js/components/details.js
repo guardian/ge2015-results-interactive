@@ -1,6 +1,7 @@
 import template from './templates/details.html!text'
 import swig from 'swig'
 import { relativeDates } from '../lib/relativedate'
+import declarationTimes from '../data/declaration-times.json!json';
 
 swig.setFilter('commas', function(input) {
     input = typeof input === 'string' ? input : input.toString();
@@ -76,7 +77,7 @@ export class Details {
 
             return `${partyName(e.winningParty)} ${verb}${fromParty} ${how}${turnout}`
         } else {
-            return 'Result pending'
+            return 'Result expected at ' + declarationTimes[constituency.ons_id];
         }
     }
 
