@@ -36,6 +36,10 @@
         margin: 0;
         margin-bottom: 12px;
     }
+    .veri_share-btns {
+        float: left;
+        padding-bottom: 0;
+    }
 }
 
 .veri__details--show {
@@ -153,7 +157,7 @@
 }
 
 .veri_share-btns {
-    float: left;
+    padding-bottom: 24px;
     button {
         color: #fff;
         width: 32px;
