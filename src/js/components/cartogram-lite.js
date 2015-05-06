@@ -94,6 +94,7 @@ export class CartogramLite {
                 var path = 'M' + points.map((p) => p.join(',')).join('L') + 'Z';
                 var el = document.createElementNS(svgns, 'path');
                 el.setAttributeNS(null, 'd', path);
+                el.setAttribute('class', 'party-fill');
                 constituencyGroup.appendChild(el);
 
                 return {
@@ -119,11 +120,13 @@ export class CartogramLite {
     }
 
     focusConstituency(ons_id) {
-        var centroid = this.constituencies[ons_id].centroid;
-        this.focusPoint(centroid, (x, y) => this.constituencyGroup.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`));
+        this.focusPoint(
+            this.constituencies[ons_id].centroid,
+            (x, y) => this.constituencyGroup.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`)
+        );
     }
 
-    render(data) {
-
+    setConstituencyParty(ons_id, party) {
+        this.constituencies[ons_id].polygons.forEach((p) => p.setAttribute('data-party', party.toLowerCase()));
     }
 }

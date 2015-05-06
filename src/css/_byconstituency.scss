@@ -1,5 +1,4 @@
 .by-constituency__map {
-    position: relative;
     float: left;
     width: 50%;
     height: 168px;
@@ -7,5 +6,12 @@
     padding: 0 0 0 10px;
     &:first-child {
         padding: 0 10px 0 0;
+    }
+
+}
+
+@each $party, $color in $partyColors {
+    .party-fill[data-party='#{$party}'] {
+        fill: $color;
     }
 }
