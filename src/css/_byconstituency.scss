@@ -3,14 +3,37 @@
     overflow: hidden;
 }
 
+.by-constituency__time {
+    float: right;
+}
+
 .by-constituency__map {
+    position: relative;
     float: left;
     width: 50%;
     height: 168px;
     box-sizing: border-box;
-    padding: 0 0 0 10px;
+    border-left: 2px solid #484f53;
+
     &:first-child {
-        padding: 0 10px 0 0;
+        border-left: 0;
+        border-right: 2px solid #484f53;
+    }
+
+    &::after {
+        content: "2015";
+        position: absolute;
+        top: 0;
+        left: 0;
+        color: white;
+        background-color: #484f53;
+        padding: 2px 5px;
+    }
+
+    &:first-child::after {
+        content: "2010";
+        left: auto;
+        right: 0;
     }
 
 }
@@ -42,6 +65,7 @@
     stroke-opacity: 0.3;
     fill: #B3B3B4;
     fill-opacity: 0.6;
+    transition: all 0.2s ease-in;
 }
 
 @each $party, $color in $partyColors {

@@ -1,14 +1,22 @@
 import template from './templates/byConstituency.html!text'
+import hotseats from '../data/hotseats.json!json'
 import swig from 'swig'
 import { CartogramLite } from './cartogram-lite';
 
 const templateFn = swig.compile(template);
+const tickerTemplateFn = swig.compile('{{party}} {{verb}} <strong>{{name}}</strong> {{how}}');
+const tickerHotTemplateFn = swig.compile('{{candidate}} {{verb}} <strong>{{name}}</strong> {{how}}');
 
-const textTemplates = {
-    'bigswing': swig.compile('{{winning}} win {{name}} with a {{swing}}% swing'),
-    'marginal': swig.compile('{{winning}} win <strong>{{name}}</strong> with a {{percentage}}% majority'),
-    'hotseat': swig.compile('{{person}} {{verb}} <strong>{{name}}</strong> with a {{percentage}}% majority')
-};
+const hotseatsById = new Map(hotseats.map(s => [s.id, s]))
+
+function getHotseatVerb(cons) {
+    var hotseat = hotseatsById.get(cons.ons_id);
+    if (hotseat.party === cons.sitting) { // incumbent
+        return hotseat.party === cons.winning ? 'holds' : 'loses';
+    } else { // challenger
+        return hotseat.party === cons.winning ? 'wins' : 'fails to take';
+    }
+}
 
 export class ByConstituency {
     constructor(el) {
@@ -17,6 +25,7 @@ export class ByConstituency {
 
         this.before = new CartogramLite(el.querySelector('#by-constituency__before'));
         this.after = new CartogramLite(el.querySelector('#by-constituency__after'));
+        this.time = el.querySelector('#by-constituency__time');
         this.text = el.querySelector('#by-constituency__text');
 
         this.interesting = [];
@@ -33,9 +42,30 @@ export class ByConstituency {
             this.interesting = this.lastInteresting;
         }
 
-        var constituency = this.interesting.shift();
-        this.text.innerHTML = textTemplates.marginal(constituency);
-        this.focusConstituency(constituency.ons_id);
+        var cons = this.interesting.shift();
+        var how = cons.swing < 30 ? `with a ${cons.majority}% majority` : `with a ${cons.swing}% swing`;
+        if (cons.reason === 'hot') {
+            var verb = getHotseatVerb(cons);
+            if (verb === 'fails to take') how = '';
+            if (verb === 'loses') how = `to ${cons.winning} ${how}`;
+
+            this.text.innerHTML = tickerHotTemplateFn({
+                'candidate': hotseatsById.get(cons.ons_id).candidate,
+                'verb': verb,
+                'name': cons.name,
+                'how': how
+            });
+        } else {
+            this.text.innerHTML = tickerTemplateFn({
+                'party': cons.winning,
+                'verb': cons.winning === cons.sitting ? 'hold' : 'win',
+                'name': cons.name,
+                'how': how
+            });
+        }
+
+        this.time.innerHTML = cons.updated;
+        this.focusConstituency(cons.ons_id);
     }
 
     update(data) {
@@ -43,9 +73,9 @@ export class ByConstituency {
         var newlyInteresting = data.interesting.filter(c => alreadyInteresting.indexOf(c.ons_id) === -1);
         this.interesting = this.interesting.concat(newlyInteresting);
 
-        data.constituencies.forEach(function (constituency) {
-            this.before.setConstituencyParty(constituency.ons_id, constituency.sitting);
-            this.after.setConstituencyParty(constituency.ons_id, constituency.winning);
+        data.constituencies.forEach(function (cons) {
+            this.before.setConstituencyParty(cons.ons_id, cons.sitting);
+            this.after.setConstituencyParty(cons.ons_id, cons.winning);
         }.bind(this));
 
         // Store in case client's internet drops
