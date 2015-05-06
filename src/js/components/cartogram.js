@@ -409,6 +409,11 @@ export class UKCartogram {
         }
     }
 
+    getConstituencyOffset(constituencyId) {
+        var path = this.hexPaths[0].find(p => p.__data__.properties.constituency === constituencyId);
+        return path && path.getBoundingClientRect().top;
+    }
+
     highlightParty(party) {
         if (party) this.el.setAttribute('party-highlight', party.toLowerCase());
         else this.el.removeAttribute('party-highlight');
@@ -443,7 +448,7 @@ export class UKCartogram {
 
     renderChoropleth(idToValMap, colorRange, defaultFill=null) {
         var roundTo = 5;
-        var values = Array.from(idToValMap.values()).filter(k => k !== undefined)
+        var values = Object.keys(idToValMap).map(k => idToValMap[k]).filter(k => k !== undefined)
         var minVal = Math.round(Math.min.apply(null, values));
         var maxVal = Math.round(Math.max.apply(null, values));
         var minValRounded = minVal - (minVal % roundTo);
@@ -454,7 +459,7 @@ export class UKCartogram {
 
         this.hexPaths
             .each(function(d) {
-                var value = idToValMap.get(d.properties.constituency);
+                var value = idToValMap[d.properties.constituency];
                 d3.select(this)
                     .attr('fill', value ? color(value) : '')
                     .classed('cartogram__hex--empty', !value);
@@ -472,7 +477,8 @@ export class UKCartogram {
 
     renderArrows(data) {
         var values = data.map(d => d[1])
-        var idToValMap = new Map(data);
+        var idToValMap = new Map();
+        data.forEach(d => idToValMap.set(d[0], d[1]))
         var maxArrowSize = 100;
         var minArrowSize = 5;
         var arrowSizeRange = maxArrowSize - minArrowSize;
@@ -552,20 +558,24 @@ export class UKCartogram {
             this.el.setAttribute('map-mode', 'choropleth');
 
             if(this.metric === 'Turnout %') {
-                var pairs = data.constituencies.map(c => [c.ons_id, c['2015'].percentageTurnout])
-                this.renderChoropleth(new Map(pairs), ["white", "black"]);
+                var mapData = {};
+                data.constituencies.forEach(c => mapData[c.ons_id] = c['2015'].percentageTurnout)
+                this.renderChoropleth(mapData, ["white", "black"]);
 
             } else if(this.metric === 'Majority %') {
-                var pairs = data.constituencies.map(c => [c.ons_id, c['2015'].percentageMajority])
-                this.renderChoropleth(new Map(pairs), ["white", "black"]);
+                var mapData = {};
+                data.constituencies.forEach(c => mapData[c.ons_id] = c['2015'].percentageMajority)
+                this.renderChoropleth(mapData, ["white", "black"]);
 
             } else if (this.metric.startsWith('voteshare')) {
                 var partyName = this.metric.slice(10);
+                var mapData = {};
                 var pairs = data.constituencies
                     .map(c => [c.ons_id, c['2015'].candidates.find(cand => cand.party === partyName)])
                     .filter(v => v[1] !== undefined)
                     .map(v => [v[0], v[1].percentage])
-                this.renderChoropleth(new Map(pairs), ["white", this.opts.partyColors[partyName]]);
+                    .forEach(v => mapData[v[0]] = v[1])
+                this.renderChoropleth(mapData, ["white", this.opts.partyColors[partyName]]);
 
             }
         } else if (isArrow(this.metric)) {
