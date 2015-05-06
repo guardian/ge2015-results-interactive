@@ -79,11 +79,27 @@ export class CartogramLite {
         el.appendChild(svg);
 
         var defs = document.createElementNS(svgns, 'defs');
-        defs.innerHTML = [
-            '<pattern id="hhogl" patternUnits="userSpaceOnUse" width="4" height="4">',
-                '<rect width="4" height="4" fill="#e1e1e1"></rect>',
-                '<path d="M 0,4 l 4,-4 M -1,1 l 2,-2 M 3,5 l 2,-2" stroke-width="1" shape-rendering="auto" stroke="#aaa" stroke-linecap="square"></path>',
-            '</pattern>'].join('');
+        var pattern = document.createElementNS(svgns, 'pattern');
+        pattern.setAttributeNS(null, 'width', '4');
+        pattern.setAttributeNS(null, 'height', '4');
+        pattern.setAttributeNS(null, 'id', 'pending');
+        pattern.setAttributeNS(null, 'patternUnits', 'userSpaceOnUse');
+
+        var path = document.createElementNS(svgns, 'path');
+        path.setAttributeNS(null, 'd', 'M 0,4 l 4,-4 M -1,1 l 2,-2 M 3,5 l 2,-2');
+        path.setAttributeNS(null, 'stroke-width', '1');
+        path.setAttributeNS(null, 'shape-rendering', 'auto');
+        path.setAttributeNS(null, 'stroke', '#aaa');
+        path.setAttributeNS(null, 'stroke-linecap', 'square');
+
+        var rect = document.createElementNS(svgns, 'rect');
+        rect.setAttributeNS(null, 'width', '4');
+        rect.setAttributeNS(null, 'height', '4');
+        rect.setAttributeNS(null, 'fill', '#e1e1e1');
+
+        pattern.appendChild(rect);
+        pattern.appendChild(path);
+        defs.appendChild(pattern);
         svg.appendChild(defs);
 
         var [regionContainer, _] = createRegions();
@@ -109,7 +125,7 @@ export class CartogramLite {
             }
 
             constituency.paths.forEach(function (path) {
-                path.remove();
+                this.constituencyContainer.removeChild(path);
                 path.setAttribute('data-selected', 'true');
                 this.constituencyContainer.appendChild(path);
             }.bind(this));

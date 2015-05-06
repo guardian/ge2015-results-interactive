@@ -11,6 +11,7 @@
 }
 
 .by-constituency__time {
+    display: none;
     float: right;
 }
 
@@ -94,9 +95,8 @@
     stroke: #767676;
     stroke-width: 1;
     stroke-opacity: 0.3;
-    fill: url(#hhogl);
+    fill: url(#pending);
     fill-opacity: 0.6;
-    transition: all 0.2s ease-in;
 }
 
 .map-constituency[data-party] {
