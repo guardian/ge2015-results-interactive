@@ -90,7 +90,7 @@ module.exports = function(grunt) {
         copy: {
             main: {
                 files: [
-                    {expand: true, cwd: 'harness/', src: ['curl.js', 'index.html', 'mega.json', 'front.html'], dest: 'build'},
+                    {expand: true, cwd: 'harness/', src: ['curl.js', 'index.html', 'mega.json', 'front.html', 'frontpage.json'], dest: 'build'},
                 ]
             }
         },
