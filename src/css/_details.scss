@@ -60,9 +60,22 @@
         fill: #767676;
     }
     width: 36px;
+    height: 36px;
+    svg {
+        width: 36px;
+        height: 36px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
 
     @include mq(tablet) {
         width: 24px;
+        height: 24px;
+        svg {
+            width: 24px;
+            height: 24px;
+        }
     }
 
 }
@@ -105,6 +118,13 @@
         text-decoration: none;
         &:hover {
             text-decoration: underline;
+        }
+    }
+    td,th {
+        &:nth-child(3) {
+            @include mq(tablet, $until: desktop) {
+                display: none;
+            }
         }
     }
 }

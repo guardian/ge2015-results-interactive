@@ -14,8 +14,9 @@ export class Dropdown {
             el: el,
             onChange: this.onChange.bind(this),
             onSelect: opts.onSelect,
-            onFocus: opts.onFocus, 
+            onFocus: opts.onFocus,
             onKeyDown: opts.onKeyDown,
+            hoverEvents: opts.hoverEvents,
             placeholder: "Enter constituency or postcode"
         })
     }
@@ -24,14 +25,14 @@ export class Dropdown {
         window.clearTimeout(this.fetchTimeout);
 
         // EMPTY
-        if (newVal.length < 3) { 
-            renderCallback([]);             
+        if (newVal.length < 3) {
+            renderCallback([]);
         }
-        else if (newVal === '') { 
+        else if (newVal === '') {
             renderCallback([]);
         }
         // POSTCODE
-        else if (isPostcode(newVal)) { 
+        else if (isPostcode(newVal)) {
 
             if(newVal.length < 5) {
                 renderCallback([[null, 'It looks like a postcode, go on...']]);
@@ -49,9 +50,9 @@ export class Dropdown {
                         if (resp.status === 404) { renderCallback([[null, 'Postcode not found']]); }
                     })
             }.bind(this), 500);
-        } 
+        }
         // CONSTITUENCY NAME
-        else { 
+        else {
             var matches = this.findConstituenciesByName(newVal);
             var ret = matches.map(function(c) {
                 var boldedName = c.name.replace(new RegExp('('+newVal+')', 'i'), '<strong>$1</strong>');

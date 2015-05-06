@@ -19,6 +19,7 @@
 		var dropdown, input, focusElement, lastVal = '', touchstart;
 
 		opts.el.className = 'edd';
+		opts.hoverEvents = opts.hoverEvents === undefined ? true : opts.hoverEvents;
 
 		function renderDropdown(arr,selectIndex) {
 			if (arr.length > 0) {
@@ -126,7 +127,9 @@
 		input.addEventListener('blur', onBlur) ;
 
 		dropdown.addEventListener('mousedown', onDropdownClick);
-		dropdown.addEventListener('mouseover', onDropdownMouseOver);
+		if (opts.hoverEvents) {
+			dropdown.addEventListener('mouseover', onDropdownMouseOver);
+		}
 
 		// dropdown.addEventListener('touchstart', onDropdownClick);
 		// dropdown.addEventListener('touchend', onDropdownClick);

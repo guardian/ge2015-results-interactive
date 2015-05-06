@@ -1,19 +1,19 @@
 <li constituency-link="{{entry.id}}">
-    <span class="veri__ticker-msg">
+    <div class="veri__ticker-msg" onclick="">
         {% if entry.hotseat %}
 
-            <span class="veri__blip veri__blip--{{entry.hotseatParty.toLowerCase()}}"></span><strong>{{entry.hotseatCandidate}}</strong>
-            {{entry.hotseatVerb}} <strong>{{entry.name}}</strong>
-            {% if entry.hotseatVerb === 'loses' %}to <span class="veri__blip veri__blip--{{entry.winningParty.toLowerCase()}}"></span><strong>{{entry.winningParty}}</strong>{% endif %}
+            <span class="veri__blip veri__blip--{{entry.hotseatParty.toLowerCase()}}" onclick=""></span><strong onclick="">{{entry.hotseatCandidate}}</strong>
+            {{entry.hotseatVerb}} <strong onclick="">{{entry.name}}</strong>
+            {% if entry.hotseatVerb === 'loses' %}to <span class="veri__blip veri__blip--{{entry.winningParty.toLowerCase()}}" onclick=""></span><strong onclick="">{{entry.winningParty}}</strong>{% endif %}
             {% if entry.hotseatVerb !== 'fails to take' %}{{entry.how}}{% endif %}
 
         {% else %}
 
-            <span class="veri__blip veri__blip--{{entry.winningParty.toLowerCase()}}"></span><strong>{{entry.winningParty}}</strong>
-            {{entry.verb}} <strong>{{entry.name}}</strong> {{entry.how}}
+            <span class="veri__blip veri__blip--{{entry.winningParty.toLowerCase()}}" onclick=""></span><strong onclick="">{{entry.winningParty}}</strong>
+            {{entry.verb}} <strong onclick="">{{entry.name}}</strong> {{entry.how}}
 
         {% endif %}
 
-        <time class="veri__relative-date" datetime="{{entry.updated}}" title="{{entry.updated}}"></time>
-    </span>
+        <time class="veri__relative-date" datetime="{{entry.updated}}" title="{{entry.updated}}" onclick=""></time>
+    </div>
 </li>

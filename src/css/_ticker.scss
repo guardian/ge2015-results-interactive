@@ -5,8 +5,8 @@
     margin-bottom: 12px;
 
     font-family: $text-sans;
-    font-size: 13px;
-    line-height: 22px;
+    font-size: 14px;
+    line-height: 24px;
     color: #333;
 
     .veri__relative-date {
@@ -15,7 +15,7 @@
         margin-left: 5px;
     }
 
-    @include mq($until: tablet) {
+    @include mq($until: desktop) {
         // font-size: 12px;
         .veri__relative-date {
             display: none;
@@ -24,7 +24,6 @@
 
 }
 .veri__ticker li[constituency-link] {
-    cursor: pointer;
     border-radius: 4px;
     transition: all 250ms;
     border: 1px solid transparent;
@@ -32,6 +31,17 @@
     &:hover {
         background-color: #f1f1f1;
         transition: none;
+    }
+    cursor: pointer;
+}
+
+.veri__ticker-msg {
+    cursor: pointer;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    * {
+        pointer-events: none;
     }
 }
 

@@ -5,7 +5,8 @@ import hotseats from '../data/hotseats.json!json'
 
 const templateFn = swig.compile(template)
 
-const hotseatsById = new Map(hotseats.map(s => [s.id, s]))
+const hotseatsById = new Map()
+hotseats.map(s => [s.id, s]).forEach(v => hotseatsById.set(v[0],v[1]))
 
 function getHotseatVerb(constituency) {
 	var e = constituency['2015']
@@ -35,7 +36,7 @@ function processEvent(constituency) {
 		swing: e.swing,
 		percentageMajority: e.percentageMajority,
 		verb: e.winningParty === e.sittingParty ? 'hold' : 'win',
-		how: e.swing < 30 ? `with a ${e.percentageMajority.toFixed(1)}% majority` : `with a ${e.swing.toFixed(1)}% swing`,
+		how: e.swing > 30 ? `with a ${e.swing.toFixed(1)}% swing` : `with a ${e.percentageMajority.toFixed(1)}% majority`,
 		updated: e.updated
 	};
 }
@@ -61,9 +62,13 @@ export class Ticker {
 		var tmp = document.implementation.createHTMLDocument();
 		tmp.body.innerHTML = templateFn({entry: entry});
 		var el = tmp.body.children[0]
+		var link = el.querySelector('.veri__ticker-msg')
 		el.addEventListener('mouseenter', () => this.onHover(entry))
 		el.addEventListener('mouseleave', () => this.onHover(null))
-		el.addEventListener('click', () => this.onClick(entry.id))
+		link.addEventListener('click', function(e) {
+			e.preventDefault();
+			this.onClick(entry.id)
+		}.bind(this));
 		return el;
 	}
 }

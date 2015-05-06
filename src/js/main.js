@@ -29,9 +29,9 @@ function isImportantConstituency(c) {
     return isBigSwingWin(c) || isMarginalConstituency(c);
 }
 
-function isMobile() {
-    return bowser.mobile;
-}
+function isMobile() { return bowser.mobile; }
+
+function isTablet() { return bowser.tablet; }
 
 function isCelebritySeat(c) {
     return hotseats.find(s => s.id === c.ons_id);
@@ -63,13 +63,14 @@ class ElectionResults {
         var dropdownOpts = {
             onSelect: this.selectConstituency.bind(this),
             onFocus: isMobile() ? () => false : this.focusConstituency.bind(this),
-            onKeyDown: evt => evt.keyCode === 27 && this.deselectConstituency()
+            onKeyDown: evt => evt.keyCode === 27 && this.deselectConstituency(),
+            hoverEvents: !(isMobile() || isTablet())
         }
 
         var cartogramOpts = {
             selectCallback: this.selectConstituency.bind(this),
             tooltipCallback: this.cartogramTooltipClick.bind(this),
-            mouseBindings: !isMobile()
+            mouseBindings: !(isMobile() || isTablet())
         }
 
         this.components = {
@@ -100,6 +101,7 @@ class ElectionResults {
                 try {
                     var headline = resp.sheets.Sheet1[0].headline;
                     var standfirst = resp.sheets.Sheet1[0].standfirst;
+                    this.el.querySelector('#mobile-headline').innerHTML = `<h1>${headline}</h2>`
                     this.el.querySelector('#content-meta').innerHTML = `<h1>${headline}</h1><p>${standfirst}</p>`
                 } catch (err) {
                     console.error(err);
@@ -163,7 +165,7 @@ class ElectionResults {
                 self.renderComponent('ticker', self.lastFetchedData);
             })
             var labelEl = li.querySelector('label')
-            if (!isMobile()) {
+            if (!isMobile() && !isTablet()) {
                 labelEl.addEventListener('mouseover', function(evt) {
                     var filter = evt.target.textContent;
                     var latestIds = self.getFilteredTickerData(self.lastFetchedData, filter).map(e => e.ons_id)
@@ -184,12 +186,14 @@ class ElectionResults {
     }
 
     selectConstituency(constituencyId) {
-        if (!isMobile()) {
+        if (isMobile()) {
+            this.scrollAndFocus(constituencyId)
+        } else if (isTablet()) {
+            this.components.details.selectConstituency(constituencyId);
+            this.focusConstituency(constituencyId);
+        } else {
             this.components.cartogram.zoomToConstituency(constituencyId);
             this.components.details.selectConstituency(constituencyId);
-        } else {
-            this.scrollAndFocus(constituencyId)
-            // this.focusConstituency(constituencyId);
         }
     }
 

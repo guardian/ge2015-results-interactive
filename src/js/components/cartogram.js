@@ -319,8 +319,7 @@ export class UKCartogram {
     blurConstituency() {
         var focusHexGroupEl = this.focusHexGroup[0][0];
         this.focusedConstituency = null;
-        this.hexPaths
-            .each(function() { focusHexGroupEl.innerHTML = ''; } )
+        focusHexGroupEl.innerHTML = '';
         this.hideTooltip();
     }
 

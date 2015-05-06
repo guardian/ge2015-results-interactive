@@ -204,12 +204,14 @@
     right: 0;
     overflow: hidden;
     cursor: default;
-    background: rgba(255,255,255,0.9);
     width: 280px;
     padding: 12px 10px;
     box-sizing: border-box;
     @include mq($until: tablet) {
         display: none;
+    }
+    .cartogram[zoomed] &{
+        background: rgba(255,255,255,0.9);
     }
 }
 
@@ -218,6 +220,7 @@
     padding-top: 12px;
     padding-left: 10px;
     cursor: default;
+    width: 100%;
     h4 {
         font-size: 14px;
         font-weight: bold;
@@ -227,11 +230,23 @@
         color: #767676;
         margin-bottom: 0;
     }
+    @include mq($until: desktop) {
+        width: 100px;
+        float: right;
+    }
+    .cartogram[zoomed] & {
+        @include mq($until: desktop) {
+            display: none;
+        }
+    }
     .veri__legend {
         margin-top: 6px;
         li {
             width: 33%;
             display: inline-block;
+        }
+        @include mq($until: desktop) {
+            display: none;
         }
     }
 }
@@ -384,11 +399,13 @@
     line-height: 18px;
     margin-top: 6px;
     &:before {
-        content: 'More details »';
-        display: block;
-        color: #005689;
-        text-decoration: underline;
-        @include mq(tablet) {
+        @include mq($until: tablet) {
+            content: 'More details »';
+            display: block;
+            color: #005689;
+            text-decoration: underline;
+        }
+        @include mq(desktop) {
             content: 'Click for details';
             color: #767676;
             text-decoration: none;

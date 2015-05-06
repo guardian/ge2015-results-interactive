@@ -104,20 +104,6 @@ figure.element-interactive {
     }
 }
 
-.veri__left-pane,
-.veri__right-pane {
-    width: 50%;
-    box-sizing: border-box;
-}
-
-.veri__left-pane {
-    padding-right: 10px;
-    float: left;
-}
-.veri__right-pane {
-    float: right;
-}
-
 #content-meta {
     h1 {
         margin: 12px 0;
@@ -135,6 +121,9 @@ figure.element-interactive {
         @include mq(tablet) {
             font-size: 16px;
         }
+        @include mq($until: desktop) {
+            display: none;
+        }
     }
 }
 
@@ -142,32 +131,32 @@ figure.element-interactive {
     padding-top: 12px;
 }
 
-@media (max-width: 600px) {
-
-    .veri__right-pane {
-        float: none;
-        width: 100%;
-    }
-
-    .veri__left-pane {
-        float: none;
-        width: 100%;
-    }
-
+.veri__left-pane,
+.veri__right-pane {
+    box-sizing: border-box;
+    width: 100%;
 }
 
-@media (min-width: 1300px) {
+.veri__left-pane {
+    padding-right: 10px;
+}
 
-    .veri__right-pane {
-        width: 60%;
-    }
+@include mq(tablet) {
+    .veri__right-pane { float: right; width: 55%; }
+    .veri__left-pane { float: left; width: 45%;  }
+}
 
-    .veri__left-pane {
-        width: 40%;
-    }
-
+@include mq(desktop) {
+    .veri__right-pane { width: 60%; }
+    .veri__left-pane { width: 40%;  }
 }
 
 .timeslider {
     width: 100%;
+}
+
+@include mq(tablet) {
+    #mobile-headline {
+        display: none;
+    }
 }
