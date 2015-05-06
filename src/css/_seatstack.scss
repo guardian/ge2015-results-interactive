@@ -1,7 +1,7 @@
 $seatstack-bp: tablet !default;
 $seatstack-height: 50px !default;
 $seatstack-height-small: 37px;
-$padding-top: 30px;
+$seatstack-top: 30px !default;
 
 .seatstack {
     position: relative;
@@ -12,7 +12,7 @@ $padding-top: 30px;
     border-bottom: 1px solid #DCDCDC;
     padding-bottom: 20px;
     overflow: hidden;
-    padding-top: $padding-top;
+    padding-top: $seatstack-top;
 }
 
 .seatstack__majority {
@@ -21,7 +21,7 @@ $padding-top: 30px;
     position: absolute;
     height: 24px;
     line-height: 24px;
-    top: $seatstack-height-small + $padding-top;
+    top: $seatstack-height-small + $seatstack-top;
     font-size: 11px;
     &:after {
         content: '';
@@ -29,36 +29,36 @@ $padding-top: 30px;
         position: absolute;
         height: 6px;
         left: 50%;
-        bottom: 100%;
+        top: 0;
         z-index: 1;
     }
 
     @include mq($seatstack-bp) {
-        top: $seatstack-height + $padding-top;
+        top: $seatstack-height + $seatstack-top;
     }
 
 }
 
 .seatstack__totals {
     position: absolute;
-    top: $seatstack-height-small + $padding-top;
+    top: $seatstack-height-small + $seatstack-top;
     font-size: 11px;
     line-height: 24px;
     display: none;
     @include mq($seatstack-bp) {
         display: block;
-        top: $seatstack-height + $padding-top;
+        top: $seatstack-height + $seatstack-top;
     }
 }
 
 .seatstack__results {
     display: none;
     position: absolute;
-    top: $seatstack-height-small + $padding-top;
+    top: $seatstack-height-small + $seatstack-top;
     line-height: 24px;
     font-size: 12px;
     @include mq($seatstack-bp) {
-        top: $seatstack-height + $padding-top;
+        top: $seatstack-height + $seatstack-top;
     }
     right: 0;
 }

@@ -10,6 +10,7 @@
 
     @import 'parties'; // TODO: remove when seatstack is fixed
     $seatstack-height: 37px;
+    $seatstack-top: 24px;
     //$seatstack-bp: desktop;
     @import 'seatstack';
     @import 'hourbyhour';
@@ -50,10 +51,6 @@
 
     #analysis {
         visibility: none;
-    }
-
-    .seatstack {
-        padding-top: 24px;
     }
 
     .seatstack__results {
