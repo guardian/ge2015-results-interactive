@@ -1,11 +1,11 @@
 import template from './templates/byConstituency.html!text'
+import tickerTemplate from './templates/byConstituencyTicker.html!text'
 import hotseats from '../data/hotseats.json!json'
 import swig from 'swig'
 import { CartogramLite } from './cartogram-lite';
 
 const templateFn = swig.compile(template);
-const tickerTemplateFn = swig.compile('{{party}} {{verb}} <strong>{{name}}</strong> {{how}}');
-const tickerHotTemplateFn = swig.compile('{{candidate}} {{verb}} <strong>{{name}}</strong> {{how}}');
+const tickerTemplateFn = swig.compile(tickerTemplate);
 
 const hotseatsById = {};
 hotseats.forEach(s => hotseatsById[s.id] = s)
@@ -47,11 +47,13 @@ export class ByConstituency {
         var how = cons.swing < 30 ? `with a ${cons.majority}% majority` : `with a ${cons.swing}% swing`;
         if (cons.reason === 'hot') {
             var verb = getHotseatVerb(cons);
+            var hotseat = hotseatsById[cons.ons_id];
             if (verb === 'fails to take') how = '';
-            if (verb === 'loses') how = `to ${cons.winning} ${how}`;
 
-            this.text.innerHTML = tickerHotTemplateFn({
-                'candidate': hotseatsById[cons.ons_id].candidate,
+            this.text.innerHTML = tickerTemplateFn({
+                'party': hotseat.party,
+                'winner': hotseat.candidate,
+                'to': verb === 'loses' ? cons.winning : '',
                 'verb': verb,
                 'name': cons.name,
                 'how': how
@@ -59,6 +61,7 @@ export class ByConstituency {
         } else {
             this.text.innerHTML = tickerTemplateFn({
                 'party': cons.winning,
+                'winner': cons.winning,
                 'verb': cons.winning === cons.sitting ? 'hold' : 'win',
                 'name': cons.name,
                 'how': how

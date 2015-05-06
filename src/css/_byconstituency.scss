@@ -3,8 +3,38 @@
     overflow: hidden;
 }
 
+.by-constituency__updating {
+    display: inline-block;
+    color: #767676;
+    @include f-textSans;
+    font-size: 12px;
+    font-weight: normal;
+    margin-left: 5px;
+
+    &::before {
+        content: "Updating in ";
+    }
+}
+
 .by-constituency__time {
     float: right;
+}
+
+.by-constituency__party {
+    &::before {
+        content: "";
+        border-radius: 2px;
+        display: inline-block;
+        width: 5px;
+        height: 10px;
+        margin-right: 3px;
+    }
+
+    @each $party, $color in $partyColors {
+        &[data-party='#{$party}']::before {
+            background-color: $color;
+        }
+    }
 }
 
 .by-constituency__map {
