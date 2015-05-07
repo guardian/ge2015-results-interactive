@@ -30,6 +30,7 @@ export class ByConstituency {
         this.text = el.querySelector('.by-constituency__text');
 
         this.interesting = [];
+        this.interestingI = 0;
         this.firstUpdate = true;
     }
 
@@ -39,11 +40,9 @@ export class ByConstituency {
     }
 
     tick() {
-        if (this.interesting.length === 0) {
-            this.interesting = this.lastInteresting.slice();
-        }
+        var cons = this.interesting[this.interestingI++ % this.interesting.length];
+        if (!cons) return;
 
-        var cons = this.interesting.shift();
         var how = cons.swing < 30 ? `with a ${cons.majority}% majority` : `with a ${cons.swing}% swing`;
         if (cons.reason === 'hot') {
             var verb = getHotseatVerb(cons);
@@ -73,17 +72,18 @@ export class ByConstituency {
     }
 
     update(data) {
-        var alreadyInteresting = this.interesting.map(c => c.ons_id);
-        var newlyInteresting = data.interesting.filter(c => alreadyInteresting.indexOf(c.ons_id) === -1);
-        this.interesting = this.interesting.concat(newlyInteresting);
+        var currentlyInteresting = this.interesting.reduce((s, c) => s + c.ons_id, '');
+        var newlyInteresting = data.interesting.reduce((s, c) => s + c.ons_id, '');
+
+        if (newlyInteresting !== currentlyInteresting) {
+            this.interesting = data.interesting;
+            this.interestingI = 0;
+        }
 
         data.constituencies.forEach(function (cons) {
             this.before.setConstituencyParty(cons.ons_id, cons.sitting);
             this.after.setConstituencyParty(cons.ons_id, cons.winning);
         }.bind(this));
-
-        // Store in case client's internet drops
-        this.lastInteresting = data.interesting;
 
         if (this.firstUpdate) {
             window.setInterval(() => this.tick(), 4000);

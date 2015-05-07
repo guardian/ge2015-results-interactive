@@ -67,7 +67,11 @@
         left: auto;
         right: 0;
     }
+}
 
+.by-constituency__map > svg {
+    width: 100%;
+    height: 100%;
 }
 
 .by-constituency__arrow {
