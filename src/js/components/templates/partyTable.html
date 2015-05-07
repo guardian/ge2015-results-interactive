@@ -19,7 +19,7 @@
 				<td>
 					<span class="veri__blip veri__blip--{{ party.abbreviation | cssify }}"></span><span class="veri__party-table-fullname">{{ party.name }}</span><span class="veri__party-table-abbrv">{{ party.abbreviation }}</span></td>
 				{% if party.seats === 0 && party.gains === 0 && party.losses === 0 %}
-					<td>-</td><td>-</td><td>-</td><td>-</td>
+					<td>—</td><td>—</td><td>—</td><td>—</td>
 				{% else %}
 					<td>{{party.seats}}</td>
 					<td>{{party.gains}}</td>
