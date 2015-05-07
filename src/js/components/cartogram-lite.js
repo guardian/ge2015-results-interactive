@@ -1,6 +1,7 @@
 import hexagonsTopo from '../data/hexagons-topo.json!json'
 import regionsTopo from '../data/regions-topo.json!json'
 import topojson from 'mbostock/topojson'
+import bowser from 'ded/bowser'
 import { utm, centroid } from '../lib/geo'
 
 const svgns = "http://www.w3.org/2000/svg";
@@ -129,9 +130,14 @@ export class CartogramLite {
                 this.constituencyContainer.appendChild(path);
             }.bind(this));
 
-            var transform = `transform: translate(${-constituency.center[0]}px, ${-constituency.center[1]}px)`
-            this.container.setAttributeNS(null, 'style',
-                `-ms-${transform}; -webkit-${transform}; ${transform}`);
+            var [x, y] = constituency.center;
+            if (bowser.msie || bowser.opera) {
+                this.container.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`);
+            } else {
+                var transform = `transform: translate(${-x}px, ${-y}px)`
+                this.container.setAttributeNS(null, 'style',
+                    `-ms-${transform}; -webkit-${transform}; ${transform}`);
+            }
 
             this.lastFocusedConstituency = constituency;
         }
