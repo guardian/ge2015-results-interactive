@@ -112,8 +112,6 @@ export class CartogramLite {
 
         this.constituencies = constituencies;
         this.constituencyContainer = constituencyContainer;
-
-        this.pan = pan();
     }
 
     focusConstituency(ons_id) {

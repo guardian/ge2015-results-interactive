@@ -6,7 +6,6 @@ import { Coalitions } from './components/coalitions'
 
 class ElectionSnap {
     constructor(el, dataUrl) {
-        this.el = el;
         this.dataUrl = dataUrl;
 
         this.seatstack = new Seatstack(el.querySelector('#seatstack'), () => null);
@@ -33,7 +32,5 @@ class ElectionSnap {
 
 (function () {
     var dataUrl = 'http://interactive.guim.co.uk/thrashers/election-snap/frontpage.json';
-    // var dataUrl = 'http://s3.amazonaws.com/gdn-cdn/2015/05/election/datatest/liveresults.json';
-
-    new ElectionSnap(document.querySelector('#election-snap'), dataUrl);
+    setTimeout(() => new ElectionSnap(document.querySelector('#election-snap'), dataUrl), 1);
 })();
