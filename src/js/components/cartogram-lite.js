@@ -106,6 +106,7 @@ export class CartogramLite {
         var [constituencyContainer, constituencies] = createConstituencies();
 
         this.container = document.createElementNS(svgns, 'g');
+        this.container.setAttribute('class', 'map-group');
         this.container.appendChild(constituencyContainer);
         this.container.appendChild(regionContainer);
         svg.appendChild(this.container);
@@ -130,10 +131,10 @@ export class CartogramLite {
                 this.constituencyContainer.appendChild(path);
             }.bind(this));
 
-            this.pan(
-                constituency.center,
-                (x, y) => this.container.setAttributeNS(null, 'transform', `translate(${-x}, ${-y})`)
-            );
+            var transform = `transform: translate(${-constituency.center[0]}px, ${-constituency.center[1]}px)`
+            this.container.setAttributeNS(null, 'style',
+                `-ms-${transform}; -webkit-${transform}; ${transform}`);
+
             this.lastFocusedConstituency = constituency;
         }
     }
