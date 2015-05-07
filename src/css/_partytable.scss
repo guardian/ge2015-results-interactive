@@ -89,3 +89,12 @@
         display: inline-block !important;
     }
 }
+.veri-party-table__empty-msg {
+    font-family: $text-sans;
+    font-size: 16px;
+    padding-top: 48px;
+    padding-bottom: 24px;
+    width: 100%;
+    text-align: center;
+    color: #767676;
+}

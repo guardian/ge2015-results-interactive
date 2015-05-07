@@ -9,29 +9,34 @@
 				<th>Loss</th>
 				<th>Net</th>
 				<th>Votes</th>
-				<th>%</th>
-				<th>+/-%</th>
+				<th>Vote share (%)</th>
+				<th>Swing (%)</th>
 			</tr>
 		</thead>
 		<tbody>
-			{% for party in parties %}
-			<tr {% if party.seats > 0 %}class="veri-party-table__seat-party"{%endif%}>
-				<td>
-					<span class="veri__blip veri__blip--{{ party.abbreviation | cssify }}"></span><span class="veri__party-table-fullname">{{ party.name }}</span><span class="veri__party-table-abbrv">{{ party.abbreviation }}</span></td>
-				{% if party.seats === 0 && party.gains === 0 && party.losses === 0 %}
-					<td>—</td><td>—</td><td>—</td><td>—</td>
-				{% else %}
-					<td>{{party.seats}}</td>
-					<td>{{party.gains}}</td>
-					<td>{{party.losses}}</td>
-					<td>{{party.gains - party.losses}}</td>
-				{% endif %}
-				<td>{{party.votes | commas}}</td>
-				<td>{{party.percentageShare.toFixed(1)}}%</td>
-				{% if party.percentageChange === null %}<td class="veri-party-table__na">N/A</td>
-				{% else %}<td>{{party.percentageChange.toFixed(1)}}%</td>{% endif %}
-			</tr>
-			{% endfor %}
+			{% if parties.length > 0 %}
+				{% for party in parties %}
+				<tr {% if party.seats > 0 %}class="veri-party-table__seat-party"{%endif%}>
+					<td>
+						<span class="veri__blip veri__blip--{{ party.abbreviation | cssify }}"></span><span class="veri__party-table-fullname">{{ party.name }}</span><span class="veri__party-table-abbrv">{{ party.abbreviation }}</span></td>
+					{% if party.seats === 0 && party.gains === 0 && party.losses === 0 %}
+						<td>—</td><td>—</td><td>—</td><td>—</td>
+					{% else %}
+						<td>{{party.seats}}</td>
+						<td>{{party.gains}}</td>
+						<td>{{party.losses}}</td>
+						<td>{{party.gains - party.losses}}</td>
+					{% endif %}
+					<td>{{party.votes | commas}}</td>
+					<td>{{party.percentageShare.toFixed(1)}}%</td>
+					{% if party.percentageChange === null %}<td class="veri-party-table__na">N/A</td>
+					{% else %}<td>{{party.percentageChange.toFixed(1)}}%</td>{% endif %}
+				</tr>
+				{% endfor %}
+			{% endif %}
 		</tbody>
 	</table>
+	{% if parties.length === 0 %}
+	<div class="veri-party-table__empty-msg">No results yet</div>
+	{% endif %}
 </div>

@@ -23,6 +23,6 @@ export class PartyTable {
         var sortedParties = data.PASOP.parties
             .filter(p1 => p1.votes > 0)
             .sort((p1,p2) => (p1.seats - p2.seats) || (p1.votes - p2.votes)).reverse();
-        this.el.innerHTML = data.PASOP.parties.length ? templateFn({parties: sortedParties}) : '';
+        this.el.innerHTML = templateFn({parties: sortedParties})
     }
 }
