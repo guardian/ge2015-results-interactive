@@ -421,11 +421,16 @@ export class UKCartogram {
         if (this.metric.startsWith('voteshare')) {
             var partyName = this.metric.substr('voteshare '.length);
             var party = this.lastRenderedData.PASOP.parties.find(p => p.abbreviation === partyName);
-            var perc = party.percentageShare;
-            var percChange = party.percentageChange;
-            var increasedecrease = percChange < 0 ? 'decrease' : 'increase';
-            meta.header = `${party.name} vote share`;
-            meta.description = `National vote share ${wasis} ${perc.toFixed(0)}%, a ${Math.abs(percChange.toFixed(1))} percentage point ${increasedecrease}`
+            if (party) {
+                var perc = party.percentageShare;
+                var percChange = party.percentageChange;
+                var increasedecrease = percChange < 0 ? 'decrease' : 'increase';
+                meta.header = `${party.name} vote share`;
+                meta.description = `National vote share ${wasis} ${perc.toFixed(0)}%, a ${Math.abs(percChange.toFixed(1))} percentage point ${increasedecrease}`
+            } else {
+                meta.header = `${partyName} vote share`;
+                meta.description = 'Awaiting results'
+            }
         } else if (this.metric === 'Turnout %') {
             var turnout = this.lastRenderedData.overview.turnoutPerc;
             meta.header = "Turnout";

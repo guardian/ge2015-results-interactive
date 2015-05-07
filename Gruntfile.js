@@ -1,8 +1,17 @@
 var fs = require('fs');
+var timestamp = Date.now();
+
+var s3bucket = 'gdn-cdn';
+var s3path = '2015/05/results-interactive/';
+var s3target = 'http://visuals.guim.co.uk/' + s3path + timestamp;
 
 module.exports = function(grunt) {
 
     require('jit-grunt')(grunt);
+
+    var s3 = grunt.option('s3') || false;
+
+    grunt.log.writeln('Compiling ' + (s3 ? 'for S3' : 'locally'));
 
     grunt.initConfig({
 
@@ -43,7 +52,7 @@ module.exports = function(grunt) {
 
         shell: {
             jspmBundleStatic: {
-                command: './node_modules/.bin/jspm bundle-sfx src/js/main build/main.js',
+                command: './node_modules/.bin/jspm bundle-sfx ' + (s3 ? '-m ' : '') + 'src/js/main build/main.js',
                 options: {
                     execOptions: {
                         cwd: '.'
@@ -64,7 +73,7 @@ module.exports = function(grunt) {
             'harness': {
                 'options': {
                     'data': {
-                        'assetPath': '',
+                        'assetPath': s3 ? s3target : '',
                     }
                 },
                 'files': {
@@ -88,9 +97,15 @@ module.exports = function(grunt) {
         },
 
         copy: {
-            main: {
+            build: {
                 files: [
                     {expand: true, cwd: 'harness/', src: ['curl.js', 'index.html', 'mega.json', 'front.html', 'frontpage.json'], dest: 'build'},
+                ]
+            },
+            deploy: {
+                files: [
+                    {expand: true, cwd: 'build/', src: ['boot.js'], dest: 'deploy' },
+                    {expand: true, cwd: 'build/', src: ['main.js', 'main.css', 'main.js.map', 'main.css.map'], dest: 'deploy/' + timestamp }
                 ]
             }
         },
@@ -121,7 +136,8 @@ module.exports = function(grunt) {
                     }
                 }
             }
-      }
+        }
     });
-    grunt.registerTask('default', ['clean','sass','shell','template','copy','symlink', 'connect', 'watch']);
+    grunt.registerTask('default', ['clean','sass','shell','template','copy:build','symlink', 'connect', 'watch']);
+    grunt.registerTask('build', ['clean','sass','shell','template', s3 ? 'copy' : 'copy:build']);
 }
