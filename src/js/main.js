@@ -187,7 +187,7 @@ class ElectionResults {
 
     get twitterShareText() {
         if (this.lastFetchedData.PASOP.numberOfResults === 0) {
-            return "First result expected at 11pm: http://gu.com/p/487e9"
+            return "Live UK election results. First result expected at 11pm: http://gu.com/p/487e9"
         } else {
             var resultCount = this.lastFetchedData.PASOP.numberOfResults;
             var partiesByID = {}; this.lastFetchedData.PASOP.parties.map(p => partiesByID[p.abbreviation] = p);
