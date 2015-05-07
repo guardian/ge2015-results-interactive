@@ -32,7 +32,7 @@ class ElectionSnap {
 }
 
 (function () {
-    var dataUrl = 'frontpage.json';
+    var dataUrl = 'http://interactive.guim.co.uk/thrashers/election-snap/frontpage.json';
     // var dataUrl = 'http://s3.amazonaws.com/gdn-cdn/2015/05/election/datatest/liveresults.json';
 
     new ElectionSnap(document.querySelector('#election-snap'), dataUrl);
