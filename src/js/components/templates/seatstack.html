@@ -9,7 +9,7 @@
     <ul class="seatstack__bar">
         {% for party in partyData %}
         {% if party.seats > 0 %}
-        <li data-partyhover="{{party.name}}" data-partyname="{{party.name}}" style="width: {{(party.seats/650)*100}}%">
+        <li {% if party.name !== 'Others' %}data-partyhover="{{party.name}}"{% endif %} data-partyname="{{party.name}}" style="width: {{(party.seats/650)*100}}%">
             <span>{% if party.seats >= 10 && party.name != 'Pending' %}{{party.seats}}{% endif %}</span>
         </li>
         {% endif %}
@@ -24,7 +24,7 @@
             <span class="seatstack-list__seats is-header">seats</span>
         </li>
         {% for party in list %}
-        <li class="seatstack-list__item" data-partyhover="{{party.name}}">
+        <li class="seatstack-list__item" {% if party.name !== 'Others' %}data-partyhover="{{party.name}}"{% endif %} >
             <span class="seatstack-list__partybox" data-partyname="{{party.name}}"></span>
             <span class="seatstack-list__party-name">{{party.name}}</span>
             <span class="seatstack-list__losses">{% if party.losses > 0 %}-{%endif%}{{party.losses}}</span>
