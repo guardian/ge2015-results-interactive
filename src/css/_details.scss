@@ -1,7 +1,6 @@
 .veri__details {
     background-color: #f6f6f6;
     box-sizing: border-box;
-    margin-top: 40px;
     padding: 0 10px;
     overflow: hidden;
     max-height: 0;
@@ -10,6 +9,11 @@
     font-size: 14px;
     max-width: 450px;
     position: relative;
+    .veri--show-overlay & {
+        @include mq($until: tablet) {
+            margin-top: 40px;
+        }
+    }
 
     @include mq($until: tablet) {
         position: fixed;
@@ -18,6 +22,10 @@
         right: 0;
         bottom: 0;
         background-color: rgba(246,246,246, 0.95);
+    }
+
+    @include mq(tablet) {
+        margin-top: 24px;
     }
 
     h2 {
