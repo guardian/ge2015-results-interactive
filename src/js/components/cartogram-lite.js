@@ -2,7 +2,6 @@ import hexagonsTopo from '../data/hexagons-topo.json!json'
 import regionsTopo from '../data/regions-topo.json!json'
 import topojson from 'mbostock/topojson'
 import { utm, centroid } from '../lib/geo'
-import { pan } from '../lib/pan'
 
 const svgns = "http://www.w3.org/2000/svg";
 
@@ -122,6 +121,7 @@ export class CartogramLite {
 
         if (constituency != this.lastFocusedConstituency) {
             if (this.lastFocusedConstituency) {
+                // TODO: delay
                 this.lastFocusedConstituency.paths.forEach((p) => p.removeAttribute('data-selected'));
             }
 
