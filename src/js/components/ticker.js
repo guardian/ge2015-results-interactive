@@ -50,13 +50,17 @@ export class Ticker {
 	}
 
 	render(data) {
-		this.el.innerHTML = '<ul class="veri__ticker">'
-		var listEl = this.el.querySelector('.veri__ticker')
-		data
-			.map(constituency => processEvent(constituency))
-			.map(entry => this.createTickerEntryElement(entry))
-			.forEach(el => listEl.appendChild(el))
-		relativeDates(this.el);
+		if (data.length) {
+			this.el.innerHTML = '<ul class="veri__ticker">'
+			var listEl = this.el.querySelector('.veri__ticker')
+			data
+				.map(constituency => processEvent(constituency))
+				.map(entry => this.createTickerEntryElement(entry))
+				.forEach(el => listEl.appendChild(el))
+			relativeDates(this.el);
+		} else {
+			this.el.innerHTML = '<div class="veri__empty-ticker">Awaiting results</div>';
+		}
 	}
 
 	createTickerEntryElement(entry) {
