@@ -31,6 +31,6 @@ class ElectionSnap {
 }
 
 (function () {
-    var dataUrl = 'http://interactive.guim.co.uk/thrashers/election-snap/frontpage.json';
+    var dataUrl = 'http://visuals.guim.co.uk/thrashers/election-snap/frontpage.json';
     setTimeout(() => new ElectionSnap(document.querySelector('#election-snap'), dataUrl), 1);
 })();
