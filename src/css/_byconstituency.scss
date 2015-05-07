@@ -4,7 +4,7 @@
 }
 
 .by-constituency__results {
-    @include f-textSans;
+    font-family: $text-sans;
     font-size: 12px;
     font-weight: normal;
     float: right;
