@@ -10,7 +10,7 @@
         {% for party in partyData %}
         {% if party.seats > 0 %}
         <li {% if party.name !== 'Others' %}data-partyhover="{{party.name}}"{% endif %} data-partyname="{{party.name}}" style="width: {{(party.seats/650)*100}}%">
-            <span>{% if party.seats >= 10 && party.name != 'Pending' %}{{party.seats}}{% endif %}</span>
+            <span>{% if party.name === 'Lab' || party.name === 'Con' || party.seats >= 10 && party.name != 'Pending' %}{{party.seats}}{% endif %}</span>
         </li>
         {% endif %}
         {% endfor %}
