@@ -75,15 +75,30 @@ $seatstack-top: 30px !default;
         margin-bottom: 12px;
     }
 
+    li, li span a {
+        font-family: $egyptian;
+        font-weight: bold;
+        font-weight: 600;
+        font-size: 14px;
+
+        &[data-partyname='Lab'],
+        &[data-partyname='Con'] {
+            font-size: 18px;
+        }
+    }
+
+    @each $party, $color in $partyColors {
+        li[data-partyname='#{$party}'],
+        li[data-partyname='#{$party}'] span a {
+            color: $color;
+        }
+    }
+
     li {
         float: left;
         height: 100%;
         text-align: center;
         position: relative;
-        font-family: $egyptian;
-        font-weight: bold;
-        font-weight: 600;
-        font-size: 14px;
 
         span {
             position: absolute;
