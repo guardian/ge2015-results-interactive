@@ -5,11 +5,9 @@ import d3 from 'd3'
 import textures from 'riccardoscalco/textures'
 import dropdownHTML from './templates/cartogramDropdown.html!text'
 import bonzo from 'ded/bonzo'
-import gradientSvgTemplate from './templates/gradient.svg!text'
 import swig from 'swig'
 import { Legend } from './legend'
-
-const gradientTemplateFn = swig.compile(gradientSvgTemplate)
+import { b64gradient } from '../lib/svg-gradient'
 
 d3.selection.prototype.moveToFront = function() {
     return this.each(function(){
@@ -464,10 +462,9 @@ export class UKCartogram {
                 // else d3.select(this).classed('cartogram__hex--')
                 // return value !== undefined ?  : defaultFill;
             });
-        var gradientSvg = gradientTemplateFn({startColor: colorRange[0], endColor: colorRange[colorRange.length-1]});
-        var b64gradient = btoa(gradientSvg);
+        var gradient = b64gradient(colorRange[0], colorRange[colorRange.length-1]);
         var keyHTML =
-            `<div class="cartogram__gradient-key" style="background: url(data:image/svg+xml;base64,${b64gradient})">
+            `<div class="cartogram__gradient-key" style="background: url(data:image/svg+xml;base64,${gradient})">
                 <span>${minValRounded}%</span><span>${maxValRounded}%</span>
             </div>`;
         this.renderLegend(keyHTML);
