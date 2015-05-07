@@ -4,7 +4,7 @@ import swig from 'swig'
 import qwery from 'qwery'
 import bean from 'fat/bean'
 import bowser from 'ded/bowser'
-import { removeClass, throttle } from './lib/util'
+import { addClass, removeClass, throttle } from './lib/util'
 import { Seatstack } from './components/seatstack'
 import { Ticker } from './components/ticker'
 import { UKCartogram } from './components/cartogram'
@@ -48,12 +48,13 @@ class ElectionResults {
         this.createComponents();
         this.createLatestFilter();
         this.initEventHandlers();
+        this.mainEl = this.el.querySelector('.veri')
         // window.setInterval(this.fetchDataAndRender.bind(this), 5000);
+        removeClass(this.mainEl, 'veri--loading')
+        addClass(this.mainEl, 'veri--fetching-data')
         this.fetchDataAndRender();
         this.fetchAndRenderContentMeta();
 
-        this.mainEl = this.el.querySelector('.veri')
-        removeClass(this.mainEl, 'veri--loading')
     }
 
     createComponents() {
@@ -271,6 +272,7 @@ class ElectionResults {
             success: function(resp) {
                 this.lastFetchedData = resp;
                 this.renderDataComponents(resp);
+                removeClass(this.mainEl, 'veri--fetching-data');
                 this.handleHashLink();
             }.bind(this)
         });
