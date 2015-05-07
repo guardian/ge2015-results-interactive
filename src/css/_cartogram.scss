@@ -295,6 +295,8 @@
 }
 .cartogram__dropdown-container {
     float: left;
+    width: 150px;
+    position: relative;
 }
 
 .cartogram__dropdown {
@@ -308,7 +310,7 @@
     padding-left: 10px;
     border: 1px solid #bdbdbd;
     margin-right: 20px;
-    width: 150px;
+    width: 100%;
 }
 
 @-moz-document url-prefix() {
