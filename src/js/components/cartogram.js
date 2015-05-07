@@ -8,6 +8,7 @@ import bonzo from 'ded/bonzo'
 import swig from 'swig'
 import { Legend } from './legend'
 import { b64gradient } from '../lib/svg-gradient'
+import declarationTimes from '../data/declaration-times.json!json';
 
 d3.selection.prototype.moveToFront = function() {
     return this.each(function(){
@@ -136,7 +137,8 @@ export class UKCartogram {
 
             msg = `<p>${partyName(e.winningParty)} ${verb}${fromParty} ${how}</p>`
         } else {
-            msg = '<p>Result pending</p>'
+            var declarationTime = declarationTimes[constituencyId];
+            msg = `<p>Result expected at ${declarationTime}</p>`
         }
 
         this.tooltip.innerHTML =
