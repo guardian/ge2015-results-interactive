@@ -17,6 +17,7 @@ export class Dropdown {
             onFocus: opts.onFocus,
             onKeyDown: opts.onKeyDown,
             hoverEvents: opts.hoverEvents,
+            disableBlur: opts.disableBlur,
             placeholder: "Enter constituency or postcode"
         })
     }

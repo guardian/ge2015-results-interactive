@@ -66,7 +66,8 @@ class ElectionResults {
             onSelect: this.selectConstituency.bind(this),
             onFocus: isMobile() ? () => false : this.focusConstituency.bind(this),
             onKeyDown: evt => evt.keyCode === 27 && this.deselectConstituency(),
-            hoverEvents: !(isMobile() || isTablet())
+            hoverEvents: !(isMobile() || isTablet()),
+            disableBlur: bowser.ios && bowser.safari
         }
 
         var cartogramOpts = {
@@ -185,15 +186,19 @@ class ElectionResults {
     }
 
     get twitterShareText() {
-        var resultCount = this.lastFetchedData.PASOP.numberOfResults;
-        var partiesByID = {}; this.lastFetchedData.PASOP.parties.map(p => partiesByID[p.abbreviation] = p);
-        var parties = ['Lab','Con','LD','SNP','UKIP'];
-        var partyCountText = parties
-            .map(p => { return { name: p, seats: partiesByID[p].seats } })
-            .sort((a,b) => b.seats - a.seats )
-            .map(p => `${p.name} ${p.seats}`)
-            .join(', ')
-        return `${resultCount} of 650 results - ${partyCountText} - #Election2015`;
+        if (this.lastFetchedData.PASOP.numberOfResults === 0) {
+            return "First result expected at 11pm: http://gu.com/p/487e9"
+        } else {
+            var resultCount = this.lastFetchedData.PASOP.numberOfResults;
+            var partiesByID = {}; this.lastFetchedData.PASOP.parties.map(p => partiesByID[p.abbreviation] = p);
+            var parties = ['Lab','Con','LD','SNP','UKIP'];
+            var partyCountText = parties
+                .map(p => { return { name: p, seats: partiesByID[p].seats } })
+                .sort((a,b) => b.seats - a.seats )
+                .map(p => `${p.name} ${p.seats}`)
+                .join(', ')
+            return `${resultCount} of 650 results: ${partyCountText} http://gu.com/p/487e9`;
+        }
     }
 
     get twitterShareUrl() {
@@ -337,8 +342,8 @@ class ElectionResults {
 
 function init(el, context, config, mediator) {
 
-    var shareUrl = 'http://gu.com/p/464t6';
-    var dataUrl = 'http://visuals.guim.co.uk/2015/05/election/datatest/liveresults.json';
+    var shareUrl = 'http://gu.com/p/487e9';
+    var dataUrl = 'http://visuals.guim.co.uk/2015/05/election/data/liveresults.json';
 
     el.innerHTML = swig.render(tmplMain);
 

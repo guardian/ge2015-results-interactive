@@ -124,7 +124,7 @@
 		// create listeners
 		input.addEventListener('keyup', onInputKeyUp) ;
 		input.addEventListener('keydown', onInputKeyDown) ;
-		input.addEventListener('blur', onBlur) ;
+		if (!opts.disableBlur) input.addEventListener('blur', onBlur);
 
 		dropdown.addEventListener('mousedown', onDropdownClick);
 		if (opts.hoverEvents) {
