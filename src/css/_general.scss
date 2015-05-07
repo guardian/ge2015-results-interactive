@@ -38,18 +38,26 @@ figure.element-interactive {
     }
 }
 
-.veri--loading:before {
+.veri--loading:before,
+.veri--fetching-data:before {
     position: absolute;
     width: 100%;
     height: 100%;
-    background: rgba(255,255,255,0.8);
-    content: 'Loading…';
+    background: rgba(255,255,255,0.9);
     text-align: center;
     line-height: 300px;
-    font-family: "Guardian Agate Sans 1 Web","Agate Sans",sans-serif;
     font-family: $egyptian;
     font-size: 24px;
+    z-index: 1;
 }
+
+.veri--loading:before {
+    content: 'Loading…';
+}
+.veri--fetching-data:before {
+    content: 'Fetching data…';
+}
+
 
 [data-partyname='Lab'] { background-color: #E31F26; color: #E31F26; }
 [data-partyname='SNP'] { background-color: #FCDD03; color: #FCDD03; }
