@@ -8,5 +8,7 @@ export class HourByHour {
     }
 
     tick() {}
-    update(data) {}
+    update(data) {
+        this.el.style.visibility = 'visible';
+    }
 }

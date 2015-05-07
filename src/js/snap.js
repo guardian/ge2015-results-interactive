@@ -16,8 +16,6 @@ class ElectionSnap {
 
         //window.setInterval(() => this.fetchDataAndRender(), 5000);
         this.fetchDataAndRender();
-
-        window.setInterval(() => this.analysis.tick(), 4000);
     }
 
     fetchDataAndRender() {

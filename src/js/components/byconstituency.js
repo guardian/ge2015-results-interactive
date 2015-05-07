@@ -86,8 +86,10 @@ export class ByConstituency {
         this.lastInteresting = data.interesting;
 
         if (this.firstUpdate) {
+            window.setInterval(() => this.tick(), 4000);
             this.tick();
-            this.el.style.visiblity = 'visible';
+
+            this.el.style.visibility = 'visible';
             this.firstUpdate = false;
         }
     }

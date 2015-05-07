@@ -1,11 +1,12 @@
 <h2>The coalitions</h2>
 <div class="coalitions">
-    <div class="coalitions__party coalitions__party--large" data-party="lab">Lab</div>
-    <div class="coalitions__party coalitions__party--medium" data-party="snp">SNP</div>
-    <div class="coalitions__party coalitions__party--small" data-party="sdlp">SDLP</div>
-    <div class="coalitions__party coalitions__party--small" data-party="pc">PC</div>
-    <div class="coalitions__party coalitions__party--small" data-party="green">Gre</div>
+    {% for party in data.parties %}
+        <div class="coalitions__party" data-party="{{party.toLowerCase()}}"></div>
+    {% endfor %}
 </div>
-<p style="font-size: 14px"><strong>Lab, SNP, SDLP, PC, Green</strong></p>
-<p>An anti-Tory bloc would vote down a Conservative government</p>
-<p><a href="#">Build your own coalition &raquo;</a></p>
+<p class="coalitions-title">
+    <strong>{{data.parties.join(', ')}}</strong>
+    <span class="coalitions-title__seats">{{seats(data.parties)}}</span>
+</p>
+<p>{{data.copy}}</p>
+<p><a href="http://www.theguardian.com/politics/ng-interactive/2015/may/07/election-2015-interactive-coalition-builder">Build your own coalition &raquo;</a></p>

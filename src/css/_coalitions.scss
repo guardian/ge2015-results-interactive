@@ -18,19 +18,53 @@
         }
     }
 
-    @mixin party-size($name, $size) {
-        &.coalitions__party--#{$name} {
+    $partyImgs: (
+        con: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/con-h.png',
+        lab: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/lab-h.png',
+        snp: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/snp-h.png',
+        ld: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/libdem-n.png',
+        ukip: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/ukip-n.png',
+        sdlp: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/sdlp-n.png',
+        green: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/green-h.png',
+        pc: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/pc-h.png',
+        dup: 'http://interactive.guim.co.uk/2015/apr/coalition-builder/assets-1430939301391/imgs/pics/dup-h.png'
+    );
+
+    @each $party, $img in $partyImgs {
+        &[data-party='#{$party}'] {
+            background-image: url(#{$img});
+            background-size: cover;
+        }
+    }
+
+    @mixin party-size($party, $size) {
+        &[data-party='#{$party}'] {
             width: $size;
             height: $size;
             line-height: $size;
         }
     }
 
-    @include party-size(large, 130px);
-    @include party-size(medium, 90px);
-    @include party-size(small, 40px);
+    @include party-size(lab, 130px);
+    @include party-size(con, 130px);
+    @include party-size(snp, 90px);
+    @include party-size(ld, 90px);
+    @include party-size(dup, 40px);
+    @include party-size(pc, 40px);
+    @include party-size(sdlp, 40px);
+    @include party-size(ukip, 40px);
+    @include party-size('green', 40px);
 
-    &.coalitions__party--large {
+    &[data-party='lab'], &[data-party='con'] {
         margin-bottom: 100px;
     }
+}
+
+.coalitions-title {
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.coalitions-title__seats {
+    color: #767676;
 }
