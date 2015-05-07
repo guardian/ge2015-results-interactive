@@ -8,7 +8,7 @@ $egyptian: "Guardian Egyptian Web",Georgia,serif;
 #election-snap {
     width: 100%;
     border-top: 1px solid #333;
-    padding-top: 6px;
+    padding-top: 0;
     background-color: #dcdcdc;
 
     @import 'parties'; // TODO: remove when seatstack is fixed
@@ -102,6 +102,10 @@ $egyptian: "Guardian Egyptian Web",Georgia,serif;
         font-size: 14px;
         line-height: 1.25;
         padding: 6px 0;
+    }
+
+    .snap__left-pane h2 {
+        font-size: 18px;
     }
 
     a {
