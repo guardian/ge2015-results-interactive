@@ -1,8 +1,8 @@
 import reqwest from 'reqwest'
 import { Seatstack } from './components/seatstack'
 import { HourByHour } from './components/hourbyhour'
-import { ByConstituency } from './components/byconstituency'
-import { Coalitions } from './components/coalitions'
+//import { ByConstituency } from './components/byconstituency'
+//import { Coalitions } from './components/coalitions'
 
 class ElectionSnap {
     constructor(el, dataUrl) {
@@ -11,8 +11,8 @@ class ElectionSnap {
         this.left = el.querySelector('.snap__left-pane');
 
         this.seatstack = new Seatstack(el.querySelector('#seatstack'), () => null);
-        //this.analysis = new HourByHour(el.querySelector('#analysis'));
-        this.analysis = new ByConstituency(el.querySelector('#analysis'));
+        this.analysis = new HourByHour(el.querySelector('#analysis'));
+        //this.analysis = new ByConstituency(el.querySelector('#analysis'));
         //this.analysis = new Coalitions(el.querySelector('#analysis'));
 
         window.setInterval(() => this.fetchDataAndRender(), 10000);
