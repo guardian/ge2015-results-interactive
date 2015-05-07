@@ -10,7 +10,7 @@
 				<th>Net</th>
 				<th>Votes</th>
 				<th>Vote share (%)</th>
-				<th>Swing (%)</th>
+				<th>Swing (points)</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -30,13 +30,13 @@
 					<td>{{party.votes | commas}}</td>
 					<td>{{party.percentageShare.toFixed(1)}}%</td>
 					{% if party.percentageChange === null %}<td class="veri-party-table__na">N/A</td>
-					{% else %}<td>{{party.percentageChange.toFixed(1)}}%</td>{% endif %}
+					{% else %}<td>{{party.percentageChange.toFixed(1)}}</td>{% endif %}
 				</tr>
 				{% endfor %}
 			{% endif %}
 		</tbody>
 	</table>
 	{% if parties.length === 0 %}
-	<div class="veri-party-table__empty-msg">No results yet</div>
+	<div class="veri-party-table__empty-msg">First results expected at 11pm</div>
 	{% endif %}
 </div>
