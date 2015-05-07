@@ -429,12 +429,12 @@ export class UKCartogram {
                 meta.description = `National vote share ${wasis} ${perc.toFixed(0)}%, a ${Math.abs(percChange.toFixed(1))} percentage point ${increasedecrease}`
             } else {
                 meta.header = `${partyName} vote share`;
-                meta.description = 'Awaiting results'
+                meta.description = 'Awaiting first result'
             }
         } else if (this.metric === 'Turnout %') {
             var turnout = this.lastRenderedData.overview.turnoutPerc;
             meta.header = "Turnout";
-            meta.description = `National turnout ${wasis} ${turnout.toFixed(0)}%`;
+            meta.description = turnout ? `National turnout ${wasis} ${turnout.toFixed(0)}%` : 'Awaiting first result';
         } else if (this.metric.startsWith('arrow-gain')) {
             var partyName = this.metric.substr('arrow-gain '.length);
             meta.header = `Where ${partyName} has gained support`;
@@ -449,28 +449,30 @@ export class UKCartogram {
 
     renderChoropleth(idToValMap, colorRange, defaultFill=null) {
         var roundTo = 5;
+        var minValRounded, maxValRounded;
         var values = Object.keys(idToValMap).map(k => idToValMap[k]).filter(k => k !== undefined)
-        var minVal = Math.round(Math.min.apply(null, values));
-        var maxVal = Math.round(Math.max.apply(null, values));
-        var minValRounded = minVal - (minVal % roundTo);
-        var maxValRounded = maxVal + 5 - (maxVal % roundTo);
-        var color = d3.scale.linear()
-            .domain([minValRounded, maxValRounded])
-            .range(colorRange);
-
-        this.hexPaths
-            .each(function(d) {
-                var value = idToValMap[d.properties.constituency];
-                d3.select(this)
-                    .attr('fill', value ? color(value) : '')
-                    .classed('cartogram__hex--empty', !value);
-                // else d3.select(this).classed('cartogram__hex--')
-                // return value !== undefined ?  : defaultFill;
-            });
+        if (values.length) {
+            var minVal = Math.round(Math.min.apply(null, values));
+            var maxVal = Math.round(Math.max.apply(null, values));
+            minValRounded = minVal - (minVal % roundTo);
+            maxValRounded = maxVal + 5 - (maxVal % roundTo);
+            var color = d3.scale.linear()
+                .domain([minValRounded, maxValRounded])
+                .range(colorRange);
+            this.hexPaths
+                .each(function(d) {
+                    var value = idToValMap[d.properties.constituency];
+                    d3.select(this)
+                        .attr('fill', value ? color(value) : '')
+                        .classed('cartogram__hex--empty', !value);
+                });
+        }
         var gradient = b64gradient(colorRange[0], colorRange[colorRange.length-1]);
+        var keyMin = minValRounded === undefined ? '—' : minValRounded + '%';
+        var keyMax = maxValRounded === undefined ? '—' : maxValRounded + '%';
         var keyHTML =
             `<div class="cartogram__gradient-key" style="background: url(data:image/svg+xml;base64,${gradient})">
-                <span>${minValRounded}%</span><span>${maxValRounded}%</span>
+                <span>${keyMin}</span><span>${keyMax}</span>
             </div>`;
         this.renderLegend(keyHTML);
     }
