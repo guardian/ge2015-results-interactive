@@ -26,7 +26,7 @@ module.exports = function(grunt) {
             },
             harness: {
                 files: ['harness/**/*'],
-                tasks: ['copy:main','template']
+                tasks: ['copy:build','template']
             },
             html: {
                 files: ['src/html/**/*'],
