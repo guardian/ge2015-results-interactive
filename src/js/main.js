@@ -193,11 +193,11 @@ class ElectionResults {
             var partiesByID = {}; this.lastFetchedData.PASOP.parties.map(p => partiesByID[p.abbreviation] = p);
             var parties = ['Lab','Con','LD','SNP','UKIP'];
             var partyCountText = parties
-                .map(p => { return { name: p, seats: partiesByID[p].seats } })
+                .map(p => { return { name: p, seats: partiesByID[p] ? partiesByID[p].seats : 0 } })
                 .sort((a,b) => b.seats - a.seats )
                 .map(p => `${p.name} ${p.seats}`)
                 .join(', ')
-            return `${resultCount} of 650 results: ${partyCountText} http://gu.com/p/487e9`;
+            return `${resultCount} of 650 results: ${partyCountText} http://gu.com/p/487e9 #GE2015`;
         }
     }
 
