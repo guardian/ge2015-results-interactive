@@ -14,6 +14,7 @@ import { Details } from './components/details'
 import { Legend } from './components/legend'
 import { PartyTable } from './components/partyTable'
 import hotseats from './data/hotseats.json!json'
+import { setCurrentTime } from './lib/relativedate'
 
 function isResult(c) { return c['2015'].status === 'result'; }
 function isMarginalConstituency(c) {
@@ -299,12 +300,18 @@ class ElectionResults {
     }
 
     fetchDataAndRender() {
-        reqwest({
+        var req = reqwest({
             url: this.dataUrl,
             type: 'json',
             crossOrigin: true,
             success: function(resp) {
                 this.lastFetchedData = resp;
+                try { // use response's date header to use for relative dates (we trust CDN date more than local)
+                    var date = req.request.getResponseHeader('Date');
+                    if (date) setCurrentTime(new Date(Date.parse(date)));
+                } catch (err) {
+                    console.err('Error parsing date');
+                }
                 this.renderDataComponents(resp);
                 removeClass(this.mainEl, 'veri--fetching-data');
                 this.handleHashLink();
