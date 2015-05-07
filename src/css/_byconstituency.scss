@@ -23,6 +23,7 @@
         width: 5px;
         height: 10px;
         margin-right: 3px;
+        background-color: #B3B3B4;
     }
 
     @each $party, $color in $partyColors {
