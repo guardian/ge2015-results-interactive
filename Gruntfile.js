@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                 }
             },
             jspmBundleSnap: {
-                command: './node_modules/.bin/jspm bundle-sfx src/js/snap build/snap.js',
+                command: './node_modules/.bin/jspm bundle-sfx ' + (s3 ? '-m ' : '') + 'src/js/snap build/snap.js',
                 options: {
                     execOptions: {
                         cwd: '.'
