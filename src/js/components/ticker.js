@@ -60,9 +60,9 @@ export class Ticker {
 	}
 
 	createTickerEntryElement(entry) {
-		var tmp = document.implementation.createHTMLDocument();
-		tmp.body.innerHTML = templateFn({entry: entry});
-		var el = tmp.body.children[0]
+		var tmp = document.createElement('div');
+		tmp.innerHTML = templateFn({entry: entry});
+		var el = tmp.children[0]
 		var link = el.querySelector('.veri__ticker-msg')
 		if (this.onHover) {
 			el.addEventListener('mouseenter', () => this.onHover(entry))
