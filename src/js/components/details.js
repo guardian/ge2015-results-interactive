@@ -109,7 +109,6 @@ export class Details {
     }
 
     get twitterShareUrl() {
-        var c = this.constituenciesById[this.selectedConstituency];
         return `https://twitter.com/intent/tweet?text=${encodeURIComponent(this.twitterShareText)}`;
     }
 

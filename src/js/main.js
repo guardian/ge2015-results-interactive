@@ -80,7 +80,7 @@ class ElectionResults {
         }
 
         this.components = {
-            details: new Details(el.querySelector('#constituency-details'), {share_url: 'http://gu.com/p/464t6' }),
+            details: new Details(el.querySelector('#constituency-details'), {share_url: this.opts.shareUrl }),
             cartogram: new UKCartogram(this.cartogramEl, cartogramOpts),
             dropdown1: new Dropdown(el.querySelector('#dropdown1'), dropdownOpts),
             dropdown2: new Dropdown(el.querySelector('#dropdown2'), dropdownOpts),
@@ -183,7 +183,31 @@ class ElectionResults {
         });
     }
 
-    timeFilterAndRender(time) {
+    get twitterShareText() {
+        var resultCount = this.lastFetchedData.PASOP.numberOfResults;
+        var partiesByID = {}; this.lastFetchedData.PASOP.parties.map(p => partiesByID[p.abbreviation] = p);
+        var parties = ['Lab','Con','LD','SNP','UKIP'];
+        var partyCountText = parties
+            .map(p => { return { name: p, seats: partiesByID[p].seats } })
+            .sort((a,b) => b.seats - a.seats )
+            .map(p => `${p.name} ${p.seats}`)
+            .join(', ')
+        return `${resultCount} of 650 results - ${partyCountText} - #Election2015`;
+    }
+
+    get twitterShareUrl() {
+        return `https://twitter.com/intent/tweet?text=${encodeURIComponent(this.twitterShareText)}`;
+    }
+
+    get facebookShareUrl() {
+        var facebookParams = [
+            ['display', 'popup'],
+            ['app_id', '741666719251986'],
+            ['link', encodeURIComponent(this.opts.shareUrl)],
+            ['redirect_uri', 'http://www.facebook.com']
+        ];
+        var queryString = facebookParams.map(pair => pair.join('=')).join('&');
+        return 'https://www.facebook.com/dialog/feed?' + queryString;
     }
 
     deselectConstituency() {
@@ -255,6 +279,16 @@ class ElectionResults {
         }.bind(this));
 
         bean.on(window, 'scroll', throttle(this.updateLegendVisibility.bind(this), 100));
+
+        this.el.querySelector('.veri__share-btns--main').addEventListener('click', function(evt) {
+            if (/button/i.test(evt.target.nodeName)) {
+                if (evt.target.getAttribute('data-source') === 'facebook') {
+                    window.open(this.facebookShareUrl, 'share', 'width=600,height=200');
+                } else if (evt.target.getAttribute('data-source') === 'twitter') {
+                    window.open(this.twitterShareUrl, 'share', 'width=600,height=200');
+                }
+            }
+        }.bind(this))
     }
 
     updateLegendVisibility() {
@@ -297,11 +331,12 @@ class ElectionResults {
 function init(el, context, config, mediator) {
 
     var dataUrl = 'mega.json';
+    var shareUrl = 'http://gu.com/p/464t6';
     // var dataUrl = 'http://s3.amazonaws.com/gdn-cdn/2015/05/election/datatest/liveresults.json';
 
     el.innerHTML = swig.render(tmplMain);
 
-    window.setTimeout(() => new ElectionResults(el, { guardianConfig: config, dataUrl: dataUrl}), 1);
+    window.setTimeout(() => new ElectionResults(el, { shareUrl: shareUrl, dataUrl: dataUrl}), 1);
 }
 
 define(function() { return {init: init}; });
