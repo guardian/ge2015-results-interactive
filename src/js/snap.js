@@ -1,8 +1,8 @@
 import reqwest from 'reqwest'
 import { Seatstack } from './components/seatstack'
-import { HourByHour } from './components/hourbyhour'
-//import { ByConstituency } from './components/byconstituency'
-//import { Coalitions } from './components/coalitions'
+//import { HourByHour as Analysis } from './components/hourbyhour'
+//import { ByConstituency as Analysis } from './components/byconstituency'
+import { Coalitions as Analysis } from './components/coalitions'
 
 class ElectionSnap {
     constructor(el, dataUrl) {
@@ -11,9 +11,7 @@ class ElectionSnap {
         this.left = el.querySelector('.snap__left-pane');
 
         this.seatstack = new Seatstack(el.querySelector('#seatstack'), () => null);
-        this.analysis = new HourByHour(el.querySelector('#analysis'));
-        //this.analysis = new ByConstituency(el.querySelector('#analysis'));
-        //this.analysis = new Coalitions(el.querySelector('#analysis'));
+        this.analysis = new Analysis(el.querySelector('#analysis'));
 
         window.setInterval(() => this.fetchDataAndRender(), 10000);
         this.fetchDataAndRender();
@@ -34,6 +32,6 @@ class ElectionSnap {
 }
 
 (function () {
-    var dataUrl = 'http://visuals.guim.co.uk/2015/05/election/datatest/frontpage.json';
+    var dataUrl = 'http://visuals.guim.co.uk/2015/05/election/data/frontpage.json';
     setTimeout(() => new ElectionSnap(document.querySelector('#election-snap'), dataUrl), 1);
 })();
