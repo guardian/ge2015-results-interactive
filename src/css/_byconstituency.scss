@@ -33,6 +33,12 @@
     }
 }
 
+.by-constituency__text {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .by-constituency__how {
     display: none;
     @include mq(desktop) {
