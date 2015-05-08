@@ -13,7 +13,7 @@ class ElectionSnap {
         this.seatstack = new Seatstack(el.querySelector('#seatstack'), () => null);
         this.analysis = new Analysis(el.querySelector('#analysis'));
 
-        window.setInterval(() => this.fetchDataAndRender(), 10000);
+        window.setInterval(() => this.fetchDataAndRender(), 20000);
         this.fetchDataAndRender();
     }
 
@@ -33,6 +33,10 @@ class ElectionSnap {
                         this.left.style.visibility = 'visible';
                         this.seatstack.render(data);
                         this.analysis.update(data);
+
+                        if (data.seatstack.resultCount === 650) {
+                            this.left.querySelector('h2').textContent = 'Full results';
+                        }
                     }.bind(this)
                 });
             }.bind(this)
