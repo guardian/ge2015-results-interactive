@@ -5,7 +5,9 @@
 
     display: none;
     @include mq(desktop) {
-        display: block;
+        &.has-slider {
+            display: block;
+        }
     }
 
     h2 {

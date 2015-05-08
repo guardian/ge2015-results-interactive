@@ -90,10 +90,6 @@ class ElectionResults {
             onHover: (!isMobile() && !isTablet()) && this.focusEvent.bind(this),
         }
 
-        var slider = el.querySelector('.timeslider');
-        var sliderTime = el.querySelector('#timeslider-time');
-        var sliderButton = el.querySelector('#timeslider-play');
-
         this.components = {
             details: new Details(el.querySelector('#constituency-details'), {share_url: this.opts.shareUrl }),
             cartogram: new UKCartogram(this.cartogramEl, cartogramOpts),
@@ -101,8 +97,17 @@ class ElectionResults {
             dropdown2: new Dropdown(el.querySelector('#dropdown2'), dropdownOpts),
             seatstack: new Seatstack(el.querySelector('#seatstack'), this.hoverParty.bind(this)),
             ticker: new Ticker(el.querySelector('#ticker'), tickerOpts),
-            partyTable: new PartyTable(el.querySelector('#partytable')),
-            timeSlider: new TimeSlider(el.querySelector('#timeslider'), function (time, value) {
+            partyTable: new PartyTable(el.querySelector('#partytable'))
+        };
+
+        if ((!bowser.msie || bowser.version > 9) && !bowser.firefox) {
+            var slider = el.querySelector('.timeslider');
+            var sliderTime = el.querySelector('#timeslider-time');
+            var sliderButton = el.querySelector('#timeslider-play');
+
+            slider.className = 'timeslider has-slider';
+
+            var timeSlider = new TimeSlider(el.querySelector('#timeslider'), function (time, value) {
                 var partyNames = ['Lab', 'SNP', 'Others', 'Pending', 'UKIP', 'LD', 'Con'];
                 var parties = {};
                 var totalSeats = 0;
@@ -156,52 +161,54 @@ class ElectionResults {
                 });
 
                 if (value === 1000) {
-                    slider.className = 'timeslider';
+                    slider.className = 'timeslider has-slider';
                     sliderTime.textContent = 'Showing live results';
                     this.startData();
                 } else {
-                    slider.className = 'timeslider not-live';
+                    slider.className = 'timeslider has-slider not-live';
                     sliderTime.textContent = moment(time).format('HH.mm');
                     if (this.dataInterval) {
                         clearInterval(this.dataInterval);
                         this.dataInterval = undefined;
                     }
                 }
-            }.bind(this))
-        };
+            }.bind(this));
 
-        el.querySelector('#timeslider-return').addEventListener('click', function (evt) {
-            this.components.timeSlider.setValue(1000);
-            evt.preventDefault();
-        }.bind(this));
+            el.querySelector('#timeslider-return').addEventListener('click', function (evt) {
+                timeSlider.setValue(1000);
+                evt.preventDefault();
+            });
 
-        sliderButton.addEventListener('click', function (evt) {
-            if (this.playInterval) {
-                clearInterval(this.playInterval);
-                this.playInterval = undefined;
-                removeClass(sliderButton, 'is-pause');
-                removeClass(sliderTime, 'is-pause');
-            } else {
-                var value = parseInt(this.components.timeSlider.getValue());
-                if (value > 950) {
-                    value = 0;
-                }
-
-                addClass(sliderButton, 'is-pause');
-                addClass(sliderTime, 'is-pause');
-
-                this.playInterval = setInterval(function () {
-                    this.components.timeSlider.setValue(value);
-                    value += 10;
-
-                    if (value > 1000) {
-                        clearInterval(this.playInterval);
-                        removeClass(sliderButton, 'is-pause');
-                        this.playInterval = undefined;
+            sliderButton.addEventListener('click', function (evt) {
+                if (this.playInterval) {
+                    clearInterval(this.playInterval);
+                    this.playInterval = undefined;
+                    removeClass(sliderButton, 'is-pause');
+                    removeClass(sliderTime, 'is-pause');
+                } else {
+                    var value = parseInt(timeSlider.getValue());
+                    if (value > 950) {
+                        value = 0;
                     }
-                }.bind(this), 5);
-            }
-        }.bind(this));
+
+                    addClass(sliderButton, 'is-pause');
+                    addClass(sliderTime, 'is-pause');
+
+                    this.playInterval = setInterval(function () {
+                        timeSlider.setValue(value);
+                        value += 10;
+
+                        if (value > 1000) {
+                            clearInterval(this.playInterval);
+                            removeClass(sliderButton, 'is-pause');
+                            this.playInterval = undefined;
+                        }
+                    }.bind(this), 5);
+                }
+            }.bind(this));
+
+            this.components.timeSlider = timeSlider;
+        }
 
         this.dataPreprocessing = {
             ticker: data => this.getFilteredTickerData(data)
