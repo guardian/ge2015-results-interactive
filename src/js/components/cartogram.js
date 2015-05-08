@@ -436,7 +436,13 @@ export class UKCartogram {
         } else if (this.metric === 'Turnout %') {
             var turnout = this.lastRenderedData.overview.turnoutPerc;
             meta.header = "Turnout";
-            meta.description = turnout ? `National turnout ${wasis} ${turnout.toFixed(0)}%` : 'Awaiting first result';
+            if (this.lastRenderedData.PASOP.numberOfResults === 0) {
+                meta.description = 'Awaiting first result';
+            } else if (this.lastRenderedData.PASOP.numberOfResults === 650) {
+                meta.description = `National turnout ${wasis} ${turnout.toFixed(0)}%`;
+            } else {
+                meta.description = '';
+            }
         } else if (this.metric.startsWith('arrow-gain')) {
             var partyName = this.metric.substr('arrow-gain '.length);
             meta.header = `Where ${partyName} has gained support`;
