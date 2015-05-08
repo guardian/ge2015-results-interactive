@@ -1,0 +1,25 @@
+.timeslider {
+    margin-top: 10px;
+    border-spacing: 0;
+    width: 100%;
+
+    display: none;
+    @include mq(desktop) {
+        display: table;
+    }
+}
+
+.timeslider__slider {
+    display: table-cell;
+    padding-right: 20px;
+    width: 100%;
+
+    & > input {
+        width: 100%;
+    }
+}
+
+.timeslider__time {
+    display: table-cell;
+    vertical-align: middle;
+}

@@ -168,10 +168,6 @@ figure.element-interactive {
     .veri__left-pane { width: 40%;  }
 }
 
-.timeslider {
-    width: 100%;
-}
-
 @include mq(tablet) {
     #mobile-headline {
         display: none;

@@ -13,9 +13,11 @@ import { Dropdown } from './components/dropdown'
 import { Details } from './components/details'
 import { Legend } from './components/legend'
 import { PartyTable } from './components/partyTable'
+import { TimeSlider } from './components/timeslider'
 import hotseats from './data/hotseats.json!json'
 import { setCurrentTime } from './lib/relativedate'
 import twitterPartyNames from './data/twitter-party-names.json!json';
+import moment from 'moment'
 
 function isResult(c) { return c['2015'].status === 'result'; }
 function isMarginalConstituency(c) {
@@ -53,7 +55,7 @@ class ElectionResults {
         this.createLatestFilter();
         this.initEventHandlers();
         this.mainEl = this.el.querySelector('.veri')
-        if (notMobileOrTablet()) window.setInterval(this.fetchDataAndRender.bind(this), 20000);
+        if (notMobileOrTablet()) this.interval = window.setInterval(this.fetchDataAndRender.bind(this), 20000);
         removeClass(this.mainEl, 'veri--loading')
         addClass(this.mainEl, 'veri--fetching-data')
         this.fetchDataAndRender();
@@ -91,7 +93,62 @@ class ElectionResults {
             dropdown2: new Dropdown(el.querySelector('#dropdown2'), dropdownOpts),
             seatstack: new Seatstack(el.querySelector('#seatstack'), this.hoverParty.bind(this)),
             ticker: new Ticker(el.querySelector('#ticker'), tickerOpts),
-            partyTable: new PartyTable(el.querySelector('#partytable'))
+            partyTable: new PartyTable(el.querySelector('#partytable')),
+            timeSlider: new TimeSlider(el.querySelector('#timeslider'), function (time) {
+                var partyNames = ['Lab', 'SNP', 'Others', 'Pending', 'UKIP', 'LD', 'Con'];
+                var parties = {};
+                var totalSeats = 0;
+                partyNames.forEach(function (partyName) {
+                    parties[partyName] = {'name': partyName, 'seats': 0, 'gains': 0, 'losses': 0, 'net': 0};
+                });
+
+                var constituencies = this.lastFetchedData.constituencies.map(function (c) {
+                    var e = c['2015'];
+                    var declared = moment(e.updated);
+                    if (declared > time) {
+                        return {
+                            '2015': {
+                                candidates: e.candidates,
+                                electorate: e.electorate,
+                                sittingParty: e.sittingParty,
+                                status: 'pending',
+                                updated: e.updated
+                            },
+                            'name': c.name,
+                            'ons_id': c.ons_id
+                        };
+                    } else {
+                        if (e.winningParty) {
+                            var winningName = partyNames.indexOf(e.winningParty) === -1 ? 'Others' : e.winningParty;
+                            var sittingName = partyNames.indexOf(e.sittingParty) === -1 ? 'Others' : e.sittingParty;
+                            var changed = e.winningParty !== e.sittingParty;
+                            parties[winningName].seats++;
+                            parties[winningName].gains += changed;
+                            parties[winningName].net += changed;
+                            parties[sittingName].losses -= changed;
+                            parties[sittingName].net -= changed;
+                            totalSeats++;
+                        }
+                        return c;
+                    }
+                });
+
+                parties['Pending'] = {'name': 'Pending', 'seats': 650 - totalSeats};
+
+                var seatstack =  {
+                    'parties': partyNames.map(function (partyName) { return parties[partyName]; }),
+                    'resultCount': totalSeats
+                };
+
+                this.renderDataComponents({
+                    constituencies: constituencies,
+                    seatstack: seatstack,
+                    PASOP: this.lastFetchedData.PASOP,
+                    overview: this.lastFetchedData.overview
+                });
+
+                this.el.querySelector('#timeslider-time').textContent = moment(time).format('HH:mm');
+            }.bind(this))
         };
 
         this.dataPreprocessing = {
@@ -307,27 +364,29 @@ class ElectionResults {
         this.isVisible = shouldBeVisible;
     }
 
+    handleData(date, data) {
+        this.lastFetchedData = data;
+        try {
+            if (date) {
+                this.lastDataResponseDate = date;
+                setCurrentTime(new Date(Date.parse(date)));
+            }
+        } catch (err) {
+            console.error('Error parsing date');
+        }
+        this.renderDataComponents(data);
+        removeClass(this.mainEl, 'veri--fetching-data');
+        this.handleHashLink();
+    }
+
     fetchDataAndRender() {
         var req;
         var opts = {
             url: this.dataUrl,
             type: 'json',
             crossOrigin: true,
-            success: function(resp) {
-                this.lastFetchedData = resp;
-                try { // use response's date header to use for relative dates (we trust CDN date more than local)
-                    var date = req.request.getResponseHeader('Date');
-                    if (date) {
-                        this.lastDataResponseDate = date;
-                        setCurrentTime(new Date(Date.parse(date)));
-                    }
-                } catch (err) {
-                    console.error('Error parsing date');
-                }
-                this.renderDataComponents(resp);
-                removeClass(this.mainEl, 'veri--fetching-data');
-                this.handleHashLink();
-            }.bind(this)
+            // use response's date header to use for relative dates (we trust CDN date more than local)
+            success: resp => this.handleData(req.request.getResponseHeader('Date'), resp)
         };
         if (this.lastDataResponseDate) {
             opts.headers = {

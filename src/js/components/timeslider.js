@@ -1,8 +1,12 @@
+import bowser from 'ded/bowser';
+
 export class TimeSlider {
 	constructor(el, callback) {
+        if (bowser.msie && bowser.version <= 9 || bowser.firefox) return;
+
 		this.el = el;
-		el.innerHTML = '<input class="timeslider" type="range" min="0" max="1000" step="1" />';
-		this.input = el.querySelector('.timeslider');
+		el.innerHTML = '<input type="range" min="0" max="1000" value="1000" step="1" />';
+		this.input = el.querySelector('input');
 
 		this.input.addEventListener('input', function() {
 			callback(this.getSelectedTime());
