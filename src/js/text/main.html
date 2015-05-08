@@ -22,14 +22,26 @@
         <div class="veri__left-pane">
             <div id="content-meta"></div>
 
-            <div class="timeslider">
-                <div class="timeslider__slider" id="timeslider"></div>
-                <div class="timeslider__time" id="timeslider-time">LIVE</div>
-            </div>
-
             <div class="veri__share-btns veri__share-btns--main">
                 <button data-source="twitter"></button>
                 <button data-source="facebook"> </button>
+            </div>
+
+
+            <div class="timeslider">
+                <h2>Replay the night</h2>
+                <div class="timeslider__inner">
+                    <div class="timeslider__inner__play">
+                        <button id="timeslider-play"></button>
+                    </div>
+                    <div class="timeslider__inner__slider">
+                        <div id="timeslider"></div>
+                        <div class="timeslider__time">
+                            <span id="timeslider-time">Showing live results</span>
+                            <a href="#" id="timeslider-return">Return to live results</a>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="latest-results" class="veri__latest-results">

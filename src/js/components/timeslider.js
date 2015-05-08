@@ -7,11 +7,21 @@ export class TimeSlider {
 		this.el = el;
 		el.innerHTML = '<input type="range" min="0" max="1000" value="1000" step="1" />';
 		this.input = el.querySelector('input');
+        this.callback = callback;
 
 		this.input.addEventListener('input', function() {
-			callback(this.getSelectedTime());
+			callback(this.getSelectedTime(), parseInt(this.input.value));
 		}.bind(this)); // TODO: IE
 	}
+
+    getValue() {
+        return this.input.value;
+    }
+
+    setValue(value) {
+        this.input.value = value;
+        this.callback(this.getSelectedTime(), value);
+    }
 
 	getSelectedTime() {
 		var fromStart = (this.input.value / 1000) * this.range;

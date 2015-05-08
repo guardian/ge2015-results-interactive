@@ -1,25 +1,118 @@
 .timeslider {
-    margin-top: 10px;
-    border-spacing: 0;
-    width: 100%;
+    border-top: 1px solid #eaeaea;
+    margin: 0 0 12px 0;
+    padding: 2px 0 10px;
 
     display: none;
     @include mq(desktop) {
-        display: table;
+        display: block;
+    }
+
+    h2 {
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0 0 14px 0;
     }
 }
 
-.timeslider__slider {
+.timeslider__inner {
+    display: table;
+
+    border-spacing: 0;
+    width: 100%;
+}
+
+.timeslider__inner__play {
     display: table-cell;
-    padding-right: 20px;
+
+    button {
+        position: relative;
+        border: 0;
+        border-radius: 100px;
+        background-color: #767676;
+        width: 50px;
+        height: 50px;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            margin-top: -9px;
+            margin-left: -6px;
+            border-top: 9px solid transparent;
+            border-left: 18px solid white;
+            border-bottom: 9px solid transparent;
+        }
+
+        &.is-pause {
+            &::before,
+            &::after {
+                width: 5px;
+                height: 18px;
+                border: 0;
+                margin: 0;
+                left: auto;
+                top: 15px;
+                right: 18px;
+                background-color: white;
+            }
+
+            &::before {
+                content: "";
+                position: absolute;
+                left: 18px;
+            }
+        }
+    }
+}
+
+.timeslider__inner__slider {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 10px;
     width: 100%;
 
-    & > input {
+    opacity: 0.2;
+    .not-live & {
+        opacity: 1;
+    }
+
+    & input {
+
+        -webkit-appearance: none;
         width: 100%;
+        height: 3px;
+        background-color: #dcdcdc;
+        position: relative;
+        top: -4px;
+        left: -2px;
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: 0;
+            height: 15px;
+            width: 5px;
+            background-color: #767676;
+        }
     }
 }
 
 .timeslider__time {
-    display: table-cell;
-    vertical-align: middle;
+    position: absolute;
+    font-family: $text-sans;
+    font-size: 14px;
+
+    a {
+        display: none;
+        color: #005689;
+    }
+
+    .not-live & a {
+        display: inline;
+    }
+
+    #timeslider-time.is-pause + a {
+        display: none;
+    }
 }

@@ -55,12 +55,16 @@ class ElectionResults {
         this.createLatestFilter();
         this.initEventHandlers();
         this.mainEl = this.el.querySelector('.veri')
-        //if (notMobileOrTablet()) this.interval = window.setInterval(this.fetchDataAndRender.bind(this), 20000);
         removeClass(this.mainEl, 'veri--loading')
         addClass(this.mainEl, 'veri--fetching-data')
-        this.fetchDataAndRender();
         this.fetchAndRenderContentMeta();
+        this.startData();
 
+    }
+
+    startData() {
+        if (notMobileOrTablet()) this.dataInterval = window.setInterval(this.fetchDataAndRender.bind(this), 20000);
+        this.fetchDataAndRender();
     }
 
     createComponents() {
@@ -86,6 +90,10 @@ class ElectionResults {
             onHover: (!isMobile() && !isTablet()) && this.focusEvent.bind(this),
         }
 
+        var slider = el.querySelector('.timeslider');
+        var sliderTime = el.querySelector('#timeslider-time');
+        var sliderButton = el.querySelector('#timeslider-play');
+
         this.components = {
             details: new Details(el.querySelector('#constituency-details'), {share_url: this.opts.shareUrl }),
             cartogram: new UKCartogram(this.cartogramEl, cartogramOpts),
@@ -94,7 +102,7 @@ class ElectionResults {
             seatstack: new Seatstack(el.querySelector('#seatstack'), this.hoverParty.bind(this)),
             ticker: new Ticker(el.querySelector('#ticker'), tickerOpts),
             partyTable: new PartyTable(el.querySelector('#partytable')),
-            timeSlider: new TimeSlider(el.querySelector('#timeslider'), function (time) {
+            timeSlider: new TimeSlider(el.querySelector('#timeslider'), function (time, value) {
                 var partyNames = ['Lab', 'SNP', 'Others', 'Pending', 'UKIP', 'LD', 'Con'];
                 var parties = {};
                 var totalSeats = 0;
@@ -147,9 +155,53 @@ class ElectionResults {
                     overview: this.lastFetchedData.overview
                 });
 
-                this.el.querySelector('#timeslider-time').textContent = moment(time).format('HH:mm');
+                if (value === 1000) {
+                    slider.className = 'timeslider';
+                    sliderTime.textContent = 'Showing live results';
+                    this.startData();
+                } else {
+                    slider.className = 'timeslider not-live';
+                    sliderTime.textContent = moment(time).format('HH.mm');
+                    if (this.dataInterval) {
+                        clearInterval(this.dataInterval);
+                        this.dataInterval = undefined;
+                    }
+                }
             }.bind(this))
         };
+
+        el.querySelector('#timeslider-return').addEventListener('click', function (evt) {
+            this.components.timeSlider.setValue(1000);
+            evt.preventDefault();
+        }.bind(this));
+
+        sliderButton.addEventListener('click', function (evt) {
+            if (this.playInterval) {
+                clearInterval(this.playInterval);
+                this.playInterval = undefined;
+                removeClass(sliderButton, 'is-pause');
+                removeClass(sliderTime, 'is-pause');
+            } else {
+                var value = parseInt(this.components.timeSlider.getValue());
+                if (value > 950) {
+                    value = 0;
+                }
+
+                addClass(sliderButton, 'is-pause');
+                addClass(sliderTime, 'is-pause');
+
+                this.playInterval = setInterval(function () {
+                    this.components.timeSlider.setValue(value);
+                    value += 10;
+
+                    if (value > 1000) {
+                        clearInterval(this.playInterval);
+                        removeClass(sliderButton, 'is-pause');
+                        this.playInterval = undefined;
+                    }
+                }.bind(this), 5);
+            }
+        }.bind(this));
 
         this.dataPreprocessing = {
             ticker: data => this.getFilteredTickerData(data)
