@@ -69,14 +69,13 @@ class ElectionResults {
 
     createComponents() {
         var el = this.el;
-        this.cartogramEl = el.querySelector('#ukcartogram')
-
+        this.cartogramEl = el.querySelector('#ukcartogram');
         var dropdownOpts = {
             onSelect: this.selectConstituency.bind(this),
             onFocus: isMobile() ? () => false : this.focusConstituency.bind(this),
             onKeyDown: evt => evt.keyCode === 27 && this.deselectConstituency(),
             hoverEvents: !(isMobile() || isTablet()),
-            disableBlur: bowser.ios && bowser.safari
+            disableBlur: bowser.ios
         }
 
         var cartogramOpts = {
