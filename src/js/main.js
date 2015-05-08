@@ -100,7 +100,7 @@ class ElectionResults {
             partyTable: new PartyTable(el.querySelector('#partytable'))
         };
 
-        if ((!bowser.msie || bowser.version > 9) && !bowser.firefox) {
+        if (!bowser.msie && !bowser.firefox) {
             var slider = el.querySelector('.timeslider');
             var sliderTime = el.querySelector('#timeslider-time');
             var sliderButton = el.querySelector('#timeslider-play');
