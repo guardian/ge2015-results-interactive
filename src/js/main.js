@@ -50,7 +50,7 @@ class ElectionResults {
         this.createLatestFilter();
         this.initEventHandlers();
         this.mainEl = this.el.querySelector('.veri')
-        window.setInterval(this.fetchDataAndRender.bind(this), 30000);
+        window.setInterval(this.fetchDataAndRender.bind(this), 20000);
         removeClass(this.mainEl, 'veri--loading')
         addClass(this.mainEl, 'veri--fetching-data')
         this.fetchDataAndRender();
@@ -305,7 +305,8 @@ class ElectionResults {
     }
 
     fetchDataAndRender() {
-        var req = reqwest({
+        var req;
+        var opts = {
             url: this.dataUrl,
             type: 'json',
             crossOrigin: true,
@@ -313,15 +314,24 @@ class ElectionResults {
                 this.lastFetchedData = resp;
                 try { // use response's date header to use for relative dates (we trust CDN date more than local)
                     var date = req.request.getResponseHeader('Date');
-                    if (date) setCurrentTime(new Date(Date.parse(date)));
+                    if (date) {
+                        this.lastDataResponseDate = date;
+                        setCurrentTime(new Date(Date.parse(date)));
+                    }
                 } catch (err) {
-                    console.err('Error parsing date');
+                    console.error('Error parsing date');
                 }
                 this.renderDataComponents(resp);
                 removeClass(this.mainEl, 'veri--fetching-data');
                 this.handleHashLink();
             }.bind(this)
-        });
+        };
+        if (this.lastDataResponseDate) {
+            opts.headers = {
+                'If-Modified-Since': this.lastDataResponseDate
+            };
+        }
+        req = reqwest(opts);
     }
 
     handleHashLink() {
