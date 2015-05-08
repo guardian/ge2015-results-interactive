@@ -55,7 +55,7 @@ class ElectionResults {
         this.createLatestFilter();
         this.initEventHandlers();
         this.mainEl = this.el.querySelector('.veri')
-        if (notMobileOrTablet()) this.interval = window.setInterval(this.fetchDataAndRender.bind(this), 20000);
+        //if (notMobileOrTablet()) this.interval = window.setInterval(this.fetchDataAndRender.bind(this), 20000);
         removeClass(this.mainEl, 'veri--loading')
         addClass(this.mainEl, 'veri--fetching-data')
         this.fetchDataAndRender();
