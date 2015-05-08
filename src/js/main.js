@@ -192,6 +192,7 @@ class ElectionResults {
 
                     addClass(sliderButton, 'is-pause');
                     addClass(sliderTime, 'is-pause');
+                    this.components.cartogram.setDropdown(0);
 
                     this.playInterval = setInterval(function () {
                         timeSlider.setValue(value);

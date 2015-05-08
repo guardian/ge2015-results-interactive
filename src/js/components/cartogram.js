@@ -249,13 +249,20 @@ export class UKCartogram {
         controls.innerHTML = resetButton + dropdownHTML  + legendContainer;
         this.el.appendChild(controls)
 
+        this.metricDropdown = controls.querySelector('.cartogram__dropdown');
+
         controls.querySelector('.cartogram__reset-zoom')
             .addEventListener('click', function() { this.resetZoom(); this.selectConstituency(null); }.bind(this) );
 
-        controls.querySelector('.cartogram__dropdown')
+        this.metricDropdown
             .addEventListener('change', function(evt) { this.setMetric(evt.target.value); }.bind(this));
 
         this.legendEl = controls.querySelector('.cartogram__legend');
+    }
+
+    setDropdown(i) {
+        this.metricDropdown.selectedIndex = i;
+        this.setMetric(this.metricDropdown.options[i].value);
     }
 
     initEventHandling() {
