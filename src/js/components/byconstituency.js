@@ -40,10 +40,14 @@ export class ByConstituency {
     }
 
     tick() {
-        var cons = this.interesting[this.interestingI++ % this.interesting.length];
+        var how, cons = this.interesting[this.interestingI++ % this.interesting.length];
         if (!cons) return;
 
-        var how = cons.swing < 20 ? `with a ${cons.majority.toFixed(1)}% majority` : `with a ${cons.swing.toFixed(1)}% swing`;
+        try {
+            how = cons.swing < 20 ? `with a ${cons.majority.toFixed(1)}% majority` : `with a ${cons.swing.toFixed(1)}% swing`;
+        } catch (e) {
+            how = '';
+        }
         if (cons.reason === 'hot') {
             var verb = getHotseatVerb(cons);
             var hotseat = hotseatsById[cons.ons_id];
