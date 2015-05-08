@@ -36,7 +36,7 @@ function processEvent(constituency) {
 		swing: e.swing,
 		percentageMajority: e.percentageMajority,
 		verb: e.winningParty === e.sittingParty ? 'hold' : 'win',
-		how: e.swing > 30 ? `with a ${e.swing.toFixed(1)}% swing` : `with a ${e.percentageMajority.toFixed(1)}% majority`,
+		how: e.swing > 20 ? `with a ${e.swing.toFixed(1)}% swing` : `with a ${e.percentageMajority.toFixed(1)}% majority`,
 		updated: e.updated
 	};
 }
