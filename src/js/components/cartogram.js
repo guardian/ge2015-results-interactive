@@ -508,8 +508,8 @@ export class UKCartogram {
             var arrowMag = minArrowSize + (Math.abs(val / 100) * arrowSizeRange);
             var arrowLength = arrowMag * (negative ? -1 : 1);
             var y = parseInt(center[1]) + 0.5;
-            var startx = center[0] - (arrowLength/2);
-            var endx = center[0] + (arrowLength/2);
+            var startx = center[0] - (arrowLength/1.5);
+            var endx = center[0] + (arrowLength/1.5);
             return `M${startx},${y}L${endx},${y}`;
         }
 
