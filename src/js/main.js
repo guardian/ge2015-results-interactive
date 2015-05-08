@@ -24,7 +24,7 @@ function isMarginalConstituency(c) {
 
 function isBigSwingWin(c) {
     var e = c['2015'];
-    return e.winningParty !== e.sittingParty && e.swing > 30;
+    return e.winningParty !== e.sittingParty && e.swing > 20;
 }
 
 function isImportantConstituency(c) {
