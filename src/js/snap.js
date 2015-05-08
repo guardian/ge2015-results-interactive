@@ -1,7 +1,8 @@
 import reqwest from 'reqwest'
 import { Seatstack } from './components/seatstack'
 // import { HourByHour as Analysis } from './components/hourbyhour'
-import { ByConstituency as Analysis } from './components/byconstituency'
+//import { ByConstituency as Analysis } from './components/byconstituency'
+import { ChangedSeats as Analysis } from './components/changedSeats'
 // import { Coalitions as Analysis } from './components/coalitions'
 
 class ElectionSnap {
@@ -24,12 +25,11 @@ class ElectionSnap {
             crossOrigin: true,
             success: function(data) {
                 reqwest({
-                    url: 'http://visuals.guim.co.uk/2015/05/election/data/keyseats.json',
+                    url: 'http://visuals.guim.co.uk/2015/05/election/data/changedSeats.json',
                     type: 'json',
                     crossOrigin: true,
                     success: function (interesting) {
                         data.interesting = interesting.interesting.filter(i => i);
-                        console.log(data.interesting);
                         this.left.style.visibility = 'visible';
                         this.seatstack.render(data);
                         this.analysis.update(data);
