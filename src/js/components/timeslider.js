@@ -1,13 +1,25 @@
+import bowser from 'ded/bowser';
+
 export class TimeSlider {
 	constructor(el, callback) {
 		this.el = el;
-		el.innerHTML = '<input class="timeslider" type="range" min="0" max="1000" step="1" />';
-		this.input = el.querySelector('.timeslider');
+		el.innerHTML = '<input type="range" min="0" max="1000" value="1000" step="1" />';
+		this.input = el.querySelector('input');
+        this.callback = callback;
 
 		this.input.addEventListener('input', function() {
-			callback(this.getSelectedTime());
+			callback(this.getSelectedTime(), parseInt(this.input.value));
 		}.bind(this)); // TODO: IE
 	}
+
+    getValue() {
+        return this.input.value;
+    }
+
+    setValue(value) {
+        this.input.value = value;
+        this.callback(this.getSelectedTime(), value);
+    }
 
 	getSelectedTime() {
 		var fromStart = (this.input.value / 1000) * this.range;
