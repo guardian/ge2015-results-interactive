@@ -94,7 +94,6 @@
 		}
 
 		function onDropdownClick(event) {
-			console.log(event);
 			var value = event.target.getAttribute('data-val') || event.target.parentElement.getAttribute('data-val');
 			if (value !== 'null') {
 				input.value = event.target.textContent;
@@ -122,8 +121,8 @@
 		dropdown.className = 'edd__dropdown';
 
 		// create listeners
-		input.addEventListener('keyup', onInputKeyUp) ;
-		input.addEventListener('keydown', onInputKeyDown) ;
+		input.addEventListener('keyup', onInputKeyUp);
+		input.addEventListener('keydown', onInputKeyDown);
 		if (!opts.disableBlur) input.addEventListener('blur', onBlur);
 
 		dropdown.addEventListener('mousedown', onDropdownClick);
