@@ -43,7 +43,7 @@ export class ByConstituency {
         var cons = this.interesting[this.interestingI++ % this.interesting.length];
         if (!cons) return;
 
-        var how = cons.swing < 30 ? `with a ${cons.majority.toFixed(1)}% majority` : `with a ${cons.swing.toFixed(1)}% swing`;
+        var how = cons.swing < 20 ? `with a ${cons.majority.toFixed(1)}% majority` : `with a ${cons.swing.toFixed(1)}% swing`;
         if (cons.reason === 'hot') {
             var verb = getHotseatVerb(cons);
             var hotseat = hotseatsById[cons.ons_id];
