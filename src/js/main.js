@@ -34,6 +34,8 @@ function isMobile() { return bowser.mobile; }
 
 function isTablet() { return bowser.tablet; }
 
+function notMobileOrTablet() { return !(isMobile() || isTablet()); }
+
 function isCelebritySeat(c) {
     return hotseats.find(s => s.id === c.ons_id);
 }
@@ -50,7 +52,7 @@ class ElectionResults {
         this.createLatestFilter();
         this.initEventHandlers();
         this.mainEl = this.el.querySelector('.veri')
-        window.setInterval(this.fetchDataAndRender.bind(this), 20000);
+        if (notMobileOrTablet()) window.setInterval(this.fetchDataAndRender.bind(this), 20000);
         removeClass(this.mainEl, 'veri--loading')
         addClass(this.mainEl, 'veri--fetching-data')
         this.fetchDataAndRender();
@@ -332,6 +334,7 @@ class ElectionResults {
             };
         }
         req = reqwest(opts);
+        return req;
     }
 
     handleHashLink() {
