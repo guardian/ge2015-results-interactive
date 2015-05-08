@@ -23,9 +23,18 @@ class ElectionSnap {
             type: 'json',
             crossOrigin: true,
             success: function(data) {
-                this.left.style.visibility = 'visible';
-                this.seatstack.render(data);
-                this.analysis.update(data);
+                reqwest({
+                    url: 'http://visuals.guim.co.uk/2015/05/election/data/keyseats.json',
+                    type: 'json',
+                    crossOrigin: true,
+                    success: function (interesting) {
+                        data.interesting = interesting.interesting.filter(i => i);
+                        console.log(data.interesting);
+                        this.left.style.visibility = 'visible';
+                        this.seatstack.render(data);
+                        this.analysis.update(data);
+                    }.bind(this)
+                });
             }.bind(this)
         });
     }
