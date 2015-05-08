@@ -75,7 +75,7 @@ class ElectionResults {
             onFocus: isMobile() ? () => false : this.focusConstituency.bind(this),
             onKeyDown: evt => evt.keyCode === 27 && this.deselectConstituency(),
             hoverEvents: !(isMobile() || isTablet()),
-            disableBlur: bowser.ios
+            disableBlur: false, //bowser.ios
         }
 
         var cartogramOpts = {
