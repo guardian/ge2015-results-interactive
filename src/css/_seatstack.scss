@@ -174,8 +174,8 @@ $seatstack-list-lineheight: 24px;
     }
 
     @include mq($seatstack-bp) {
-        cursor: pointer;
-        &:hover {
+        &[data-partyhover]:not(.is-header):hover {
+            cursor: pointer;
             background-color: #f7f7f7;
             transition: none;
         }
