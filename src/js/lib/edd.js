@@ -26,7 +26,7 @@
 
 				var htmls = arr.map(function(entry,i) {
 					var classes = 'edd__entry' + (entry[0] === null ? ' edd__entry--info' : '');
-					return '<div class="'+classes+'" data-val="'+entry[0]+'">'+entry[1]+'</div>';
+					return '<div class="needsclick '+classes+'" data-val="'+entry[0]+'">'+entry[1]+'</div>';
 				});
 				dropdown.innerHTML = htmls.join('');
 				dropdown.style.display = '';
@@ -103,7 +103,7 @@
 		}
 		function onBlur(event) {
 			input.value="";
-			renderDropdown([]);
+            renderDropdown([]);
 		}
 		function onDropdownMouseOver(event) {
 			var toElement = event.target;
