@@ -4,9 +4,10 @@ const templateFn = swig.compile(template)
 
 function data2context(data) {
 	var partyData = data.seatstack.parties;
+	var pending = data.seatstack.parties.find(p => p.name === 'Pending')
 	return {
 		partyData: partyData,
-		resultCount: data.seatstack.resultCount,
+		resultCount: pending ? (650 - pending.seats) : data.seatstack.resultCount,
 		partyListLeft: partyData.slice(0,3),
 		partyListRight: partyData.slice(4)
 	};
