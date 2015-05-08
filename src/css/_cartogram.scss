@@ -92,8 +92,11 @@
 }
 
 @each $party, $color in $partyColors {
-    .cartogram[map-mode='party']:not([party-highlight]) .cartogram__hex[party='#{$party}'] {
-        fill:$color;
+    .cartogram[map-mode='party'],
+    .cartogram[map-mode='majority'] {
+        &:not([party-highlight]) .cartogram__hex[party='#{$party}'] {
+            fill:$color;
+        }
     }
     .cartogram[arrow-party='#{$party}'] {
         #arrowhead {
@@ -117,6 +120,59 @@
         stroke-opacity: 0.8;
         stroke: #555;
         fill:$color;
+    }
+
+    .cartogram__majority-key--#{$party} span {
+        background-color: $color;
+    }
+}
+
+.cartogram__majority-key {
+    width: 100px;
+    position: relative;
+    text-indent: 110px;
+    font-family: $text-sans;
+    font-size: 12px;
+    height: 12px;
+    margin-bottom: 3px;
+    span {
+        width: 33.3%;
+        position: absolute;
+        height: 100%;
+        &:nth-child(1) {
+            opacity: 0.33;
+            left: 0;
+        }
+        &:nth-child(2) {
+            opacity: 0.66;
+            left: 33.3%;
+        }
+        &:nth-child(3) {
+            left: 66.6%;
+        }
+    }
+    &.cartogram__majority-key--lab {
+        span:nth-child(1):before {
+            content: '0%';
+            position: absolute;
+            left: 0;
+            bottom: 100%;
+            text-indent: -2px;
+        }
+        span:nth-child(2):before {
+            content: '15%';
+            position: absolute;
+            left: 0;
+            bottom: 100%;
+            text-indent: -6px;
+        }
+        span:nth-child(3):before {
+            content: '30%';
+            position: absolute;
+            left: 0;
+            bottom: 100%;
+            text-indent: -6px;
+        }
     }
 }
 
@@ -229,6 +285,10 @@
         font-size: 13px;
         color: #767676;
         margin-bottom: 0;
+    }
+    .cartogram[map-mode="majority"] & {
+        h4 { margin-top: 0; margin-bottom: 6px }
+        p { margin-bottom: 24px; margin-top: 0; }
     }
     @include mq($until: desktop) {
         width: 100px;

@@ -433,6 +433,9 @@ export class UKCartogram {
                 meta.header = `${partyName} vote share`;
                 meta.description = 'Awaiting first result'
             }
+        } else if (this.metric === 'Majority %') {
+            meta.header = 'Margin of victory';
+            meta.description = 'Percentage points';
         } else if (this.metric === 'Turnout %') {
             var turnout = this.lastRenderedData.overview.turnoutPerc;
             meta.header = "Turnout";
@@ -555,6 +558,8 @@ export class UKCartogram {
         var isChoro = (metric) => metric.startsWith('voteshare ') || choro.indexOf(metric) !== -1
         var isArrow = (metric) => metric.startsWith('arrow-');
 
+        this.hexPaths.attr('opacity', 1);
+
         if (this.metric === 'Winning Party') {
             this.el.setAttribute('map-mode', 'party');
             var parties = ['Lab', 'Con', 'LD', 'SNP', 'Green', 'Ukip', 'DUP', 'SF', 'SDLP', 'Others'];
@@ -562,7 +567,25 @@ export class UKCartogram {
             var legendContainer = document.createElement('div');
             new Legend(legendContainer, parties);
             this.legendEl.appendChild(legendContainer);
+        } else if (this.metric === 'Majority %') {
+            this.el.setAttribute('map-mode', 'majority');
+            var parties = ['Lab', 'Con', 'LD', 'SNP', 'Green', 'Ukip', 'DUP', 'SF', 'SDLP', 'Others'];
+            var keyHTML = parties.map(p => `<div class="cartogram__majority-key cartogram__majority-key--${p.toLowerCase()}"><span></span><span></span><span></span>${p}</div>`).join('')
+            this.legendEl.innerHTML = this.metricMeta + keyHTML;
+            var majorityById = {};
+            data.constituencies.forEach(c => majorityById[c.ons_id] = c['2015'].percentageMajority);
 
+            this.hexPaths
+                .each(function(d) {
+                    var value = majorityById[d.properties.constituency];
+                    var opacity;
+                    if (value === undefined) opacity = 1.0;
+                    else if (value < 15) opacity = 0.33;
+                    else if (value < 30) opacity = 0.66;
+                    else opacity = 1.0;
+                    d3.select(this)
+                        .attr('opacity', opacity)
+                });
         } else if (isChoro(this.metric)) {
 
             this.el.setAttribute('map-mode', 'choropleth');
@@ -570,11 +593,6 @@ export class UKCartogram {
             if(this.metric === 'Turnout %') {
                 var mapData = {};
                 data.constituencies.forEach(c => mapData[c.ons_id] = c['2015'].percentageTurnout)
-                this.renderChoropleth(mapData, ["white", "black"]);
-
-            } else if(this.metric === 'Majority %') {
-                var mapData = {};
-                data.constituencies.forEach(c => mapData[c.ons_id] = c['2015'].percentageMajority)
                 this.renderChoropleth(mapData, ["white", "black"]);
 
             } else if (this.metric.startsWith('voteshare')) {
