@@ -1,8 +1,8 @@
 import reqwest from 'reqwest'
 import { Seatstack } from './components/seatstack'
-//import { HourByHour as Analysis } from './components/hourbyhour'
-//import { ByConstituency as Analysis } from './components/byconstituency'
-import { Coalitions as Analysis } from './components/coalitions'
+// import { HourByHour as Analysis } from './components/hourbyhour'
+import { ByConstituency as Analysis } from './components/byconstituency'
+// import { Coalitions as Analysis } from './components/coalitions'
 
 class ElectionSnap {
     constructor(el, dataUrl) {

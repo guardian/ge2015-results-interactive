@@ -75,6 +75,13 @@ $egyptian: "Guardian Egyptian Web",Georgia,serif;
             -webkit-filter: none;
             filter: none;
         }
+        li span {
+            display: none;
+        }
+        li[data-partyname='Lab'] span,
+        li[data-partyname='Con'] span {
+            display: block;
+        }
     }
 
     .seatstack-list__item {
