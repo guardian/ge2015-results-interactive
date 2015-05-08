@@ -132,6 +132,15 @@ figure.element-interactive {
         @include mq($until: desktop) {
             display: none;
         }
+
+        a {
+            color: #005689;
+            text-decoration: none;
+            white-space: nowrap;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
     }
 }
 
