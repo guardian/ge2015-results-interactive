@@ -2,6 +2,7 @@ import template from './templates/details.html!text'
 import swig from 'swig'
 import { relativeDates } from '../lib/relativedate'
 import declarationTimes from '../data/declaration-times.json!json';
+import twitterPartyNames from '../data/twitter-party-names.json!json';
 
 swig.setFilter('commas', function(input) {
     input = typeof input === 'string' ? input : input.toString();
@@ -14,18 +15,6 @@ swig.setFilter('commas', function(input) {
 
 const templateFn = swig.compile(template)
 
-var twitterPartyNames = {
-    Lab: '#Labour',
-    Con: '#Conservative',
-    SNP: '#SNP',
-    Green: '#Greens',
-    UKIP: '#UKIP',
-    LD: '#LibDems',
-    DUP: '#DUP',
-    SF: '#SinnFein',
-    SDLP: '#SDLP',
-    PC: '#PlaidCymru'
-};
 var getTwitterPartyName = (p) => twitterPartyNames[p] || p;
 
 function data2context(data) {

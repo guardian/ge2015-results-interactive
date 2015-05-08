@@ -15,6 +15,7 @@ import { Legend } from './components/legend'
 import { PartyTable } from './components/partyTable'
 import hotseats from './data/hotseats.json!json'
 import { setCurrentTime } from './lib/relativedate'
+import twitterPartyNames from './data/twitter-party-names.json!json';
 
 function isResult(c) { return c['2015'].status === 'result'; }
 function isMarginalConstituency(c) {
@@ -197,7 +198,7 @@ class ElectionResults {
             var partyCountText = parties
                 .map(p => { return { name: p, seats: partiesByID[p] ? partiesByID[p].seats : 0 } })
                 .sort((a,b) => b.seats - a.seats )
-                .map(p => `${p.name} ${p.seats}`)
+                .map(p => `${twitterPartyNames[p.name]} ${p.seats}`)
                 .join(', ')
             return `${resultCount} of 650 results: ${partyCountText} http://gu.com/p/487e9 #GE2015`;
         }
