@@ -482,4 +482,4 @@ function init(el, context, config, mediator) {
     window.setTimeout(() => new ElectionResults(el, { shareUrl: shareUrl, dataUrl: dataUrl}), 1);
 }
 
-define(function() { return {init: init}; });
+(window.define || System.amdDefine)(function() { return {init: init}; });
