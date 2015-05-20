@@ -1,11 +1,6 @@
 System.config({
   "baseURL": "/",
-  "transpiler": "babel",
-  "babelOptions": {
-    "optional": [
-      "runtime"
-    ]
-  },
+  "transpiler": "traceur",
   "paths": {
     "*": "*.js",
     "github:*": "jspm_packages/github/*.js",
@@ -15,8 +10,6 @@ System.config({
 
 System.config({
   "map": {
-    "babel": "npm:babel-core@5.4.4",
-    "babel-runtime": "npm:babel-runtime@5.4.4",
     "core-js": "npm:core-js@0.9.11",
     "d3": "github:mbostock/d3@3.5.5",
     "ded/bonzo": "github:ded/bonzo@2.0.0",

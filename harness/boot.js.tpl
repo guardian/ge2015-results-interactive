@@ -21,9 +21,13 @@ define([], function() {
 
 
             var load = function (System) {
-                // Load main application
-                System.import('<%= assetPath %>main').then(function(main) {
-                    main.default.init(el, context, config, mediator);
+                var x = System;
+                System.import('jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime').then(function () {
+                    window.System = x;
+                    // Load main application
+                    System.import('<%= assetPath %>main').then(function(main) {
+                        main.default.init(el, context, config, mediator);
+                    });
                 });
             };
 
