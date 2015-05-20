@@ -20,12 +20,13 @@
   "license": "ISC",
   "jspm": {
     "directories": {
-      "packages": "src/js/jspm_packages"
+      "packages": "jspm_packages"
     },
     "configFile": "src/js/config.js",
     "dependencies": {
-      "babel": "npm:babel-core@^5.1.11",
-      "babel-runtime": "npm:babel-runtime@^5.1.11",
+      "babel": "npm:babel-core@^5.4.4",
+      "babel-runtime": "npm:babel-runtime@^5.4.4",
+      "core-js": "npm:core-js@^0.9.11",
       "d3": "github:mbostock/d3@^3.5.5",
       "ded/bonzo": "github:ded/bonzo@^2.0.0",
       "ded/bowser": "github:ded/bowser@^0.7.2",

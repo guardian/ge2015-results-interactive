@@ -1,9 +1,15 @@
 System.config({
   "baseURL": "/",
+  "transpiler": "babel",
+  "babelOptions": {
+    "optional": [
+      "runtime"
+    ]
+  },
   "paths": {
     "*": "*.js",
-    "github:*": "src/js/jspm_packages/github/*.js",
-    "npm:*": "src/js/jspm_packages/npm/*.js"
+    "github:*": "jspm_packages/github/*.js",
+    "npm:*": "jspm_packages/npm/*.js"
   },
   "bundles": {
     "build/main": [
@@ -14,9 +20,9 @@ System.config({
 
 System.config({
   "map": {
-    "babel": "npm:babel-core@5.1.11",
-    "babel-runtime": "npm:babel-runtime@5.1.11",
-    "core-js": "npm:core-js@0.8.4",
+    "babel": "npm:babel-core@5.4.4",
+    "babel-runtime": "npm:babel-runtime@5.4.4",
+    "core-js": "npm:core-js@0.9.11",
     "d3": "github:mbostock/d3@3.5.5",
     "ded/bonzo": "github:ded/bonzo@2.0.0",
     "ded/bowser": "github:ded/bowser@0.7.2",
@@ -79,6 +85,11 @@ System.config({
     },
     "npm:core-js@0.8.4": {
       "process": "github:jspm/nodelibs-process@0.1.1"
+    },
+    "npm:core-js@0.9.11": {
+      "fs": "github:jspm/nodelibs-fs@0.1.2",
+      "process": "github:jspm/nodelibs-process@0.1.1",
+      "systemjs-json": "github:systemjs/plugin-json@0.1.0"
     },
     "npm:core-util-is@1.0.1": {
       "buffer": "github:jspm/nodelibs-buffer@0.1.0"
