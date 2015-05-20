@@ -619,7 +619,7 @@ travel
 </div>
 <div id="maincontent" tabindex="0"></div>
 <div class="js-breaking-news-placeholder breaking-news breaking-news--hidden breaking-news--fade-in" data-link-name="breaking news" data-component="breaking-news"></div>
-<figure class="element element-interactive interactive" data-interactive="<%= assetPath %>/boot.js" data-canonical-url="<%= assetPath %>/boot.js" data-alt="Guardian poll projection"> </figure>
+<figure class="element element-interactive interactive" data-interactive="<%= assetPath %>boot.js" data-canonical-url="<%= assetPath %>/boot.js" data-alt="Guardian poll projection"> </figure>
 <footer class="l-footer u-cf" data-link-name="footer" data-component="footer">
 <div class="l-footer__primary">
 <div id="footer-nav" class="gs-container">

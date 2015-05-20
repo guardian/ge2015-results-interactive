@@ -16,13 +16,13 @@ define([], function() {
             el.innerHTML = '<div style="font-size: 24px; text-align: center; padding: 72px 0; font-family: \'Guardian Egyptian Web\',Georgia,serif;">Loading…</div>';
 
             window.setTimeout(function() {
-                addCSS('<%= assetPath %>/main.css');
+                addCSS('<%= assetPath %>main.css');
             }, 10);
 
 
             var load = function (System) {
                 var x = System;
-                System.import('jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.87/traceur-runtime').then(function () {
+                System.import('<%= assetPath %>traceur-runtime').then(function () {
                     window.System = x;
                     // Load main application
                     System.import('<%= assetPath %>main').then(function(main) {
@@ -44,8 +44,8 @@ define([], function() {
                 window.require = undefined;
 
                 // document.write is broken in async, so load ES6 module loader manually
-                require(['js!jspm_packages/es6-module-loader'], function () {
-                    require(['js!jspm_packages/system!exports=System'], load);
+                require(['js!<%= assetPath %>es6-module-loader'], function () {
+                    require(['js!<%= assetPath %>system!exports=System'], load);
                 });
             } else {
                 // Mobile apps using RequireJS
@@ -54,12 +54,12 @@ define([], function() {
                 window.require = undefined;
 
                 require.config({
-                    shim: { 'jspm_packages/system': { exports: 'System' } }
+                    shim: { '<%= assetPath %>system': { exports: 'System' } }
                 });
 
                 // document.write is broken in async, so load ES6 module loader manually
-                require(['jspm_packages/es6-module-loader'], function () {
-                    require(['jspm_packages/system'], load);
+                require(['<%= assetPath %>es6-module-loader'], function () {
+                    require(['<%= assetPath %>system'], load);
                 });
             }
 

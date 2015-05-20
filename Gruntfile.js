@@ -73,7 +73,7 @@ module.exports = function(grunt) {
             'harness': {
                 'options': {
                     'data': {
-                        'assetPath': s3 ? s3target : '',
+                        'assetPath': s3 ? s3target + '/' : '',
                     }
                 },
                 'files': {
@@ -100,12 +100,19 @@ module.exports = function(grunt) {
             build: {
                 files: [
                     {expand: true, cwd: 'harness/', src: ['curl.js', 'index.html', 'mega.json', 'front.html', 'frontpage.json'], dest: 'build'},
+                    {expand: true, cwd: 'src/js/jspm_packages/', src:
+                        ['es6-module-loader.js',
+                         'system.js'], dest: 'build' },
+                     {expand: true, cwd: 'src/js/jspm_packages/github/jmcriffey/bower-traceur-runtime@0.0.87', src:
+                        ['traceur-runtime.js'], dest: 'build' }
                 ]
             },
             deploy: {
                 files: [
                     {expand: true, cwd: 'build/', src: ['boot.js'], dest: 'deploy' },
-                    {expand: true, cwd: 'build/', src: ['main.js', 'main.css', 'main.js.map', 'main.css.map'], dest: 'deploy/' + timestamp }
+                    {expand: true, cwd: 'build/', src:
+                        ['main.js', 'main.css', 'main.js.map', 'main.css.map',
+                         'es6-module-loader.js', 'system.js', 'traceur-runtime.js'], dest: 'deploy/' + timestamp }
                 ]
             }
         },
