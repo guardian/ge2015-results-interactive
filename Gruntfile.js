@@ -117,6 +117,10 @@ module.exports = function(grunt) {
                 src: 'bower_components/guss-webfonts/webfonts',
                 dest: 'build/fonts/0.1.0'
             },
+            jspm_packages: {
+                src: 'jspm_packages',
+                dest: 'build/jspm_packages'
+            },
         },
 
         connect: {
