@@ -1,5 +1,5 @@
 import reqwest from 'reqwest'
-import tmplMain from './text/main.html!text'
+import tmplMain from './text-foo/main.html!text'
 import swig from 'swig'
 import qwery from 'qwery'
 import bean from 'fat/bean'
@@ -482,4 +482,4 @@ function init(el, context, config, mediator) {
     window.setTimeout(() => new ElectionResults(el, { shareUrl: shareUrl, dataUrl: dataUrl}), 1);
 }
 
-(window.define || System.amdDefine)(function() { return {init: init}; });
+export default {init: init};

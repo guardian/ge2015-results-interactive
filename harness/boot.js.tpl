@@ -19,10 +19,46 @@ define([], function() {
                 addCSS('<%= assetPath %>/main.css');
             }, 10);
 
-            // Load main application
-            require(['<%= assetPath %>/main.js'], function(main) {
-                main.init(el, context, config, mediator);
-            }, function(err) { console.error('Error loading boot.', err); });
+
+            var load = function (System) {
+                // Load main application
+                System.import('<%= assetPath %>main').then(function(main) {
+                    main.default.init(el, context, config, mediator);
+                });
+            };
+
+            // TODO:
+            // System.clone
+
+            if (window.System) {
+                // New frontend using SystemJS — the new world!
+                load(window.System);
+            } else if (window.curl) {
+                // Frontend using curl
+                // TODO: Document
+                var require = window.require;
+                window.require = undefined;
+
+                // document.write is broken in async, so load ES6 module loader manually
+                require(['js!jspm_packages/es6-module-loader'], function () {
+                    require(['js!jspm_packages/system!exports=System'], load);
+                });
+            } else {
+                // Mobile apps using RequireJS
+                // TODO: Document
+                var require = window.require;
+                window.require = undefined;
+
+                require.config({
+                    shim: { 'jspm_packages/system': { exports: 'System' } }
+                });
+
+                // document.write is broken in async, so load ES6 module loader manually
+                require(['jspm_packages/es6-module-loader'], function () {
+                    require(['jspm_packages/system'], load);
+                });
+            }
+
         }
     };
 });

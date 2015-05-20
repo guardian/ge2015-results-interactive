@@ -52,7 +52,7 @@ module.exports = function(grunt) {
 
         shell: {
             jspmBundleStatic: {
-                command: './node_modules/.bin/jspm bundle-sfx ' + (s3 ? '-m ' : '') + 'src/js/main build/main.js',
+                command: './node_modules/.bin/jspm bundle ' + (s3 ? '-m ' : '') + 'main build/main.js',
                 options: {
                     execOptions: {
                         cwd: '.'
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
                 }
             },
             jspmBundleSnap: {
-                command: './node_modules/.bin/jspm bundle-sfx ' + (s3 ? '-m ' : '') + 'src/js/snap build/snap.js',
+                command: './node_modules/.bin/jspm bundle ' + (s3 ? '-m ' : '') + 'snap build/snap.js',
                 options: {
                     execOptions: {
                         cwd: '.'
@@ -118,7 +118,7 @@ module.exports = function(grunt) {
                 dest: 'build/fonts/0.1.0'
             },
             jspm_packages: {
-                src: 'jspm_packages',
+                src: 'src/js/jspm_packages',
                 dest: 'build/jspm_packages'
             },
         },

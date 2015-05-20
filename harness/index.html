@@ -17,13 +17,23 @@
         <figure class="element-interactive interactive"></figure>
 
         <!-- Libs -->
+        <!-- Use for testing curl -->
         <script src="curl.js"></script>
+        <!-- Use for testing RequireJS -->
+        <!-- <script src="require.js"></script> -->
+        <!-- Use for testing SystemJS -->
+        <!-- <script src="jspm_packages/system.js"></script> -->
 
         <!-- Simulate boot.js -->
         <script>
           var el = document.querySelector('.interactive');
-          require = curl;
-          curl(['boot.js'], function(app) {
+          // Use for testing curl
+          window.require = window.curl;
+          // Use for testing RequireJS
+          // window.require = window.require;
+          // Use for testing SystemJS
+          // window.require = System.amdRequire.bind(System);
+          require(['boot'], function(app) {
                 app.boot(el);
           });
         </script>

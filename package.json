@@ -20,9 +20,8 @@
   "license": "ISC",
   "jspm": {
     "directories": {
-      "packages": "jspm_packages"
+      "baseURL": "src/js"
     },
-    "configFile": "src/js/config.js",
     "dependencies": {
       "babel": "npm:babel-core@^5.4.4",
       "babel-runtime": "npm:babel-runtime@^5.4.4",
