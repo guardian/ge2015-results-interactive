@@ -26,7 +26,7 @@ define([], function() {
 
             if (window.System) {
                 systemLoad(window.System);
-            } else if (window.curl) {
+            } else if (window.require.version === "0.8.10") {
                 // Frontend using curl
                 // https://github.com/systemjs/systemjs/issues/461
                 window.require = undefined;
