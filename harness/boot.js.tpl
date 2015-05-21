@@ -43,12 +43,12 @@ define([], function() {
                 window.require = undefined;
 
                 var shim = {};
-                shim[assetPath + 'system'] = { exports: 'System' };
+                shim[assetPath + 'system.js'] = { exports: 'System' };
                 require.config({ shim: shim });
 
                 // document.write is broken in async, so load ES6 module loader manually
-                require([assetPath + 'es6-module-loader'], function () {
-                    require([assetPath + 'system'], systemLoad);
+                require([assetPath + 'es6-module-loader.js'], function () {
+                    require([assetPath + 'system.js'], systemLoad);
                 });
             }
         };
