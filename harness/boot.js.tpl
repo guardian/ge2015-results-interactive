@@ -40,13 +40,13 @@ define([], function() {
                 // https://github.com/systemjs/systemjs/issues/461
                 window.require = undefined;
 
-                require.config({
-                    shim: { '<%= assetPath %>system': { exports: 'System' } }
-                });
+                var shim = {};
+                shim[assetPath + 'system'] = { exports: 'System' };
+                require.config({ shim: shim });
 
                 // document.write is broken in async, so load ES6 module loader manually
-                require(['<%= assetPath %>es6-module-loader'], function () {
-                    require(['<%= assetPath %>system'], systemLoad);
+                require([assetPath + 'es6-module-loader'], function () {
+                    require([assetPath + 'system'], systemLoad);
                 });
             }
         };
