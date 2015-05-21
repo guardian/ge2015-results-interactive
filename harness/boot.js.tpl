@@ -22,10 +22,11 @@ define([], function() {
 
             var load = function (System) {
                 var x = System;
-                System.import('<%= assetPath %>traceur-runtime').then(function () {
+                // TODO: What if Traceur runtime is already loaded?
+                System.import('<%= assetPath %>traceur-runtime.js').then(function () {
                     window.System = x;
                     // Load main application
-                    System.import('<%= assetPath %>main').then(function(main) {
+                    System.import('<%= assetPath %>main.js').then(function(main) {
                         main.default.init(el, context, config, mediator);
                     });
                 });
