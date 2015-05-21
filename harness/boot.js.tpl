@@ -27,6 +27,7 @@ define([], function() {
             if (window.System) {
                 systemLoad(window.System);
             } else if (window.require.version === "0.8.10") {
+                // DEPRECATE ASAP
                 // Frontend using curl
                 // https://github.com/systemjs/systemjs/issues/461
                 window.require = undefined;
@@ -36,6 +37,7 @@ define([], function() {
                     require(['js!' + assetPath + 'system!exports=System'], systemLoad);
                 });
             } else {
+                // DEPRECATE ASAP
                 // Mobile apps using RequireJS
                 // https://github.com/systemjs/systemjs/issues/461
                 window.require = undefined;
