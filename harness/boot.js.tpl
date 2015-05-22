@@ -1,6 +1,6 @@
 'use strict';
 define([], function() {
-    function loadMain(moduleId, assetPath) {
+    function loadMain(moduleId, assetPath, cb) {
         return function (el, context, config, mediator) {
             var require = window.require;
 
@@ -18,9 +18,7 @@ define([], function() {
                 // https://github.com/systemjs/systemjs/issues/431
                 System.import('interactive-traceur-runtime').then(function () {
                     window.System = System;
-                    System.import('main').then(function(main) {
-                        main.default.init(el, context, config, mediator);
-                    });
+                    System.import('main').then(cb);
                 });
             };
 
@@ -73,7 +71,9 @@ define([], function() {
                 addCSS('<%= assetPath %>main.css');
             }, 10);
 
-            loadMain('main', '<%= assetPath %>').apply(null, arguments);
+            loadMain('main', '<%= assetPath %>', function (main) {
+                main.default.init(el, context, config, mediator);
+            }).apply(null, arguments);
         }
     };
 });
