@@ -2,12 +2,11 @@ define(function () {
     return function (baseURL, cb) {
         var require = window.require;
 
-        // New frontend
         var isSystemJs = !! window.System;
-        // Frontend (poor heuristic but version is static)
-        var isCurl = window.require.version === "0.8.10";
         // Mobile apps
-        var isRequireJs = !! (window.require && ! isCurl);
+        var isRequireJs = !! window.requirejs;
+        // Frontend
+        var isCurl = !! (window.require && ! isRequireJs);
 
         var moduleLoader = isSystemJs ? 'systemjs' : (isCurl ? 'curl' : (isRequireJs ? 'requirejs' : null));
 
