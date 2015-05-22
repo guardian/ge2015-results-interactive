@@ -29,7 +29,6 @@ define(function () {
 
         var moduleLoader = isSystemJs ? 'systemjs' : (isCurl ? 'curl' : (isRequireJs ? 'requirejs' : null));
 
-        // MIGRATE TO SYSTEMJS AND DEPRECATE OLD MODULE LOADERS ASAP
         switch (moduleLoader) {
             case 'systemjs':
                 systemLoad(window.System);
