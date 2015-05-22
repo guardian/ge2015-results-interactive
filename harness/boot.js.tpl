@@ -33,7 +33,7 @@ define(['polyfill-systemjs'], function(polyfillSystemJs) {
                     // Traceur runtime overrides window.System
                     // https://github.com/systemjs/builder/issues/169#issuecomment-103933246
                     window.System = System;
-                    System.import('main').then(function (main) {
+                    System.import(moduleId).then(function (main) {
                         main.default.init(el, context, config, mediator);
                     });
                 });
