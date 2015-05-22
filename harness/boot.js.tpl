@@ -21,7 +21,7 @@ define(['load-main'], function(loadMain) {
 
             loadMain('main', '<%= assetPath %>', function (main) {
                 main.default.init(el, context, config, mediator);
-            }).apply(null, arguments);
+            });
         }
     };
 });
