@@ -1,5 +1,5 @@
 'use strict';
-define(['polyfill-systemjs'], function(polyfillSystemJs) {
+define(['configure-systemjs', 'polyfill-systemjs'], function(configureSystemJs, polyfillSystemJs) {
     function addCSS(url) {
         var head = document.querySelector('head');
         var link = document.createElement('link');
@@ -22,10 +22,8 @@ define(['polyfill-systemjs'], function(polyfillSystemJs) {
             var baseURL = '<%= assetPath %>';
             var moduleId = 'main';
             polyfillSystemJs(baseURL, function (System) {
-                // TODO: Use System.clone
-                // https://github.com/systemjs/systemjs/issues/457
-                System.paths['main'] = baseURL + '/' + moduleId + '.js';
-                System.paths['interactive-traceur-runtime'] = baseURL + '/traceur-runtime' + '.js';
+                configureSystemJs(baseURL, moduleId, System);
+
                 // Annoyingly Traceur runtime is not bundled, so we load it
                 // manually
                 // https://github.com/systemjs/systemjs/issues/431
