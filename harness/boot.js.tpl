@@ -30,6 +30,8 @@ define(['polyfill-systemjs'], function(polyfillSystemJs) {
                 // manually
                 // https://github.com/systemjs/systemjs/issues/431
                 System.import('interactive-traceur-runtime').then(function () {
+                    // Traceur runtime overrides window.System
+                    // https://github.com/systemjs/builder/issues/169#issuecomment-103933246
                     window.System = System;
                     System.import('main').then(function (main) {
                         main.default.init(el, context, config, mediator);
