@@ -53,4 +53,4 @@ define(function () {
                 break;
         }
     };
-})
+});
