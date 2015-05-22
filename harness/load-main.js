@@ -1,25 +1,25 @@
 define(function () {
     return function loadMain(moduleId, assetPath, cb) {
+        var systemLoad = function (System) {
+            // https://github.com/systemjs/systemjs/issues/461
+            // Restore old require
+            window.require = require;
+
+            // TODO: Use System.clone
+            // https://github.com/systemjs/systemjs/issues/457
+            System.paths['main'] = assetPath + moduleId + '.js';
+            System.paths['interactive-traceur-runtime'] = assetPath + 'traceur-runtime' + '.js';
+            // Annoyingly Traceur runtime is not bundled, so we load it
+            // manually
+            // https://github.com/systemjs/systemjs/issues/431
+            System.import('interactive-traceur-runtime').then(function () {
+                window.System = System;
+                System.import('main').then(cb);
+            });
+        };
+
         return function (el, context, config, mediator) {
             var require = window.require;
-
-            var systemLoad = function (System) {
-                // https://github.com/systemjs/systemjs/issues/461
-                // Restore old require
-                window.require = require;
-
-                // TODO: Use System.clone
-                // https://github.com/systemjs/systemjs/issues/457
-                System.paths['main'] = assetPath + moduleId + '.js';
-                System.paths['interactive-traceur-runtime'] = assetPath + 'traceur-runtime' + '.js';
-                // Annoyingly Traceur runtime is not bundled, so we load it
-                // manually
-                // https://github.com/systemjs/systemjs/issues/431
-                System.import('interactive-traceur-runtime').then(function () {
-                    window.System = System;
-                    System.import('main').then(cb);
-                });
-            };
 
             // New frontend
             var isSystemJs = !! window.System;
