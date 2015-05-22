@@ -2,6 +2,7 @@ define(function () {
     return function (baseURL, cb) {
         var require = window.require;
 
+        // New frontend
         var isSystemJs = !! window.System;
         // Mobile apps
         var isRequireJs = !! window.requirejs;
