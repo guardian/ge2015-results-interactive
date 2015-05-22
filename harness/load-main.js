@@ -7,8 +7,8 @@ define(function () {
 
             // TODO: Use System.clone
             // https://github.com/systemjs/systemjs/issues/457
-            System.paths['main'] = baseURL + moduleId + '.js';
-            System.paths['interactive-traceur-runtime'] = baseURL + 'traceur-runtime' + '.js';
+            System.paths['main'] = baseURL + '/' + moduleId + '.js';
+            System.paths['interactive-traceur-runtime'] = baseURL + '/traceur-runtime' + '.js';
             // Annoyingly Traceur runtime is not bundled, so we load it
             // manually
             // https://github.com/systemjs/systemjs/issues/431
@@ -39,8 +39,8 @@ define(function () {
 
                 // We assume curl has the js plugin built in
                 // document.write is broken in async, so load ES6 module loader manually
-                require(['js!' + baseURL + 'es6-module-loader'], function () {
-                    require(['js!' + baseURL + 'system!exports=System'], systemLoad);
+                require(['js!' + baseURL + '/es6-module-loader'], function () {
+                    require(['js!' + baseURL + '/system!exports=System'], systemLoad);
                 });
                 break;
             case 'requirejs':
@@ -48,12 +48,12 @@ define(function () {
                 window.require = undefined;
 
                 var shim = {};
-                shim[baseURL + 'system.js'] = { exports: 'System' };
+                shim[baseURL + '/system.js'] = { exports: 'System' };
                 require.config({ shim: shim });
 
                 // document.write is broken in async, so load ES6 module loader manually
-                require([baseURL + 'es6-module-loader.js'], function () {
-                    require([baseURL + 'system.js'], systemLoad);
+                require([baseURL + '/es6-module-loader.js'], function () {
+                    require([baseURL + '/system.js'], systemLoad);
                 });
                 break;
             default:

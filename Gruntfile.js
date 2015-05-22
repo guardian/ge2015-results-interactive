@@ -73,7 +73,7 @@ module.exports = function(grunt) {
             'harness': {
                 'options': {
                     'data': {
-                        'assetPath': s3 ? s3target + '/' : '',
+                        'assetPath': s3 ? s3target : '',
                     }
                 },
                 'files': {
