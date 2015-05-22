@@ -1,5 +1,5 @@
 'use strict';
-define(['load-main'], function(loadMain) {
+define(['polyfill-systemjs'], function(polyfillSystemJs) {
     function addCSS(url) {
         var head = document.querySelector('head');
         var link = document.createElement('link');
@@ -19,8 +19,22 @@ define(['load-main'], function(loadMain) {
                 addCSS('<%= assetPath %>main.css');
             }, 10);
 
-            loadMain('main', '<%= assetPath %>', function (main) {
-                main.default.init(el, context, config, mediator);
+            var baseURL = '<%= assetPath %>';
+            var moduleId = 'main';
+            polyfillSystemJs(baseURL, function (System) {
+                // TODO: Use System.clone
+                // https://github.com/systemjs/systemjs/issues/457
+                System.paths['main'] = baseURL + '/' + moduleId + '.js';
+                System.paths['interactive-traceur-runtime'] = baseURL + '/traceur-runtime' + '.js';
+                // Annoyingly Traceur runtime is not bundled, so we load it
+                // manually
+                // https://github.com/systemjs/systemjs/issues/431
+                System.import('interactive-traceur-runtime').then(function () {
+                    window.System = System;
+                    System.import('main').then(function (main) {
+                        main.default.init(el, context, config, mediator);
+                    });
+                });
             });
         }
     };

@@ -99,7 +99,7 @@ module.exports = function(grunt) {
         copy: {
             build: {
                 files: [
-                    {expand: true, cwd: 'harness/', src: ['curl.js', 'require.js', 'load-main.js', 'index.html', 'mega.json', 'front.html', 'frontpage.json'], dest: 'build'},
+                    {expand: true, cwd: 'harness/', src: ['curl.js', 'require.js', 'polyfill-systemjs.js', 'index.html', 'mega.json', 'front.html', 'frontpage.json'], dest: 'build'},
                     {expand: true, cwd: 'src/js/jspm_packages/', src:
                         ['es6-module-loader.js',
                          'system.js'], dest: 'build' },
