@@ -38,6 +38,7 @@ define(function () {
                 // https://github.com/systemjs/systemjs/issues/461
                 window.require = undefined;
 
+                // We assume curl has the js plugin built in
                 // document.write is broken in async, so load ES6 module loader manually
                 require(['js!' + baseURL + 'es6-module-loader'], function () {
                     require(['js!' + baseURL + 'system!exports=System'], systemLoad);
