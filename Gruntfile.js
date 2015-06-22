@@ -9,6 +9,8 @@ module.exports = function(grunt) {
 
     require('jit-grunt')(grunt);
 
+    var buildFn = require('./build'); // using systemjs builder directly here while we wait for jspm cli
+
     var s3 = grunt.option('s3') || false;
 
     grunt.log.writeln('Compiling ' + (s3 ? 'for S3' : 'locally'));
@@ -51,8 +53,8 @@ module.exports = function(grunt) {
         },
 
         shell: {
-            jspmBundleStatic: {
-                command: './node_modules/.bin/jspm bundle ' + (s3 ? '-m ' : '') + 'main build/main.js',
+            jspmBundleMain: {
+                command: 'node build.js',
                 options: {
                     execOptions: {
                         cwd: '.'
@@ -112,8 +114,7 @@ module.exports = function(grunt) {
                 files: [
                     {expand: true, cwd: 'build/', src: ['boot.js'], dest: 'deploy' },
                     {expand: true, cwd: 'build/', src:
-                        ['main.js', 'main.css', 'main.js.map', 'main.css.map',
-                         'es6-module-loader.js', 'system.js', 'traceur-runtime.js'], dest: 'deploy/' + timestamp }
+                        ['main.js', 'main.css', 'main.js.map', 'main.css.map'], dest: 'deploy/' + timestamp }
                 ]
             }
         },
@@ -150,6 +151,13 @@ module.exports = function(grunt) {
             }
         }
     });
-    grunt.registerTask('default', ['clean','sass','shell','template','copy:build','symlink', 'connect', 'watch']);
-    grunt.registerTask('build', ['clean','sass','shell','template', s3 ? 'copy' : 'copy:build']);
+
+    grunt.registerTask('buildjs', function() {
+        var done = this.async();
+        require('./build')(s3).then(done);
+    })
+
+    grunt.registerTask('default', ['clean','sass','buildjs','template','copy:build','symlink', 'connect', 'watch']);
+    grunt.registerTask('build', ['clean','sass','buildjs','template', s3 ? 'copy' : 'copy:build']);
+
 }

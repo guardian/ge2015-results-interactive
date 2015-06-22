@@ -1,15 +1,17 @@
 System.config({
   "baseURL": "/",
+  "defaultJSExtensions": true,
   "transpiler": "traceur",
   "paths": {
-    "*": "*.js",
-    "github:*": "jspm_packages/github/*.js",
-    "npm:*": "jspm_packages/npm/*.js"
+    "github:*": "jspm_packages/github/*",
+    "npm:*": "jspm_packages/npm/*"
   }
 });
 
 System.config({
   "map": {
+    "babel": "npm:babel-core@5.6.3",
+    "babel-runtime": "npm:babel-runtime@5.6.3",
     "core-js": "npm:core-js@0.9.11",
     "d3": "github:mbostock/d3@3.5.5",
     "ded/bonzo": "github:ded/bonzo@2.0.0",
@@ -66,13 +68,13 @@ System.config({
     "npm:async@0.2.10": {
       "process": "github:jspm/nodelibs-process@0.1.1"
     },
+    "npm:babel-runtime@5.6.3": {
+      "process": "github:jspm/nodelibs-process@0.1.1"
+    },
     "npm:buffer@3.1.2": {
       "base64-js": "npm:base64-js@0.0.8",
       "ieee754": "npm:ieee754@1.1.4",
       "is-array": "npm:is-array@1.0.1"
-    },
-    "npm:core-js@0.8.4": {
-      "process": "github:jspm/nodelibs-process@0.1.1"
     },
     "npm:core-js@0.9.11": {
       "fs": "github:jspm/nodelibs-fs@0.1.2",
@@ -107,10 +109,8 @@ System.config({
       "inherits": "npm:inherits@2.0.1",
       "isarray": "npm:isarray@0.0.1",
       "process": "github:jspm/nodelibs-process@0.1.1",
-      "stream": "github:jspm/nodelibs-stream@0.1.0",
       "stream-browserify": "npm:stream-browserify@1.0.0",
-      "string_decoder": "npm:string_decoder@0.10.31",
-      "util": "github:jspm/nodelibs-util@0.1.0"
+      "string_decoder": "npm:string_decoder@0.10.31"
     },
     "npm:source-map@0.1.34": {
       "amdefine": "npm:amdefine@0.1.0",

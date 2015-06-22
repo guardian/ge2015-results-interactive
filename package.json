@@ -2,6 +2,7 @@
   "name": "interactive-es6",
   "version": "1.0.0",
   "description": "Guardian ES6 interactive template",
+  "dependencies": {},
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^0.6.0",
@@ -11,7 +12,9 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-sass": "^0.18.1",
     "grunt-shell": "^1.1.2",
-    "jit-grunt": "^0.9.1"
+    "jit-grunt": "^0.9.1",
+    "grunt-template": "^0.2.3",
+    "jspm": "^0.16.0-beta.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -45,9 +48,5 @@
       "traceur": "github:jmcriffey/bower-traceur@0.0.87",
       "traceur-runtime": "github:jmcriffey/bower-traceur-runtime@0.0.87"
     }
-  },
-  "dependencies": {
-    "grunt-template": "^0.2.3",
-    "jspm": "^0.15.3"
   }
 }
